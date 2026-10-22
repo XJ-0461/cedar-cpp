@@ -1,1 +1,90 @@
-build/
+# Plans and agent working files stay local
+.plans/
+.claude/
+CLAUDE.md
+AGENTS.md
+GEMINI.md
+
+# Any .env files that may contain secrets or are otherwise not meant to be shared
+do-not-push.env
+*.private.env.json
+*.env.*
+
+# CMake build trees, install trees and user presets
+build*/
+cmake-build-*/
+_install/
+out/
+CMakeUserPresets.json
+CMakeCache.txt
+CMakeFiles/
+compile_commands.json
+
+# Compiler and linker output
+*.o
+*.obj
+*.a
+*.so
+*.so.*
+*.dylib
+*.lib
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.gch
+*.pch
+*.dwo
+
+# Coverage, profiling and sanitizer output
+*.gcda
+*.gcno
+*.profraw
+*.profdata
+perf.data
+perf.data.old
+callgrind.out.*
+*.log
+
+# Rust: the reference benchmark crate and the table generator build here
+target/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# clangd and ccache
+.cache/
+.ccache/
+
+# JetBrains IDEs (CLion)
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+.idea/
+*.iws
+*.iml
+*.ipr
+.idea_modules/
+
+# VS Code
+.vscode/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+ipch/
+
+# Xcode
+project.xcworkspace
+xcuserdata
+
+# Editor and OS clutter
+*~
+*.swp
+*.swo
+*.bak
+.DS_Store
