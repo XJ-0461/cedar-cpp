@@ -1,0 +1,13 @@
+forbid(principal in ?principal, action, resource == R::"0");
+permit(principal == User::"u1", action, resource);
+permit(principal == User::"u2", action, resource);
+forbid(principal in ?principal, action, resource == R::"3");
+permit(principal == User::"u4", action, resource);
+permit(principal == User::"u5", action, resource);
+forbid(principal in ?principal, action, resource == R::"6");
+permit(principal == User::"u7", action, resource);
+permit(principal == User::"u8", action, resource);
+forbid(principal in ?principal, action, resource == R::"9");
+permit(principal == User::"u10", action, resource);
+permit(principal == User::"u11", action, resource);
+forbid(principal in ?principal, action, resource == R::"12");

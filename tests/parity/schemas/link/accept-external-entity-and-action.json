@@ -1,0 +1,24 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "external": true,
+        "memberOfTypes": [
+          "Group"
+        ]
+      },
+      "Group": {}
+    },
+    "actions": {
+      "view": {
+        "external": true,
+        "memberOf": [
+          {
+            "id": "all"
+          }
+        ]
+      },
+      "all": {}
+    }
+  }
+}

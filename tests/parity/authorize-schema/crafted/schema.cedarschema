@@ -1,0 +1,31 @@
+namespace App {
+  type Address = { street: String, zip?: Long };
+  entity Group in [Group];
+  entity User in [Group] {
+    name: String,
+    age: Long,
+    admin?: Bool,
+    nicknames?: Set<String>,
+    address?: Address,
+    manager?: User,
+    ip?: ipaddr,
+    score?: decimal,
+    joined?: datetime,
+    timeout?: duration,
+    friends?: Set<User>,
+    ranges?: Set<ipaddr>,
+    color?: Color,
+  } tags Long;
+  entity Color enum ["red", "green"];
+  entity Album;
+  entity Photo in [Album] { owner: User };
+  external entity Remote;
+  action "view" appliesTo {
+    principal: [User],
+    resource: [Photo, Album],
+    context: { ip: ipaddr, level?: Long, who?: User, when?: datetime, color?: Color, flags?: Set<Bool> }
+  };
+  action "edit" in ["view"] appliesTo { principal: User, resource: Photo };
+  action "audit" in ["edit"];
+  external action "sync";
+}

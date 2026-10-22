@@ -1,0 +1,17 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "T"
+        }
+      }
+    },
+    "actions": {},
+    "commonTypes": {
+      "T": {
+        "type": "String"
+      }
+    }
+  }
+}

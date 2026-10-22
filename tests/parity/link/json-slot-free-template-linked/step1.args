@@ -1,0 +1,12 @@
+--policies
+policies.cedar.json
+--policy-format
+json
+--template-linked
+linked
+--template-id
+T
+--new-id
+X
+--arguments
+{}

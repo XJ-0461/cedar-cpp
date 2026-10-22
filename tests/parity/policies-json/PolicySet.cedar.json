@@ -1,0 +1,17 @@
+{
+  "templates": {"template": {
+  "effect": "permit",
+  "principal": {"op": "==", "slot": "?principal"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}},
+  "staticPolicies": {"view": {
+  "effect": "permit",
+  "principal": {"op": "All"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": [{"kind": "when", "body": {"==": {"left": {".": {"left": {"Var": "resource"}, "attr": "owner"}}, "right": {"Var": "principal"}}}}]
+}},
+  "templateLinks": []
+}

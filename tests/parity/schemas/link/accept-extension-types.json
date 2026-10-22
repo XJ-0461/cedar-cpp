@@ -1,0 +1,30 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Extension",
+              "name": "decimal"
+            },
+            "b": {
+              "type": "Extension",
+              "name": "ipaddr"
+            },
+            "c": {
+              "type": "Extension",
+              "name": "datetime"
+            },
+            "d": {
+              "type": "Extension",
+              "name": "duration"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

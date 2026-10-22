@@ -1,0 +1,20 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "joined": {
+    "fn": "offset",
+    "args": [
+     "2024-01-01",
+     "2024-01-01"
+    ]
+   }
+  },
+  "parents": []
+ }
+]

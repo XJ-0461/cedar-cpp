@@ -1,0 +1,8 @@
+{
+ "principal": "App::User::\"alice\"",
+ "action": "App::Action::\"view\"",
+ "resource": "App::User::\"bob\"",
+ "context": {
+  "ip": "10.0.0.1"
+ }
+}

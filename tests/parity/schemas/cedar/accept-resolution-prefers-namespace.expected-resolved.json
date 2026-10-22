@@ -1,0 +1,69 @@
+{
+  "": {
+    "commonTypes": {
+      "Name": {
+        "type": "String"
+      }
+    },
+    "entityTypes": {
+      "User": {}
+    },
+    "actions": {
+      "top": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      }
+    }
+  },
+  "N": {
+    "entityTypes": {
+      "Doc": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "group": {
+              "type": "Entity",
+              "name": "N::Group"
+            },
+            "name": {
+              "type": "Name"
+            },
+            "owner": {
+              "type": "Entity",
+              "name": "N::User"
+            }
+          }
+        }
+      },
+      "Group": {},
+      "User": {}
+    },
+    "actions": {
+      "act": {
+        "appliesTo": {
+          "resourceTypes": [
+            "N::Doc",
+            "N::Group"
+          ],
+          "principalTypes": [
+            "N::User"
+          ]
+        },
+        "memberOf": [
+          {
+            "id": "top",
+            "type": "N::Action"
+          }
+        ]
+      },
+      "top": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      }
+    }
+  }
+}

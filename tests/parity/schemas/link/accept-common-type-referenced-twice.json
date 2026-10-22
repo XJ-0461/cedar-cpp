@@ -1,0 +1,28 @@
+{
+  "": {
+    "entityTypes": {
+      "U": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "T"
+            },
+            "b": {
+              "type": "T"
+            }
+          }
+        }
+      }
+    },
+    "actions": {},
+    "commonTypes": {
+      "T": {
+        "type": "Set",
+        "element": {
+          "type": "Long"
+        }
+      }
+    }
+  }
+}

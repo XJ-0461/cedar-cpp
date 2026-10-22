@@ -1,0 +1,30 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "EntityOrCommon",
+              "name": "Long"
+            },
+            "b": {
+              "type": "EntityOrCommon",
+              "name": "String"
+            },
+            "c": {
+              "type": "EntityOrCommon",
+              "name": "Bool"
+            },
+            "d": {
+              "type": "EntityOrCommon",
+              "name": "decimal"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

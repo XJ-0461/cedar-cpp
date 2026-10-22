@@ -1,0 +1,18 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": {
+    "__entity": {
+     "type": "App::User",
+     "id": "a"
+    }
+   }
+  },
+  "parents": []
+ }
+]

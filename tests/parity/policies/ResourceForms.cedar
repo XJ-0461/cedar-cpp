@@ -1,0 +1,4 @@
+permit(principal, action, resource == Photo::"a");
+permit(principal, action, resource in Album::"b");
+permit(principal, action, resource is Photo);
+permit(principal, action, resource is Photo in Album::"c");

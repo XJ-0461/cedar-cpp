@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "==", "entity": {"type": "User", "id": "alice"}},
+  "action": {"op": "==", "entity": {"type": "Action", "id": "view"}},
+  "resource": {"op": "All"},
+  "conditions": [{"kind": "when", "body": {"==": {"left": {".": {"left": {"Var": "resource"}, "attr": "owner"}}, "right": {"Var": "principal"}}}}]
+}

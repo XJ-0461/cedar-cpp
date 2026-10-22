@@ -1,0 +1,15 @@
+{
+  "NS": {
+    "entityTypes": {},
+    "actions": {
+      "b": {
+        "attributes": {
+          "x": 1
+        }
+      },
+      "a": {
+        "attributes": {}
+      }
+    }
+  }
+}

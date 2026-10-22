@@ -1,0 +1,154 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "admin": true,
+   "ip": "10.0.0.1",
+   "score": "2.5",
+   "joined": "2024-01-01",
+   "timeout": "2h",
+   "manager": {
+    "type": "App::User",
+    "id": "bob"
+   },
+   "friends": [
+    {
+     "type": "App::User",
+     "id": "bob"
+    }
+   ],
+   "ranges": [
+    "10.0.0.0/8"
+   ],
+   "address": {
+    "street": "Main",
+    "zip": 1
+   },
+   "color": {
+    "type": "App::Color",
+    "id": "red"
+   },
+   "nicknames": [
+    "al"
+   ]
+  },
+  "parents": [
+   {
+    "type": "App::Group",
+    "id": "staff"
+   }
+  ],
+  "tags": {
+   "level": 3
+  }
+ },
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "bob"
+  },
+  "attrs": {
+   "name": "Bob",
+   "age": 17
+  },
+  "parents": [
+   {
+    "type": "App::Group",
+    "id": "guests"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "App::Group",
+   "id": "staff"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "App::Group",
+    "id": "everyone"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "App::Group",
+   "id": "guests"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "App::Group",
+    "id": "everyone"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "App::Group",
+   "id": "everyone"
+  },
+  "attrs": {},
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "App::Album",
+   "id": "trip"
+  },
+  "attrs": {},
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "App::Photo",
+   "id": "beach"
+  },
+  "attrs": {
+   "owner": {
+    "type": "App::User",
+    "id": "alice"
+   }
+  },
+  "parents": [
+   {
+    "type": "App::Album",
+    "id": "trip"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "App::Photo",
+   "id": "party"
+  },
+  "attrs": {
+   "owner": {
+    "__entity": {
+     "type": "App::User",
+     "id": "bob"
+    }
+   }
+  },
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "App::Action",
+   "id": "edit"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "App::Action",
+    "id": "view"
+   }
+  ]
+ }
+]

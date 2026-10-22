@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "All"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": [{"kind": "when", "body": {"&&": {"left": {"has": {"left": {"Var": "principal"}, "attr": "a"}}, "right": {"&&": {"left": {"has": {"left": {"Var": "principal"}, "attr": ["a", "b c"]}}, "right": {"has": {"left": {"Var": "context"}, "attr": ["x"], "ignored": 1}}}}}}}]
+}

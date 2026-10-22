@@ -1,0 +1,23 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "view": {
+        "appliesTo": {
+          "principalTypes": [],
+          "resourceTypes": [],
+          "context": {
+            "type": "Record",
+            "attributes": {
+              "a": {
+                "type": "Record",
+                "attributes": {},
+                "additionalAttributes": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

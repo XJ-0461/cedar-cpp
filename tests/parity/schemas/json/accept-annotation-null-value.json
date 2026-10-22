@@ -1,0 +1,12 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "annotations": {
+          "doc": null
+        }
+      }
+    },
+    "actions": {}
+  }
+}

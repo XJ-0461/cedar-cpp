@@ -1,0 +1,18 @@
+{
+  "NS": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "EntityOrCommon",
+              "name": "NS::Ghost"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {},
+    "commonTypes": {
+      "T": {
+        "type": "Long",
+        "required": true
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+--policies
+policies.cedar
+--template-linked
+linked
+--template-id
+policy0
+--new-id
+X
+--arguments
+{ "?principal" : "User::\"alice\"" }

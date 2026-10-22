@@ -1,0 +1,15 @@
+accept
+forbid(
+  principal,
+  action,
+  resource
+) when {
+  true
+};
+
+@a("b")
+permit(
+  principal == ?principal,
+  action,
+  resource
+);

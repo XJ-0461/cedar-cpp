@@ -1,0 +1,4 @@
+entity A = {
+  a: Set<String>,
+  b?: String
+};

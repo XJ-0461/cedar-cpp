@@ -1,0 +1,10 @@
+--policies
+policies.cedar
+--template-linked
+linked
+--template-id
+AccessVacation
+--new-id
+BobAccess
+--arguments
+{ "?principal" : "User::\"alice\"" }

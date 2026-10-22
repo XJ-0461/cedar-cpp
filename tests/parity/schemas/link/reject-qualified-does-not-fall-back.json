@@ -1,0 +1,24 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {}
+    },
+    "actions": {}
+  },
+  "NS": {
+    "entityTypes": {
+      "X": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Entity",
+              "name": "NS::User"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

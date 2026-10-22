@@ -1,0 +1,26 @@
+{
+  "": {
+    "entityTypes": {
+      "U": {
+        "shape": {
+          "type": "A"
+        }
+      }
+    },
+    "actions": {},
+    "commonTypes": {
+      "A": {
+        "type": "Record",
+        "attributes": {
+          "x": {
+            "type": "Set",
+            "element": {
+              "type": "EntityOrCommon",
+              "name": "A"
+            }
+          }
+        }
+      }
+    }
+  }
+}

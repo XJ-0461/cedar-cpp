@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "All"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": [{"kind": "when", "body": {"&&": {"left": {"isInRange": [{"ip": [{"Value": "10.0.0.1"}]}, {"ip": [{"Value": "10.0.0.0/8"}]}]}, "right": {"&&": {"left": {"lessThan": [{"decimal": [{"Value": "1.5"}]}, {"decimal": [{"Value": "2.0"}]}]}, "right": {"==": {"left": {"ip": []}, "right": {"offset": [{"datetime": [{"Value": "2024-01-01"}]}, {"duration": [{"Value": "1d"}]}]}}}}}}}}]
+}

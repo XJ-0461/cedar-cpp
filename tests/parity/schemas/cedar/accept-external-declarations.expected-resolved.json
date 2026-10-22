@@ -1,0 +1,45 @@
+{
+  "N": {
+    "entityTypes": {
+      "A": {
+        "memberOfTypes": [
+          "N::G"
+        ],
+        "external": true
+      },
+      "B": {
+        "external": true
+      },
+      "C": {
+        "external": true
+      },
+      "G": {}
+    },
+    "actions": {
+      "base": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      },
+      "ext": {
+        "memberOf": [
+          {
+            "id": "base",
+            "type": "N::Action"
+          }
+        ],
+        "external": true
+      },
+      "other": {
+        "memberOf": [
+          {
+            "id": "base",
+            "type": "N::Action"
+          }
+        ],
+        "external": true
+      }
+    }
+  }
+}

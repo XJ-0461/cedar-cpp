@@ -1,0 +1,6 @@
+accept
+permit(
+  principal is User in ?principal,
+  action,
+  resource is Photo
+);

@@ -1,0 +1,6 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+);

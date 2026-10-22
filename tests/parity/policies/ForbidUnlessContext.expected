@@ -1,0 +1,8 @@
+accept
+forbid(
+  principal,
+  action,
+  resource
+) when {
+  !((context has mfa) && (context.mfa == true))
+};

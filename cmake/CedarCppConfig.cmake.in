@@ -1,0 +1,11 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# A static cedar links simdjson privately, and its export still names simdjson::simdjson as a
+# link-only dependency.
+find_dependency(simdjson CONFIG)
+
+include("${CMAKE_CURRENT_LIST_DIR}/CedarCppTargets.cmake")
+
+check_required_components(CedarCpp)

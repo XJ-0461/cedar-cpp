@@ -1,0 +1,1 @@
+entity A in B enum ["x"];

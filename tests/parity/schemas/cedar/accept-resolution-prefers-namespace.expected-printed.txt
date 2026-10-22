@@ -1,0 +1,25 @@
+type Name = String;
+
+entity User;
+
+action "top";
+
+namespace N {
+  entity Doc = {
+    group: Group,
+    name: Name,
+    owner: User
+  };
+
+  entity Group;
+
+  entity User;
+
+  action "act" in [Action::"top"] appliesTo {
+    principal: [User],
+    resource: [Doc, N::Group],
+    context: {}
+  };
+
+  action "top";
+}

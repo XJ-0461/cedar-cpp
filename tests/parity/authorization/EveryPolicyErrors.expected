@@ -1,0 +1,4 @@
+decision: deny
+error: policy0 EntityDoesNotExist
+error: policy1 EntityDoesNotExist
+error: policy2 RecordAttributeDoesNotExist

@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "==", "entity": {"type": "User", "id": "alice"}, "slot": "?principal"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}

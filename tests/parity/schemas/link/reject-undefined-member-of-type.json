@@ -1,0 +1,12 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "memberOfTypes": [
+          "Ghost"
+        ]
+      }
+    },
+    "actions": {}
+  }
+}

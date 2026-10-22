@@ -1,0 +1,27 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Entity",
+              "name": "Action"
+            },
+            "b": {
+              "type": "Set",
+              "element": {
+                "type": "EntityOrCommon",
+                "name": "Action"
+              }
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+      "view": {}
+    }
+  }
+}

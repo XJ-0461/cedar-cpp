@@ -1,0 +1,23 @@
+{
+  "": {
+    "commonTypes": {
+      "T": {
+        "type": "Set",
+        "element": {
+          "type": "Long"
+        }
+      },
+      "U": {
+        "type": "Set",
+        "element": {
+          "type": "Set",
+          "element": {
+            "type": "Long"
+          }
+        }
+      }
+    },
+    "entityTypes": {},
+    "actions": {}
+  }
+}

@@ -1,0 +1,171 @@
+[
+  {
+    "uid": {
+      "__entity": {
+        "type": "User",
+        "id": "alice"
+      }
+    },
+    "attrs": {},
+    "parents": [
+      {
+        "__entity": {
+          "type": "UserGroup",
+          "id": "jane_friends"
+        }
+      }
+    ]
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "User",
+        "id": "bob"
+      }
+    },
+    "attrs": {},
+    "parents": []
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "User",
+        "id": "tim"
+      }
+    },
+    "attrs": {},
+    "parents": [
+      {
+        "__entity": {
+          "type": "UserGroup",
+          "id": "jane_friends"
+        }
+      }
+    ]
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "UserGroup",
+        "id": "jane_friends"
+      }
+    },
+    "attrs": {},
+    "parents": []
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Administrator",
+        "id": "ahmad"
+      }
+    },
+    "attrs": {},
+    "parents": []
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Photo",
+        "id": "VacationPhoto94.jpg"
+      }
+    },
+    "attrs": {},
+    "parents": [
+      {
+        "__entity": {
+          "type": "Album",
+          "id": "jane_vacation"
+        }
+      }
+    ]
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Photo",
+        "id": "passportscan.jpg"
+      }
+    },
+    "attrs": {},
+    "parents": [
+      {
+        "__entity": {
+          "type": "Account",
+          "id": "jane"
+        }
+      }
+    ]
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Video",
+        "id": "surf.mp4"
+      }
+    },
+    "attrs": {},
+    "parents": [
+      {
+        "__entity": {
+          "type": "Album",
+          "id": "jane_vacation"
+        }
+      }
+    ]
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Photo",
+        "id": "selfie.jpg"
+      }
+    },
+    "attrs": {},
+    "parents": [
+      {
+        "__entity": {
+          "type": "Account",
+          "id": "bob"
+        }
+      }
+    ]
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Album",
+        "id": "jane_vacation"
+      }
+    },
+    "attrs": {},
+    "parents": [
+      {
+        "__entity": {
+          "type": "Account",
+          "id": "jane"
+        }
+      }
+    ]
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Account",
+        "id": "jane"
+      }
+    },
+    "attrs": {},
+    "parents": []
+  },
+  {
+    "uid": {
+      "__entity": {
+        "type": "Account",
+        "id": "bob"
+      }
+    },
+    "attrs": {},
+    "parents": []
+  }
+]

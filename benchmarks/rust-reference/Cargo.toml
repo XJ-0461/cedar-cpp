@@ -1,0 +1,16 @@
+[package]
+name = "cedar-cpp-rust-reference-benchmarks"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[workspace]
+
+[dev-dependencies]
+cedar-policy = { path = "../../../../../.knowledgebase/cedar/cedar-policy" }
+criterion = "0.8"
+serde_json = "1.0"
+
+[[bench]]
+name = "workloads"
+harness = false

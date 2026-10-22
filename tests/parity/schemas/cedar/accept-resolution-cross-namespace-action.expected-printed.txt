@@ -1,0 +1,9 @@
+namespace M {
+  action "base";
+}
+
+namespace N {
+  action "a" in [M::Action::"base", Action::"local"];
+
+  action "local";
+}

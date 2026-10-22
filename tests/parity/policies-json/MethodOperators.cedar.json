@@ -1,0 +1,85 @@
+{
+  "effect": "permit",
+  "principal": {
+    "op": "All"
+  },
+  "action": {
+    "op": "All"
+  },
+  "resource": {
+    "op": "All"
+  },
+  "conditions": [
+    {
+      "kind": "when",
+      "body": {
+        "&&": {
+          "left": {
+            "getTag": {
+              "left": {
+                "Var": "principal"
+              },
+              "right": {
+                "Value": "t"
+              }
+            }
+          },
+          "right": {
+            "&&": {
+              "left": {
+                "hasTag": {
+                  "left": {
+                    "Var": "resource"
+                  },
+                  "right": {
+                    "Value": "t"
+                  }
+                }
+              },
+              "right": {
+                "&&": {
+                  "left": {
+                    "containsAll": {
+                      "left": {
+                        "Set": []
+                      },
+                      "right": {
+                        "Set": []
+                      }
+                    }
+                  },
+                  "right": {
+                    "&&": {
+                      "left": {
+                        "containsAny": {
+                          "left": {
+                            "Set": []
+                          },
+                          "right": {
+                            "Set": []
+                          }
+                        }
+                      },
+                      "right": {
+                        "isEmpty": {
+                          "arg": {
+                            ".": {
+                              "left": {
+                                "Var": "context"
+                              },
+                              "attr": "list"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

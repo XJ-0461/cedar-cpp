@@ -1,0 +1,77 @@
+namespace namespace::entity {
+  type context = String;
+
+  entity Set = {
+    Set: String,
+    context: Bool,
+    "in": Long,
+    permit: String,
+    principal: Long
+  };
+
+  entity action = {
+    Set: String,
+    context: Bool,
+    "in": Long,
+    permit: String,
+    principal: Long
+  };
+
+  entity appliesTo = {
+    Set: String,
+    context: Bool,
+    "in": Long,
+    permit: String,
+    principal: Long
+  };
+
+  entity entity = {
+    Set: String,
+    context: Bool,
+    "in": Long,
+    permit: String,
+    principal: Long
+  };
+
+  entity principal = {
+    Set: String,
+    context: Bool,
+    "in": Long,
+    permit: String,
+    principal: Long
+  };
+
+  entity tags = {
+    Set: String,
+    context: Bool,
+    "in": Long,
+    permit: String,
+    principal: Long
+  };
+
+  entity type = {
+    Set: String,
+    context: Bool,
+    "in": Long,
+    permit: String,
+    principal: Long
+  };
+
+  action "action" appliesTo {
+    principal: [entity],
+    resource: [Set],
+    context: {}
+  };
+
+  action "in" appliesTo {
+    principal: [entity],
+    resource: [Set],
+    context: {}
+  };
+
+  action "principal" appliesTo {
+    principal: [entity],
+    resource: [Set],
+    context: {}
+  };
+}

@@ -1,0 +1,1 @@
+{"N":{"entityTypes":{"A":{"tags":{"type":"Record","attributes":{"a":{"type":"EntityOrCommon","name":"Long"},"b":{"type":"Record","attributes":{"c":{"type":"EntityOrCommon","name":"String"}}}}}}},"actions":{}}}

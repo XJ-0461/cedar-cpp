@@ -1,0 +1,4 @@
+principal: User::"bob"
+action: Action::"view"
+resource: Photo::"vacation.jpg"
+context: {"mfa": false}

@@ -1,0 +1,8 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+) when {
+  [ip("10.0.0.1"), decimal("1.0"), unknownFunction("x"), {__entity: {id: "alice", type: "User"}, x: 1}, {__entity: {id: 1, type: "User"}}, [1, "two", true, {k: [false]}]]
+};

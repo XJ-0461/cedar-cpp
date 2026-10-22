@@ -1,0 +1,12 @@
+{
+  "ip": {"__extn": {"fn": "ip", "arg": "192.168.1.10"}},
+  "count": 5,
+  "flag": true,
+  "text": "hello world",
+  "numbers": [1, 2, 3],
+  "nested": {"a": {"b": {"c": 1}}},
+  "requester": {"__entity": {"type": "User", "id": "bob"}},
+  "key with space": "v",
+  "when": {"__extn": {"fn": "datetime", "arg": "2024-06-01T12:00:00Z"}},
+  "emptySet": []
+}

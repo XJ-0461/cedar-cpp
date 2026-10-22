@@ -1,0 +1,6 @@
+{
+ "principal": "App::User::\"alice\"",
+ "action": "App::Action::\"audit\"",
+ "resource": "App::Photo::\"p\"",
+ "context": {}
+}

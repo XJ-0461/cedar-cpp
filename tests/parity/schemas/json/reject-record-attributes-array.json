@@ -1,0 +1,13 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "shape": {
+          "type": "Record",
+          "attributes": []
+        }
+      }
+    },
+    "actions": {}
+  }
+}

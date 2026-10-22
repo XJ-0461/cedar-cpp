@@ -1,0 +1,13 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "external": true,
+        "enum": [
+          "a"
+        ]
+      }
+    },
+    "actions": {}
+  }
+}

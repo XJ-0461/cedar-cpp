@@ -1,0 +1,6 @@
+entity Admin { name: String, rank: Long } tags Long;
+entity Doc { name: String, rank?: Long, title: String } tags String;
+entity Folder in [Folder];
+entity File in [Folder] { name: String };
+
+action edit appliesTo { principal: Admin, resource: Doc, context: { x?: Long } };

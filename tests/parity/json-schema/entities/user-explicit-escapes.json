@@ -1,0 +1,31 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "ip": {
+    "__extn": {
+     "fn": "ip",
+     "arg": "10.0.0.1"
+    }
+   },
+   "manager": {
+    "__entity": {
+     "type": "App::User",
+     "id": "bob"
+    }
+   },
+   "score": {
+    "__extn": {
+     "fn": "decimal",
+     "arg": "1.5"
+    }
+   }
+  },
+  "parents": []
+ }
+]

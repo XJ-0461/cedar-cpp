@@ -1,0 +1,16 @@
+type T = Long;
+
+entity Top;
+
+action "top";
+
+namespace Z::A {
+  entity Q;
+}
+
+namespace B {
+  entity Q;
+}
+
+namespace A::B {
+}

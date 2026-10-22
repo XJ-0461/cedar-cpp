@@ -1,0 +1,22 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Long",
+              "required": false
+            },
+            "b": {
+              "type": "String",
+              "required": false
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

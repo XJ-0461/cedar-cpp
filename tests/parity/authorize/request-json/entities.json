@@ -1,0 +1,6 @@
+[
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"level": 5}, "parents": [{"type": "Group", "id": "staff"}]},
+  {"uid": {"type": "Group", "id": "staff"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Action", "id": "view"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Photo", "id": "trip.jpg"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}}, "parents": []}
+]

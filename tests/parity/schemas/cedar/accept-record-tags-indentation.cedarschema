@@ -1,0 +1,1 @@
+namespace N { entity A tags { a: Long, b: { c: String } }; }

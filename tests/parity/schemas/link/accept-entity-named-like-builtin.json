@@ -1,0 +1,22 @@
+{
+  "": {
+    "entityTypes": {
+      "Long": {},
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "EntityOrCommon",
+              "name": "Long"
+            },
+            "b": {
+              "type": "Long"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

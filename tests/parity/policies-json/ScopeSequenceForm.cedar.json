@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": ["All"],
+  "action": {"op": "All"},
+  "resource": ["is", "Photo", {"entity": {"type": "Album", "id": "a"}}],
+  "conditions": []
+}

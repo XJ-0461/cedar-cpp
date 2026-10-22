@@ -1,0 +1,18 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "x": {
+              "type": "Long",
+              "required": null
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

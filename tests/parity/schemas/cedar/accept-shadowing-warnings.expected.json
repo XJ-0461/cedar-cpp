@@ -1,0 +1,1 @@
+{"":{"commonTypes":{"datetime":{"type":"EntityOrCommon","name":"Long"},"duration":{"type":"EntityOrCommon","name":"String"}},"entityTypes":{"Bool":{},"Long":{},"String":{},"decimal":{},"ipaddr":{}},"actions":{}},"N":{"commonTypes":{"User":{"type":"EntityOrCommon","name":"Long"}},"entityTypes":{"String":{},"User":{}},"actions":{}}}

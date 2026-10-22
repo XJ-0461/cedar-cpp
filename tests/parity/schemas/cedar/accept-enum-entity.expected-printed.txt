@@ -1,0 +1,7 @@
+entity Color enum ["red", "gréen", "red", "a\"b", "\t"];
+
+@doc("e")
+entity Shape enum ["s"];
+
+@doc("e")
+entity Size enum ["s"];

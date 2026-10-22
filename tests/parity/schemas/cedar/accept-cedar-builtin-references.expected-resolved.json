@@ -1,0 +1,43 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "__cedar::Long"
+            },
+            "b": {
+              "type": "__cedar::String"
+            },
+            "c": {
+              "type": "__cedar::Bool"
+            },
+            "d": {
+              "type": "__cedar::ipaddr"
+            },
+            "e": {
+              "type": "Set",
+              "element": {
+                "type": "__cedar::decimal"
+              }
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+      "__cedar": {
+        "appliesTo": {
+          "resourceTypes": [
+            "A"
+          ],
+          "principalTypes": [
+            "A"
+          ]
+        }
+      }
+    }
+  }
+}

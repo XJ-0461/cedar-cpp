@@ -1,0 +1,1 @@
+permit(principal is App::User in App::Group::"g", action, resource);

@@ -1,0 +1,32 @@
+{
+  "": {
+    "entityTypes": {
+      "Color": {
+        "enum": [
+          "red",
+          "gréen",
+          "red",
+          "a\"b",
+          "\t"
+        ]
+      },
+      "Shape": {
+        "enum": [
+          "s"
+        ],
+        "annotations": {
+          "doc": "e"
+        }
+      },
+      "Size": {
+        "enum": [
+          "s"
+        ],
+        "annotations": {
+          "doc": "e"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

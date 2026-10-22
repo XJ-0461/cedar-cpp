@@ -1,0 +1,1 @@
+{"N":{"entityTypes":{"A":{"memberOfTypes":["G"],"external":true},"B":{"external":true},"C":{"external":true},"G":{}},"actions":{"base":{"appliesTo":{"resourceTypes":[],"principalTypes":[]}},"ext":{"memberOf":[{"id":"base","type":"Action"}],"external":true},"other":{"memberOf":[{"id":"base","type":"Action"}],"external":true}}}}

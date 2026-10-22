@@ -1,0 +1,2 @@
+entity A in [B,];
+entity B;

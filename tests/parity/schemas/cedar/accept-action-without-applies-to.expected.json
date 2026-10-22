@@ -1,0 +1,1 @@
+{"":{"entityTypes":{},"actions":{"a":{"appliesTo":{"resourceTypes":[],"principalTypes":[]}},"b":{"appliesTo":{"resourceTypes":[],"principalTypes":[]},"memberOf":[{"id":"a"}]},"c":{"appliesTo":{"resourceTypes":[],"principalTypes":[]},"memberOf":[{"id":"a"},{"id":"b"}]}}}}

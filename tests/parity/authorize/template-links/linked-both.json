@@ -1,0 +1,1 @@
+[{"template_id":"viewer","link_id":"red team","args":{"?principal":"Team::\"red\"","?resource":"Doc::\"plan\""}},{"template_id":"policy1","link_id":"block alice","args":{"?principal":"User::\"alice\""}}]

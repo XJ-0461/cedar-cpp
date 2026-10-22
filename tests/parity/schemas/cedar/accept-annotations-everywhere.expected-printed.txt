@@ -1,0 +1,27 @@
+@doc("top")
+entity Top;
+
+@doc("namespace")
+@if("")
+@true("t")
+namespace N {
+  @doc("type")
+  type Name = String;
+
+  @doc("entity\n😀")
+  @k("")
+  entity User = {
+    @only("")
+    age?: Long,
+    @doc("attribute")
+    @k2("")
+    name: String
+  };
+
+  @doc("action")
+  action "view" appliesTo {
+    principal: [User],
+    resource: [User],
+    context: {}
+  };
+}

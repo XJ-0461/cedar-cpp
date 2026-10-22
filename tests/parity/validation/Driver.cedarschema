@@ -1,0 +1,31 @@
+entity Group;
+entity User in [Group] { name: String, level: Long };
+entity Team in [Group];
+entity Folder;
+entity Doc in [Folder] { owner: User, public: Bool };
+entity Admin;
+entity Status enum ["draft", "published"];
+
+action all;
+action view in [all] appliesTo {
+  principal: User,
+  resource: Doc,
+  context: { ip: ipaddr },
+};
+action edit in [all] appliesTo {
+  principal: [User, Team],
+  resource: Doc,
+};
+action manage appliesTo {
+  principal: Admin,
+  resource: [Folder, Doc],
+};
+action audit appliesTo {
+  principal: Admin,
+  resource: Status,
+};
+
+namespace NS {
+  entity Thing;
+  action act appliesTo { principal: Thing, resource: Thing };
+}

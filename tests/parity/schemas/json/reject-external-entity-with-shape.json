@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "external": true,
+        "shape": {
+          "type": "Record",
+          "attributes": {}
+        }
+      }
+    },
+    "actions": {}
+  }
+}

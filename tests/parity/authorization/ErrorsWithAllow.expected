@@ -1,0 +1,5 @@
+decision: allow
+reason: policy1
+error: policy0 EntityAttributeDoesNotExist
+error: policy2 RecordAttributeDoesNotExist
+error: policy3 TypeError

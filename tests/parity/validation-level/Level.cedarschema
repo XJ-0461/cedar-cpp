@@ -1,0 +1,36 @@
+entity User in [User] {
+  user: User,
+  bool: Bool,
+  other: String,
+  ip: ipaddr,
+  nested: {
+    user: User,
+  },
+  maybe?: User,
+} tags User;
+
+entity Photo {
+  user: User,
+};
+
+action view appliesTo {
+  principal: [User],
+  resource: [Photo],
+  context: {
+    user: User,
+    nested: {
+      user: User,
+    },
+  },
+};
+
+action edit appliesTo {
+  principal: [User],
+  resource: [Photo],
+  context: {
+    user: User,
+    nested: {
+      user: User,
+    },
+  },
+};

@@ -1,0 +1,17 @@
+{
+  "": {
+    "entityTypes": {
+      "Role": {
+        "enum": [
+          "admin"
+        ]
+      },
+      "User": {
+        "memberOfTypes": [
+          "Role"
+        ]
+      }
+    },
+    "actions": {}
+  }
+}

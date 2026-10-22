@@ -1,0 +1,73 @@
+[
+  {
+    "uid": {"type": "User", "id": "alice"},
+    "attrs": {
+      "name": "alice",
+      "age": 30,
+      "isAdmin": true,
+      "nickname": "",
+      "labels": ["a", "b"],
+      "manager": {"__entity": {"type": "User", "id": "bob"}},
+      "ghost": {"__entity": {"type": "User", "id": "ghost"}},
+      "address": {"city": "Seattle", "zip": "98101", "geo": {"lat": 47, "long": -122}},
+      "ip": {"__extn": {"fn": "ip", "arg": "10.0.0.1"}},
+      "network": {"__extn": {"fn": "ip", "arg": "10.0.0.0/8"}},
+      "score": {"__extn": {"fn": "decimal", "arg": "1.5"}},
+      "created": {"__extn": {"fn": "datetime", "arg": "2024-01-01"}},
+      "timeout": {"__extn": {"fn": "duration", "arg": "1h30m"}},
+      "empty": {},
+      "friends": [{"__entity": {"type": "User", "id": "bob"}}, {"__entity": {"type": "User", "id": "carol"}}],
+      "mixed": [1, "one", true],
+      "spaced key": 7,
+      "big": 9223372036854775807
+    },
+    "parents": [{"type": "Group", "id": "admins"}],
+    "tags": {"level": 3, "role": "admin", "name": "tag-name"}
+  },
+  {
+    "uid": {"type": "User", "id": "bob"},
+    "attrs": {"name": "bob", "age": 25, "manager": {"__entity": {"type": "User", "id": "alice"}}},
+    "parents": [{"type": "Group", "id": "users"}]
+  },
+  {
+    "uid": {"type": "User", "id": "carol"},
+    "attrs": {},
+    "parents": [{"type": "Group", "id": "users"}, {"type": "Team", "id": "red"}]
+  },
+  {
+    "uid": {"type": "Group", "id": "admins"},
+    "attrs": {"title": "Administrators"},
+    "parents": [{"type": "Group", "id": "users"}]
+  },
+  {
+    "uid": {"type": "Group", "id": "users"},
+    "attrs": {},
+    "parents": []
+  },
+  {
+    "uid": {"type": "Photo", "id": "vacation.jpg"},
+    "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "private": false, "size": 1024},
+    "parents": [{"type": "Album", "id": "trips"}],
+    "tags": {}
+  },
+  {
+    "uid": {"type": "Album", "id": "trips"},
+    "attrs": {},
+    "parents": [{"type": "Account", "id": "alice"}]
+  },
+  {
+    "uid": {"type": "Action", "id": "view"},
+    "attrs": {},
+    "parents": [{"type": "Action", "id": "read"}]
+  },
+  {
+    "uid": {"type": "Action", "id": "read"},
+    "attrs": {},
+    "parents": []
+  },
+  {
+    "uid": {"type": "Namespace::Kind", "id": "x y"},
+    "attrs": {"value": "spaced id"},
+    "parents": [{"type": "Group", "id": "admins"}]
+  }
+]

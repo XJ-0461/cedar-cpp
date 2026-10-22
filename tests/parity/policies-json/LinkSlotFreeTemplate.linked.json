@@ -1,0 +1,11 @@
+{
+  "templates": {"t": {
+  "effect": "permit",
+  "principal": {"op": "All"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}},
+  "staticPolicies": {},
+  "templateLinks": [{"templateId": "t", "newId": "l", "values": {}}]
+}

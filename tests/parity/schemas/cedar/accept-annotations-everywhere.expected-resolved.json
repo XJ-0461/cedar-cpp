@@ -1,0 +1,69 @@
+{
+  "": {
+    "entityTypes": {
+      "Top": {
+        "annotations": {
+          "doc": "top"
+        }
+      }
+    },
+    "actions": {}
+  },
+  "N": {
+    "commonTypes": {
+      "Name": {
+        "type": "String",
+        "annotations": {
+          "doc": "type"
+        }
+      }
+    },
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "age": {
+              "type": "Long",
+              "annotations": {
+                "only": ""
+              },
+              "required": false
+            },
+            "name": {
+              "type": "String",
+              "annotations": {
+                "doc": "attribute",
+                "k2": ""
+              }
+            }
+          }
+        },
+        "annotations": {
+          "doc": "entity\n😀",
+          "k": ""
+        }
+      }
+    },
+    "actions": {
+      "view": {
+        "appliesTo": {
+          "resourceTypes": [
+            "N::User"
+          ],
+          "principalTypes": [
+            "N::User"
+          ]
+        },
+        "annotations": {
+          "doc": "action"
+        }
+      }
+    },
+    "annotations": {
+      "doc": "namespace",
+      "if": "",
+      "true": "t"
+    }
+  }
+}

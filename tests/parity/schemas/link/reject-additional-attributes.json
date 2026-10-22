@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {},
+          "additionalAttributes": true
+        }
+      }
+    },
+    "actions": {}
+  }
+}

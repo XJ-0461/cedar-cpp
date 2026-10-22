@@ -1,0 +1,13 @@
+[
+ {
+  "uid": {
+   "type": "App::Album",
+   "id": "a"
+  },
+  "attrs": {},
+  "parents": [],
+  "tags": {
+   "t": 1
+  }
+ }
+]

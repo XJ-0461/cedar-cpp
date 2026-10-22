@@ -1,0 +1,14 @@
+{
+  "A": {
+    "entityTypes": {
+      "User": {}
+    },
+    "actions": {}
+  },
+  "B": {
+    "entityTypes": {
+      "User": {}
+    },
+    "actions": {}
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {},
+    "commonTypes": {
+      "A": {
+        "type": "B"
+      },
+      "B": {
+        "type": "A"
+      }
+    }
+  }
+}

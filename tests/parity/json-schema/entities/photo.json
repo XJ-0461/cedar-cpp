@@ -1,0 +1,20 @@
+[
+ {
+  "uid": {
+   "type": "App::Photo",
+   "id": "p"
+  },
+  "attrs": {
+   "owner": {
+    "type": "App::User",
+    "id": "alice"
+   }
+  },
+  "parents": [
+   {
+    "type": "App::Album",
+    "id": "a"
+   }
+  ]
+ }
+]

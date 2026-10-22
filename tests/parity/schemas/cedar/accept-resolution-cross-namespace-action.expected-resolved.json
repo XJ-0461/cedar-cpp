@@ -1,0 +1,40 @@
+{
+  "M": {
+    "entityTypes": {},
+    "actions": {
+      "base": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      }
+    }
+  },
+  "N": {
+    "entityTypes": {},
+    "actions": {
+      "a": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        },
+        "memberOf": [
+          {
+            "id": "base",
+            "type": "M::Action"
+          },
+          {
+            "id": "local",
+            "type": "N::Action"
+          }
+        ]
+      },
+      "local": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      }
+    }
+  }
+}

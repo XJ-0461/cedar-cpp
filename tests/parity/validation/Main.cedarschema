@@ -1,0 +1,44 @@
+type Address = { city: String, zip?: String };
+
+entity Group;
+entity Album in [Album];
+entity Status enum ["active", "inactive"];
+entity Other { x: Long } tags Long;
+entity Untagged { x: Long };
+entity User in [Group] {
+  name: String,
+  age?: Long,
+  manager?: User,
+  profile: { email: String, phone?: String, address?: Address },
+  labels: Set<String>,
+  friends: Set<User>,
+  level: Long,
+  ip: ipaddr,
+  start: datetime,
+  wait: duration,
+  score: decimal,
+  active: Bool,
+  status: Status,
+} tags String;
+entity Photo in [Album] {
+  owner: User,
+  private: Bool,
+  size: Long,
+  meta?: { title?: String, rating: Long },
+  album: Album,
+};
+
+action readGroup;
+action view in [readGroup] appliesTo {
+  principal: User,
+  resource: Photo,
+  context: {
+    a?: Long,
+    b: String,
+    nested: { c?: Bool, d: Long },
+    ips: Set<ipaddr>,
+    when: datetime,
+    flags: Set<Bool>,
+    owner?: User,
+  },
+};

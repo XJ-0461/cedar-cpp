@@ -1,0 +1,7 @@
+accept
+@note("line\n\"quoted\" 😀 \\")
+forbid(
+  principal,
+  action,
+  resource
+);

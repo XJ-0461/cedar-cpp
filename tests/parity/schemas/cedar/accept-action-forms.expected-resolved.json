@@ -1,0 +1,111 @@
+{
+  "N": {
+    "commonTypes": {
+      "Ctx": {
+        "type": "Record",
+        "attributes": {
+          "a": {
+            "type": "Long"
+          }
+        }
+      }
+    },
+    "entityTypes": {
+      "U": {}
+    },
+    "actions": {
+      "ctx": {
+        "appliesTo": {
+          "resourceTypes": [
+            "N::U"
+          ],
+          "principalTypes": [
+            "N::U",
+            "N::U"
+          ],
+          "context": {
+            "type": "N::Ctx"
+          }
+        }
+      },
+      "group": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      },
+      "read file": {
+        "appliesTo": {
+          "resourceTypes": [
+            "N::U"
+          ],
+          "principalTypes": [
+            "N::U"
+          ],
+          "context": {
+            "type": "Record",
+            "attributes": {
+              "at": {
+                "type": "datetime",
+                "required": false
+              },
+              "ip": {
+                "type": "ipaddr"
+              }
+            }
+          }
+        },
+        "memberOf": [
+          {
+            "id": "group",
+            "type": "N::Action"
+          },
+          {
+            "id": "group",
+            "type": "N::Action"
+          },
+          {
+            "id": "group",
+            "type": "N::Action"
+          }
+        ]
+      },
+      "with \"quote\"": {
+        "appliesTo": {
+          "resourceTypes": [
+            "N::U"
+          ],
+          "principalTypes": [
+            "N::U"
+          ],
+          "context": {
+            "type": "Record",
+            "attributes": {
+              "at": {
+                "type": "datetime",
+                "required": false
+              },
+              "ip": {
+                "type": "ipaddr"
+              }
+            }
+          }
+        },
+        "memberOf": [
+          {
+            "id": "group",
+            "type": "N::Action"
+          },
+          {
+            "id": "group",
+            "type": "N::Action"
+          },
+          {
+            "id": "group",
+            "type": "N::Action"
+          }
+        ]
+      }
+    }
+  }
+}

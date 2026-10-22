@@ -1,0 +1,1 @@
+permit(context, action, resource);

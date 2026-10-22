@@ -1,0 +1,9 @@
+accept
+@c("a;b")
+permit(
+  principal,
+  action,
+  resource
+) when {
+  "x;y" like "*;*"
+};

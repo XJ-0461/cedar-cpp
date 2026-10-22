@@ -1,0 +1,13 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "enum": [
+          "a"
+        ],
+        "memberOfTypes": []
+      }
+    },
+    "actions": {}
+  }
+}

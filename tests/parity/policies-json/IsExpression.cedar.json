@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "All"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": [{"kind": "when", "body": {"||": {"left": {"is": {"left": {"Var": "principal"}, "entity_type": "User"}}, "right": {"is": {"left": {"Var": "resource"}, "entity_type": "Photo", "in": {"Set": [{"Value": {"__entity": {"type": "Album", "id": "a"}}}]}}}}}}]
+}

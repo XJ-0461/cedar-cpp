@@ -1,0 +1,8 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+) when {
+  if true then (-9223372036854775808) else -(1)
+};

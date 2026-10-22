@@ -1,0 +1,10 @@
+--policies
+policies.cedar
+--template-linked
+linked
+--template-id
+Static
+--new-id
+X
+--arguments
+{}

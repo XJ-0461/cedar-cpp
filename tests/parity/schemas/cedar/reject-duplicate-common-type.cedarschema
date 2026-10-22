@@ -1,0 +1,1 @@
+namespace N { type T = Long; type T = String; }

@@ -1,0 +1,8 @@
+{
+  "effect": "permit",
+  "principal": {"op": "All"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": [],
+  "annotations": {"id": "named", "flag": null, "if": "keyword"}
+}

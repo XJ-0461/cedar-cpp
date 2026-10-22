@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "a": {
+        "appliesTo": {
+          "principalTypes": [],
+          "resourceTypes": [],
+          "principal": []
+        }
+      }
+    }
+  }
+}

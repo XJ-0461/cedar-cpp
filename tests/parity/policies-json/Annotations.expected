@@ -1,0 +1,9 @@
+accept
+@flag("")
+@id("named")
+@if("keyword")
+permit(
+  principal,
+  action,
+  resource
+);

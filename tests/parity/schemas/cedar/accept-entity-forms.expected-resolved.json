@@ -1,0 +1,69 @@
+{
+  "N": {
+    "entityTypes": {
+      "A": {
+        "memberOfTypes": [
+          "N::B",
+          "N::C"
+        ],
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Long"
+            }
+          }
+        },
+        "tags": {
+          "type": "Set",
+          "element": {
+            "type": "Long"
+          }
+        }
+      },
+      "B": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "b": {
+              "type": "String"
+            }
+          }
+        }
+      },
+      "C": {
+        "memberOfTypes": [
+          "N::B"
+        ]
+      },
+      "D": {},
+      "E": {
+        "memberOfTypes": [
+          "N::A"
+        ]
+      },
+      "F": {
+        "memberOfTypes": [
+          "N::A"
+        ]
+      },
+      "G": {
+        "tags": {
+          "type": "String"
+        }
+      },
+      "H": {},
+      "I": {
+        "tags": {
+          "type": "Record",
+          "attributes": {
+            "x": {
+              "type": "Long"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

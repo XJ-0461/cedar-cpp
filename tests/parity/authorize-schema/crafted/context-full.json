@@ -1,0 +1,1 @@
+{"ip": {"__extn": {"fn": "ip", "arg": "10.1.2.3"}}, "level": 2, "who": {"type": "App::User", "id": "alice"}, "when": "2031-05-01", "color": {"type": "App::Color", "id": "green"}, "flags": [true]}

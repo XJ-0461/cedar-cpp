@@ -1,0 +1,18 @@
+{
+  "": {
+    "entityTypes": {
+      "Group": {},
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "g": {
+              "type": "Group"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

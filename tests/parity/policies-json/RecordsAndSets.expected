@@ -1,0 +1,8 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+) when {
+  [{a: [], b: 2, "if": "keyword key"}, {"a b": (-5), z: 1}].contains({})
+};

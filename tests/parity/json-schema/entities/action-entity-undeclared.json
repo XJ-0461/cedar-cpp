@@ -1,0 +1,10 @@
+[
+ {
+  "uid": {
+   "type": "App::Action",
+   "id": "nope"
+  },
+  "attrs": {},
+  "parents": []
+ }
+]

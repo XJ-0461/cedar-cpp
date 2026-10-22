@@ -1,0 +1,3 @@
+decision: deny
+error: policy2 EntityDoesNotExist
+error: policy3 EntityAttributeDoesNotExist

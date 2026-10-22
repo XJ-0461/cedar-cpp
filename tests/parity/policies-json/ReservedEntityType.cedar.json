@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "is", "entity_type": "__cedar::User"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}

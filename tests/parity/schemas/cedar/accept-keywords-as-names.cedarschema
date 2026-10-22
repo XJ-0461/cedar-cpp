@@ -1,0 +1,7 @@
+namespace namespace::entity {
+  entity entity, action, type, principal, Set, tags, appliesTo {
+    principal: Long, Set: String, context: Bool, "in": Long, permit: String,
+  };
+  action action, "in", principal appliesTo { principal: entity, resource: Set };
+  type context = String;
+}

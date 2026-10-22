@@ -1,0 +1,13 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "EntityOrCommon",
+          "name": "User"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

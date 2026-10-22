@@ -1,0 +1,1 @@
+permit(principal is principal, action, resource is resource);

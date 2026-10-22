@@ -1,0 +1,23 @@
+{
+  "": {
+    "entityTypes": {
+      "Role": {
+        "enum": [
+          "admin"
+        ]
+      },
+      "Group": {
+        "memberOfTypes": [
+          "Role"
+        ]
+      },
+      "User": {
+        "external": true,
+        "memberOfTypes": [
+          "Group"
+        ]
+      }
+    },
+    "actions": {}
+  }
+}

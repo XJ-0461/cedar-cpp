@@ -1,0 +1,8 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+) when {
+  principal.getTag("t") && (resource.hasTag("t") && ([].containsAll([]) && ([].containsAny([]) && context.list.isEmpty())))
+};

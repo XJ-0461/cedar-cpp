@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": ["is", "User"],
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}

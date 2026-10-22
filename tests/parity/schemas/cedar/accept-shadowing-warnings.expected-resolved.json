@@ -1,0 +1,35 @@
+{
+  "": {
+    "commonTypes": {
+      "datetime": {
+        "type": "Entity",
+        "name": "Long"
+      },
+      "duration": {
+        "type": "Entity",
+        "name": "String"
+      }
+    },
+    "entityTypes": {
+      "Bool": {},
+      "Long": {},
+      "String": {},
+      "decimal": {},
+      "ipaddr": {}
+    },
+    "actions": {}
+  },
+  "N": {
+    "commonTypes": {
+      "User": {
+        "type": "Entity",
+        "name": "Long"
+      }
+    },
+    "entityTypes": {
+      "String": {},
+      "User": {}
+    },
+    "actions": {}
+  }
+}

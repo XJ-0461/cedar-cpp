@@ -1,0 +1,8 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+) when {
+  ip("10.0.0.1").isInRange(ip("10.0.0.0/8")) && (decimal("1.5").lessThan(decimal("2.0")) && (ip() == datetime("2024-01-01").offset(duration("1d"))))
+};

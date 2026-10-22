@@ -1,0 +1,10 @@
+--policies
+policies.cedar
+--template-linked
+linked
+--template-id
+AccessVacation
+--new-id
+X
+--arguments
+{"?principal": "User::\"a\\\"b\u00e9\\n\""}

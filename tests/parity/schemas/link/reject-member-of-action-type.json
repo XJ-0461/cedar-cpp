@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "memberOfTypes": [
+          "Action"
+        ]
+      }
+    },
+    "actions": {
+      "view": {}
+    }
+  }
+}

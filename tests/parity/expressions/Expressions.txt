@@ -1,0 +1,279 @@
+# Expressions for the parser parity table. Regenerate the table after editing:
+#   scripts/generate-expression-parity-table.sh --oracle /var/tmp/cedar-reference/bin/cedar \
+#     --input tests/parity/expressions/Expressions.txt --output tests/parity/expressions/Expressions.tsv
+
+# ---- Literals and variables ----
+true
+false
+0
+42
+9223372036854775807
+9223372036854775808
+18446744073709551615
+18446744073709551616
+-1
+-0
+-9223372036854775808
+- 9223372036854775808
+--9223372036854775808
+-(9223372036854775808)
+-9223372036854775809
+-(-1)
+- -1
+----5
+-----5
+"hello"
+""
+"tab\there"
+"quote \" inside"
+"\u{1F600}"
+"\x7f"
+"\x80"
+"\q"
+"unterminated
+principal
+action
+resource
+context
+x
+?principal
+?resource
+?other
+
+# ---- Entity uids ----
+User::"alice"
+Photos::User::"alice"
+User::"\u{0}"
+User::"esc\"aped"
+principal::"x"
+permit::"x"
+Action::"view"
+action::"view"
+true::"x"
+A::true::"x"
+if::"x"
+A::if::"x"
+in::"x"
+__cedar::A::"x"
+A::__cedar::"x"
+__cedarX::"x"
+User::{a: "b"}
+User :: "spaced"
+User::/* not a comment */"a"
+User:: // comment
+User::
+
+# ---- Operators and precedence ----
+1 + 2 * 3 - 4
+1 - 2 - 3
+2 * 3 * 4
+principal * 2
+context.a * context.b
+1 / 2
+1 % 2
+!true
+!!true
+!!!true
+!!!!true
+!!!!!true
+!-1
+-!true
+-x
+-context.x
+-5.foo
+-"a"
+1 == 2
+1 != 2
+1 < 2
+1 <= 2
+1 > 2
+1 >= 2
+1 < 2 < 3
+1 == 2 == 3
+1 = 2
+principal in User::"a"
+principal in [User::"a", User::"b"]
+principal in User::"a" in User::"b"
+true && false || true
+true || false && true
+true && (false || true)
+(1 + 2) * 3
+if true then 1 else 2
+if true then 1 else if false then 2 else 3
+if true then 1 else 2 || false
+1 + if true then 1 else 2
+(if true then 1 else 2) + 1
+if principal then
+!(1 == 2)
+1 + + 2
+1 2
+()
+(1)
+((((1))))
+
+# ---- has ----
+principal has a
+principal has "a b"
+principal has a.b.c
+principal has a.permit
+principal has a.if
+principal has a.__cedar
+principal has if
+principal has if.a
+principal has then
+principal has true
+principal has principal
+principal has context.a
+principal has a::b
+principal has a["b"]
+principal has a.b(1)
+principal has "a".b
+principal has 1
+principal has -a
+principal has (a)
+principal has a + 1
+principal has a * 2
+principal has a has b
+principal has a.b == true
+principal has a && true
+principal has __cedar
+principal has "\q"
+principal has
+{a: 1} has a
+
+# ---- like ----
+principal like "a*"
+"abc" like "a*c"
+"a*" like "a\*"
+"a" like "\u{2a}"
+principal like principal
+principal like "a" + "b"
+principal like ("a")
+principal like "a" like "b"
+principal like "\q"
+
+# ---- is ----
+principal is User
+principal is Photos::User
+principal is User in Group::"a"
+principal is User in [Group::"a"]
+principal is principal
+principal is "User"
+principal is User::"a"
+principal is true
+principal is if
+principal is A::if
+principal is __cedar
+principal is __cedar::A
+principal is A is B
+principal is A in B in C
+principal is User == true
+principal is User + 1
+
+# ---- Attributes and indexing ----
+principal.name
+principal.permit
+principal.principal
+principal.if
+principal.true
+principal.in
+principal.__cedar
+principal["a"]
+principal["if"]
+principal[a]
+principal[1]
+principal["\q"]
+principal.foo["bar"].baz
+User::"a".name
+"a"["b"]
+true.foo
+1.foo
+[1].foo
+A::B
+A::B.c
+A::B["c"]
+A::B.c()
+principal.
+
+# ---- Methods and functions ----
+[1, 2].contains(1)
+[1].containsAll([1])
+[1].containsAny([2])
+[].isEmpty()
+principal.getTag("a")
+principal.hasTag("a")
+principal.contains(1, 2)
+principal.contains()
+principal.isEmpty(1)
+principal.getTag()
+"a".contains("b")
+principal.foo.bar(1)
+principal.unknownMethod()
+principal.lessThan(1)
+decimal("1.0").lessThan(decimal("2.0"))
+decimal("1.0").lessThan()
+decimal("1.0", "2.0")
+ip("10.0.0.1")
+ip("a", "b")
+ip()
+ip("10.0.0.1").isIpv4()
+ip("10.0.0.1").isInRange(ip("10.0.0.0/8"))
+ip("1.2.3.4").isInRange(ip("1.0.0.0/8"), ip("2.0.0.0/8"))
+datetime("2024-01-01").offset(duration("1h"))
+datetime("2024-01-01").toDate()
+duration("1h").toMilliseconds()
+"1.0".decimal()
+principal.decimal("x")
+isIpv4(ip("1.1.1.1"))
+lessThan(decimal("1.0"), decimal("2.0"))
+contains([1], 1)
+isEmpty([])
+foo(1)
+A::foo(1)
+A::ip("1.1.1.1")
+principal(1)
+(1)(2)
+"a"(1)
+true(1)
+ip("1.1.1.1")(1)
+ip("1.1.1.1",)
+ip(,)
+[1, 2,].contains(1)
+
+# ---- Sets and records ----
+[]
+[1, 2, 3]
+[1, 2,]
+[,]
+[1,,2]
+[[1], [2, [3]]]
+{}
+{a: 1, b: "x"}
+{b: 1, a: 2}
+{a: 1,}
+{"a b": 1}
+{"a": 1, a: 2}
+{a: 1, a: 2}
+{if: 1}
+{true: 1}
+{then: 1}
+{permit: 1}
+{principal: 1}
+{context: 1}
+{a::b: 1}
+{__cedar: 1}
+{(a): 1}
+{1: 2}
+{"\q": 1}
+{a: x}
+{a: 1 b: 2}
+{a}
+
+# ---- Lexical ----
+1 $ 2
+principal & resource
+principal | resource
+1 // a comment
+1 /* not a comment */
+true && false
+​true

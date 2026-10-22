@@ -1,0 +1,22 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "view": {
+        "memberOf": [
+          {
+            "id": "read"
+          }
+        ]
+      },
+      "read": {
+        "memberOf": [
+          {
+            "id": "all"
+          }
+        ]
+      },
+      "all": {}
+    }
+  }
+}

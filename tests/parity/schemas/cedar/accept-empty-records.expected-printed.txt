@@ -1,0 +1,16 @@
+type V = {};
+
+namespace N {
+  type T = {  };
+
+  type U = {
+    a: {    },
+    b: {
+      c: {      }
+    }
+  };
+
+  entity E = {
+    e: {    }
+  };
+}

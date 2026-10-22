@@ -1,0 +1,28 @@
+{
+  "NS": {
+    "entityTypes": {
+      "A": {},
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "EntityOrCommon",
+              "name": "A"
+            },
+            "b": {
+              "type": "Entity",
+              "name": "A"
+            }
+          }
+        }
+      }
+    },
+    "actions": {},
+    "commonTypes": {
+      "A": {
+        "type": "Long"
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "street": {
+     "__entity": {
+      "type": "App::User",
+      "id": "a"
+     }
+    }
+   }
+  },
+  "parents": []
+ }
+]

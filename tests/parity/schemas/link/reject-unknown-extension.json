@@ -1,0 +1,18 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Extension",
+              "name": "ip"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

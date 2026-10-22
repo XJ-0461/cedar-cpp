@@ -1,0 +1,11 @@
+@doc("namespace") @if @true("t")
+namespace N {
+  @doc("entity\n\u{1F600}") @k
+  entity User = {
+    @doc("attribute") @k2 name: String,
+    @only age?: Long,
+  };
+  @doc("type") type Name = String;
+  @doc("action") action view appliesTo { principal: User, resource: User };
+}
+@doc("top") entity Top;

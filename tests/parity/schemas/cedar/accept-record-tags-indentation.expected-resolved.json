@@ -1,0 +1,25 @@
+{
+  "N": {
+    "entityTypes": {
+      "A": {
+        "tags": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Long"
+            },
+            "b": {
+              "type": "Record",
+              "attributes": {
+                "c": {
+                  "type": "String"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

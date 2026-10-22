@@ -1,0 +1,1 @@
+{"principal":"User::\"alice\"","action":"Action::\"view\"","resource":"Photo::\"trip.jpg\"","context":{"mfa":true},"note":[1e400,"\ud800",{"a":1,"a":2}]}

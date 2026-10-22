@@ -1,0 +1,2 @@
+namespace N { entity A; }
+namespace N { entity B; }

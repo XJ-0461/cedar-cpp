@@ -1,0 +1,4 @@
+aliceTrips policy0 ?principal=User::"alice" ?resource=Album::"trips"
+bobTrips policy0 ?principal=User::"bob" ?resource=Album::"trips"
+bobPhoto policy0 ?principal=User::"bob" ?resource=Photo::"other.jpg"
+usersNeedMfa policy1 ?principal=Group::"users"

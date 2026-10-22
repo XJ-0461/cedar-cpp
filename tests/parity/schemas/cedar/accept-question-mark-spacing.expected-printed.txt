@@ -1,0 +1,4 @@
+entity A = {
+  a?: Long,
+  b?: String
+};

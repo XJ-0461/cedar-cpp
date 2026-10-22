@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "is", "entity_type": "User", "in": {"slot": "?principal"}},
+  "action": {"op": "All"},
+  "resource": {"op": "is", "entity_type": "Photo", "in": null},
+  "conditions": []
+}

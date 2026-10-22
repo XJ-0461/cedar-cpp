@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "view": {
+        "memberOf": [
+          {
+            "id": "ghost"
+          }
+        ]
+      }
+    }
+  }
+}

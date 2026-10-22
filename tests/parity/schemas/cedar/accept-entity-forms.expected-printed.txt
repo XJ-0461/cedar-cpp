@@ -1,0 +1,25 @@
+namespace N {
+  entity A in [B, C] = {
+    a: Long
+  } tags Set<Long>;
+
+  entity B = {
+    b: String
+  };
+
+  entity C in [B];
+
+  entity D;
+
+  entity E in [A];
+
+  entity F in [A];
+
+  entity G tags String;
+
+  entity H;
+
+  entity I tags {
+  x: Long
+};
+}

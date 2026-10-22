@@ -1,0 +1,1 @@
+{"effect": "forbid", "effect": "permit", "principal": {"op": "==", "entity": {"type": "User", "id": "alice"}, "op": "in"}, "action": {"op": "All"}, "resource": {"op": "All"}, "conditions": [{"kind": "when", "body": {"Var": "action", "Var": "principal"}}], "annotations": {"a": "1", "a": "2"}}

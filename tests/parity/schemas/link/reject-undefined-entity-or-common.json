@@ -1,0 +1,18 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "EntityOrCommon",
+              "name": "Ghost"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

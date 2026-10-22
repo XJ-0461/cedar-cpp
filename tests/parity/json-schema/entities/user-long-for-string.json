@@ -1,0 +1,13 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": 5,
+   "age": 30
+  },
+  "parents": []
+ }
+]

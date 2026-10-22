@@ -1,0 +1,11 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "a": {
+        "external": true,
+        "attributes": {}
+      }
+    }
+  }
+}

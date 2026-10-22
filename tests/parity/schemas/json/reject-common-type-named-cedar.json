@@ -1,0 +1,11 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {},
+    "commonTypes": {
+      "__cedar": {
+        "type": "String"
+      }
+    }
+  }
+}

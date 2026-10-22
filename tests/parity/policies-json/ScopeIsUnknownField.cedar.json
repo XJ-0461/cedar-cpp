@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "is", "entity_type": "User", "x": 1},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}

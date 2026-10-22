@@ -1,0 +1,21 @@
+{
+  "Other": {
+    "entityTypes": {},
+    "actions": {
+      "all": {}
+    }
+  },
+  "NS": {
+    "entityTypes": {},
+    "actions": {
+      "view": {
+        "memberOf": [
+          {
+            "id": "all",
+            "type": "Other::Action"
+          }
+        ]
+      }
+    }
+  }
+}

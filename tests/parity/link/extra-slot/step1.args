@@ -1,0 +1,10 @@
+--policies
+policies.cedar
+--template-linked
+linked
+--template-id
+AccessVacation
+--new-id
+Extra
+--arguments
+{"?principal": "User::\"p\"", "?resource": "Album::\"a\""}

@@ -1,0 +1,5 @@
+type T = Set;
+
+type U = Set<Set>;
+
+entity Set;

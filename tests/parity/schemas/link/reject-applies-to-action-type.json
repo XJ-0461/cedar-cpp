@@ -1,0 +1,15 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "view": {
+        "appliesTo": {
+          "principalTypes": [
+            "Action"
+          ],
+          "resourceTypes": []
+        }
+      }
+    }
+  }
+}

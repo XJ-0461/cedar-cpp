@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {}
+    },
+    "actions": {}
+  },
+  "NS": {
+    "entityTypes": {
+      "User": {}
+    },
+    "actions": {}
+  }
+}

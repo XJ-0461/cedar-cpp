@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "All"},
+  "action": {"op": "in", "entities": [{"type": "NS::Action", "id": "a"}, {"type": "Action", "id": "view"}]},
+  "resource": {"op": "All"},
+  "conditions": []
+}

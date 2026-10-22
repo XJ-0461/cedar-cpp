@@ -1,0 +1,23 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Entity",
+              "name": "T"
+            }
+          }
+        }
+      }
+    },
+    "actions": {},
+    "commonTypes": {
+      "T": {
+        "type": "Long"
+      }
+    }
+  }
+}

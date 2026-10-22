@@ -1,0 +1,42 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "name": {
+              "type": "String"
+            },
+            "age": {
+              "type": "Long",
+              "required": false
+            }
+          }
+        }
+      },
+      "Photo": {}
+    },
+    "actions": {
+      "view": {
+        "appliesTo": {
+          "principalTypes": [
+            "User"
+          ],
+          "resourceTypes": [
+            "Photo"
+          ],
+          "context": {
+            "type": "Record",
+            "attributes": {
+              "ip": {
+                "type": "Extension",
+                "name": "ipaddr"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

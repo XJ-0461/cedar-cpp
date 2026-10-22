@@ -1,0 +1,1 @@
+[{"t": ["permit", {"op": "==", "slot": "?principal"}, {"op": "All"}, {"op": "All"}, [], {"a": "b"}]}, {"s": ["forbid", {"op": "All"}, {"op": "All"}, {"op": "All"}, []]}, []]

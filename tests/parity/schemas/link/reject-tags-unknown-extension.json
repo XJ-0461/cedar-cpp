@@ -1,0 +1,13 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "tags": {
+          "type": "Extension",
+          "name": "ip"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

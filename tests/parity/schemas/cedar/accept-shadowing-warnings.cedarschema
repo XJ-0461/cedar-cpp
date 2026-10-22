@@ -1,0 +1,8 @@
+entity Long, String, Bool, ipaddr, decimal;
+type datetime = Long;
+type duration = String;
+namespace N {
+  entity User;
+  type User = Long;
+  entity String;
+}

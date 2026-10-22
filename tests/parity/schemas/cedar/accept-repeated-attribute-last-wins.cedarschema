@@ -1,0 +1,1 @@
+entity A { a: Long, b?: String, a?: Bool, "a": Set<String> };

@@ -1,0 +1,12 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "memberOfTypes": [
+          "__cedar::B"
+        ]
+      }
+    },
+    "actions": {}
+  }
+}

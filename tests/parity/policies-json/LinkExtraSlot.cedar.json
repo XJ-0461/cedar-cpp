@@ -1,0 +1,11 @@
+{
+  "templates": {"t": {
+  "effect": "permit",
+  "principal": {"op": "==", "slot": "?principal"},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}},
+  "staticPolicies": {},
+  "templateLinks": [{"templateId": "t", "newId": "l", "values": {"?principal": {"type": "User", "id": "alice"}, "?resource": {"type": "User", "id": "alice"}}}]
+}

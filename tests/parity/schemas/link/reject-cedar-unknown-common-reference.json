@@ -1,0 +1,17 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "__cedar::Ghost"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

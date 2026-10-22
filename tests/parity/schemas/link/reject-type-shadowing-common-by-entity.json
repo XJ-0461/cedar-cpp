@@ -1,0 +1,17 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {},
+    "commonTypes": {
+      "T": {
+        "type": "Long"
+      }
+    }
+  },
+  "NS": {
+    "entityTypes": {
+      "T": {}
+    },
+    "actions": {}
+  }
+}

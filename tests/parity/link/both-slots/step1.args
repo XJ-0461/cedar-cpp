@@ -1,0 +1,10 @@
+--policies
+policies.cedar
+--template-linked
+linked
+--template-id
+Both
+--new-id
+Pair
+--arguments
+{"?resource": "Album::\"a\"", "?principal": "User::\"p\""}

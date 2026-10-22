@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "is", "entity_type": "User"},
+  "action": {"op": "All"},
+  "resource": {"op": "is", "entity_type": "NS::Photo", "in": {"entity": {"type": "Album", "id": "a"}}},
+  "conditions": []
+}

@@ -1,0 +1,197 @@
+{
+  "namespace::entity": {
+    "commonTypes": {
+      "context": {
+        "type": "String"
+      }
+    },
+    "entityTypes": {
+      "Set": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "Set": {
+              "type": "String"
+            },
+            "context": {
+              "type": "Bool"
+            },
+            "in": {
+              "type": "Long"
+            },
+            "permit": {
+              "type": "String"
+            },
+            "principal": {
+              "type": "Long"
+            }
+          }
+        }
+      },
+      "action": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "Set": {
+              "type": "String"
+            },
+            "context": {
+              "type": "Bool"
+            },
+            "in": {
+              "type": "Long"
+            },
+            "permit": {
+              "type": "String"
+            },
+            "principal": {
+              "type": "Long"
+            }
+          }
+        }
+      },
+      "appliesTo": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "Set": {
+              "type": "String"
+            },
+            "context": {
+              "type": "Bool"
+            },
+            "in": {
+              "type": "Long"
+            },
+            "permit": {
+              "type": "String"
+            },
+            "principal": {
+              "type": "Long"
+            }
+          }
+        }
+      },
+      "entity": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "Set": {
+              "type": "String"
+            },
+            "context": {
+              "type": "Bool"
+            },
+            "in": {
+              "type": "Long"
+            },
+            "permit": {
+              "type": "String"
+            },
+            "principal": {
+              "type": "Long"
+            }
+          }
+        }
+      },
+      "principal": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "Set": {
+              "type": "String"
+            },
+            "context": {
+              "type": "Bool"
+            },
+            "in": {
+              "type": "Long"
+            },
+            "permit": {
+              "type": "String"
+            },
+            "principal": {
+              "type": "Long"
+            }
+          }
+        }
+      },
+      "tags": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "Set": {
+              "type": "String"
+            },
+            "context": {
+              "type": "Bool"
+            },
+            "in": {
+              "type": "Long"
+            },
+            "permit": {
+              "type": "String"
+            },
+            "principal": {
+              "type": "Long"
+            }
+          }
+        }
+      },
+      "type": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "Set": {
+              "type": "String"
+            },
+            "context": {
+              "type": "Bool"
+            },
+            "in": {
+              "type": "Long"
+            },
+            "permit": {
+              "type": "String"
+            },
+            "principal": {
+              "type": "Long"
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+      "action": {
+        "appliesTo": {
+          "resourceTypes": [
+            "namespace::entity::Set"
+          ],
+          "principalTypes": [
+            "namespace::entity::entity"
+          ]
+        }
+      },
+      "in": {
+        "appliesTo": {
+          "resourceTypes": [
+            "namespace::entity::Set"
+          ],
+          "principalTypes": [
+            "namespace::entity::entity"
+          ]
+        }
+      },
+      "principal": {
+        "appliesTo": {
+          "resourceTypes": [
+            "namespace::entity::Set"
+          ],
+          "principalTypes": [
+            "namespace::entity::entity"
+          ]
+        }
+      }
+    }
+  }
+}

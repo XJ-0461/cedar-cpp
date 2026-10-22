@@ -1,0 +1,10 @@
+[
+ {
+  "uid": {
+   "type": "App::Photo",
+   "id": "p"
+  },
+  "attrs": {},
+  "parents": []
+ }
+]

@@ -1,0 +1,11 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {},
+    "commonTypes": {
+      "Bool": {
+        "type": "String"
+      }
+    }
+  }
+}

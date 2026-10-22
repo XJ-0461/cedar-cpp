@@ -1,0 +1,20 @@
+{
+  "NS": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Bool"
+            },
+            "b": {
+              "type": "ipaddr"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

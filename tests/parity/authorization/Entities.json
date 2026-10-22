@@ -1,0 +1,12 @@
+[
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"age": 30, "department": "engineering"},
+   "parents": [{"type": "Group", "id": "admins"}]},
+  {"uid": {"type": "User", "id": "bob"}, "attrs": {"age": 17}, "parents": [{"type": "Group", "id": "users"}]},
+  {"uid": {"type": "Group", "id": "admins"}, "attrs": {}, "parents": [{"type": "Group", "id": "users"}]},
+  {"uid": {"type": "Group", "id": "users"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Photo", "id": "vacation.jpg"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "private": true},
+   "parents": [{"type": "Album", "id": "trips"}]},
+  {"uid": {"type": "Album", "id": "trips"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Action", "id": "view"}, "attrs": {}, "parents": [{"type": "Action", "id": "read"}]},
+  {"uid": {"type": "Action", "id": "read"}, "attrs": {}, "parents": []}
+]

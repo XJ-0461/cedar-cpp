@@ -1,0 +1,12 @@
+[
+ {
+  "uid": {
+   "type": "App::Color",
+   "id": "red"
+  },
+  "attrs": {
+   "x": 1
+  },
+  "parents": []
+ }
+]

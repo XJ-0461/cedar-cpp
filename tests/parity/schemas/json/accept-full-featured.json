@@ -1,0 +1,137 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "memberOfTypes": [
+          "Group"
+        ],
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "name": {
+              "type": "String"
+            },
+            "age": {
+              "type": "Long",
+              "required": false
+            },
+            "admin": {
+              "type": "Boolean",
+              "annotations": {
+                "doc": "is admin"
+              }
+            },
+            "groups": {
+              "type": "Set",
+              "element": {
+                "type": "Entity",
+                "name": "Group"
+              }
+            },
+            "home": {
+              "type": "Extension",
+              "name": "ipaddr"
+            },
+            "address": {
+              "type": "Address"
+            },
+            "other": {
+              "type": "EntityOrCommon",
+              "name": "NS::Thing"
+            }
+          },
+          "additionalAttributes": true
+        },
+        "tags": {
+          "type": "String"
+        },
+        "annotations": {
+          "doc": "a user"
+        }
+      },
+      "Group": {},
+      "Color": {
+        "enum": [
+          "red",
+          "green"
+        ]
+      }
+    },
+    "actions": {
+      "view": {
+        "appliesTo": {
+          "principalTypes": [
+            "User"
+          ],
+          "resourceTypes": [
+            "Group"
+          ],
+          "context": {
+            "type": "Record",
+            "attributes": {
+              "ip": {
+                "type": "Extension",
+                "name": "ipaddr"
+              }
+            }
+          }
+        },
+        "memberOf": [
+          {
+            "id": "read"
+          },
+          {
+            "id": "all",
+            "type": "NS::Action"
+          }
+        ],
+        "annotations": {
+          "doc": null
+        }
+      },
+      "read": {}
+    },
+    "commonTypes": {
+      "Address": {
+        "type": "Record",
+        "attributes": {
+          "street": {
+            "type": "String"
+          }
+        },
+        "annotations": {
+          "doc": "x"
+        }
+      }
+    }
+  },
+  "NS": {
+    "entityTypes": {
+      "Thing": {},
+      "Remote": {
+        "external": true,
+        "memberOfTypes": [
+          "Thing"
+        ]
+      }
+    },
+    "actions": {
+      "all": {},
+      "far": {
+        "external": true,
+        "memberOf": [
+          {
+            "id": "all"
+          }
+        ]
+      }
+    },
+    "annotations": {
+      "doc": "namespace"
+    }
+  },
+  "NS::Inner": {
+    "entityTypes": {},
+    "actions": {}
+  }
+}

@@ -1,0 +1,9 @@
+accept
+@a("2")
+permit(
+  principal in User::"alice",
+  action,
+  resource
+) when {
+  principal
+};

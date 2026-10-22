@@ -1,0 +1,17 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "external": true,
+        "memberOfTypes": [
+          "B"
+        ],
+        "annotations": {
+          "a": "b"
+        }
+      },
+      "B": {}
+    },
+    "actions": {}
+  }
+}

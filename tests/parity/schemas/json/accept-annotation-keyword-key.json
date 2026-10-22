@@ -1,0 +1,13 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "annotations": {
+          "if": "x",
+          "__cedar": "y"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

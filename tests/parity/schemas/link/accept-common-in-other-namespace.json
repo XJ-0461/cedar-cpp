@@ -1,0 +1,22 @@
+{
+  "Other": {
+    "entityTypes": {},
+    "actions": {},
+    "commonTypes": {
+      "T": {
+        "type": "Record",
+        "attributes": {}
+      }
+    }
+  },
+  "NS": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Other::T"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

@@ -1,0 +1,21 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30
+  },
+  "parents": [],
+  "tags": {
+   "t": {
+    "__extn": {
+     "fn": "decimal",
+     "arg": "1.0"
+    }
+   }
+  }
+ }
+]

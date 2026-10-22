@@ -1,0 +1,6 @@
+accept
+permit(
+  principal is User,
+  action,
+  resource is NS::Photo in Album::"a"
+);

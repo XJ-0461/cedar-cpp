@@ -1,0 +1,7 @@
+{
+  "effect": "permit",
+  "principal": {"op": "==", "slot": {"?principal": null}},
+  "action": {"op": "All"},
+  "resource": {"op": "All"},
+  "conditions": []
+}

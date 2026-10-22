@@ -1,0 +1,1 @@
+{"templates": {"t": ["permit", {"op": "==", "slot": "?principal"}, {"op": "All"}, {"op": "All"}, [], {"a": "b"}]}, "staticPolicies": {"s": ["forbid", {"op": "All"}, {"op": "All"}, {"op": "All"}, [["when", {"Value": true}]]]}, "templateLinks": []}

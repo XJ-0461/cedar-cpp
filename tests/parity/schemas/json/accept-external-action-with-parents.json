@@ -1,0 +1,18 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "a": {
+        "external": true,
+        "memberOf": [
+          {
+            "id": "b"
+          }
+        ],
+        "attributes": null,
+        "appliesTo": null
+      },
+      "b": {}
+    }
+  }
+}

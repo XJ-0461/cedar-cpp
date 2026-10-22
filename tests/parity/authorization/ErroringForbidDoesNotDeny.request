@@ -1,0 +1,4 @@
+principal: User::"alice"
+action: Action::"view"
+resource: Photo::"vacation.jpg"
+context: {"ip": "10.0.0.1", "mfa": true}

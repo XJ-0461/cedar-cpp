@@ -1,0 +1,19 @@
+[
+ {
+  "uid": {
+   "type": "App::Action",
+   "id": "audit"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "App::Action",
+    "id": "edit"
+   },
+   {
+    "type": "App::Action",
+    "id": "view"
+   }
+  ]
+ }
+]

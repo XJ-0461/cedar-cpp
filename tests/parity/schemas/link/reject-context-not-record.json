@@ -1,0 +1,25 @@
+{
+  "": {
+    "entityTypes": {
+      "U": {}
+    },
+    "actions": {
+      "view": {
+        "appliesTo": {
+          "principalTypes": [
+            "U"
+          ],
+          "resourceTypes": [
+            "U"
+          ],
+          "context": {
+            "type": "Set",
+            "element": {
+              "type": "Long"
+            }
+          }
+        }
+      }
+    }
+  }
+}

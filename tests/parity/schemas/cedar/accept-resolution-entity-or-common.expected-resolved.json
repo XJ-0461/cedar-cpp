@@ -1,0 +1,60 @@
+{
+  "N": {
+    "commonTypes": {
+      "Both": {
+        "type": "String"
+      },
+      "Common": {
+        "type": "Record",
+        "attributes": {
+          "a": {
+            "type": "Long"
+          }
+        }
+      }
+    },
+    "entityTypes": {
+      "Both": {},
+      "E": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "b": {
+              "type": "N::Both"
+            },
+            "c": {
+              "type": "N::Common"
+            },
+            "l": {
+              "type": "Long"
+            },
+            "s": {
+              "type": "Set",
+              "element": {
+                "type": "N::Common"
+              }
+            },
+            "x": {
+              "type": "ipaddr"
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+      "a": {
+        "appliesTo": {
+          "resourceTypes": [
+            "N::E"
+          ],
+          "principalTypes": [
+            "N::E"
+          ],
+          "context": {
+            "type": "N::Common"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,1 @@
+permit(principal, action in [Action::"view", Action::"edit", Action::"view"], resource);

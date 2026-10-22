@@ -1,0 +1,14 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+) when {
+  resource.owner == principal
+};
+
+permit(
+  principal == ?principal,
+  action,
+  resource
+);

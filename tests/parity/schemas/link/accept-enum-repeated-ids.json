@@ -1,0 +1,14 @@
+{
+  "": {
+    "entityTypes": {
+      "Color": {
+        "enum": [
+          "red",
+          "red",
+          "blue"
+        ]
+      }
+    },
+    "actions": {}
+  }
+}

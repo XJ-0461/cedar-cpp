@@ -1,0 +1,17 @@
+[
+ {
+  "uid": {
+   "type": "App::User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "ip": [
+    "ip",
+    "10.0.0.1"
+   ]
+  },
+  "parents": []
+ }
+]

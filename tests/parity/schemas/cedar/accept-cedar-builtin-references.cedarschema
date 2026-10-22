@@ -1,0 +1,2 @@
+entity A { a: __cedar::Long, b: __cedar::String, c: __cedar::Bool, d: __cedar::ipaddr, e: Set<__cedar::decimal> };
+action __cedar appliesTo { principal: A, resource: A };

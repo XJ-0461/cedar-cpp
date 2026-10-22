@@ -1,0 +1,326 @@
+value	true	true	
+value	false	false	
+value	0	0	
+value	-9223372036854775808	-9223372036854775808	
+value	9223372036854775807	9223372036854775807	
+value	"hello"	"hello"	
+value	""	""	
+value	"a\"b\n\u{e9}\t*"	"a\"b\né\t*"	
+value	User::"alice"	User::"alice"	
+value	Namespace::Kind::"x y"	Namespace::Kind::"x y"	
+value	principal	User::"alice"	
+value	action	Action::"view"	
+value	resource	Photo::"vacation.jpg"	
+value	context	{"count": 5, "emptySet": [], "flag": true, "ip": ip("192.168.1.10"), "key with space": "v", "nested": {"a": {"b": {"c": 1}}}, "numbers": [1, 2, 3], "requester": User::"bob", "text": "hello world", "when": datetime("2024-06-01T12:00:00Z")}	
+value	[]	[]	
+value	[1, 2, 3]	[1, 2, 3]	
+value	[3, 1, 2, 1]	[1, 2, 3]	
+value	[1, "a", true, User::"bob", [1], {a: 1}]	[true, 1, "a", User::"bob", [1], {"a": 1}]	
+value	[[1, 2], [2, 1]] == [[2, 1]]	true	
+value	{}	{}	
+value	{a: 1, b: "two", c: [3]}	{"a": 1, "b": "two", "c": [3]}	
+value	{"key with space": 1, "if": 2}	{"if": 2, "key with space": 1}	
+value	{a: {b: {c: true}}}	{"a": {"b": {"c": true}}}	
+value	{a: 1 + 1, b: principal}	{"a": 2, "b": User::"alice"}	
+error	?principal	UnlinkedSlot	0:10	
+error	?resource	UnlinkedSlot	0:9	
+error	?principal == principal	UnlinkedSlot	0:10	
+value	if true then 1 else 2	1	
+value	if false then 1 else 2	2	
+error	if 1 then 2 else 3	TypeError	3:1	
+value	if principal.isAdmin then "admin" else "user"	"admin"	
+value	if false then 1 + "a" else 3	3	
+value	true && true	true	
+value	true && false	false	
+value	false && (1 + "a")	false	
+value	false && 1	false	
+error	true && 1	TypeError	8:1	
+error	1 && true	TypeError	0:1	
+error	"x" && false	TypeError	0:3	
+value	false || true	true	
+value	false || false	false	
+value	true || (1 + "a")	true	
+value	true || 1	true	
+error	false || 1	TypeError	9:1	
+error	1 || true	TypeError	0:1	
+value	principal.isAdmin && principal.age > 18	true	
+value	(principal.age > 18) || principal.nonexistent	true	
+value	!true	false	
+value	!false	true	
+error	!1	TypeError	1:1	
+value	!!true	true	
+value	-5	-5	
+value	-(5)	-5	
+value	-(-9223372036854775807)	9223372036854775807	
+error	-(-9223372036854775808)	IntegerOverflow	0:23	
+error	-"a"	TypeError	1:3	
+value	-principal.big	-9223372036854775807	
+value	[].isEmpty()	true	
+value	[1].isEmpty()	false	
+value	context.emptySet.isEmpty()	true	
+error	1.isEmpty()	TypeError	0:1	
+error	"".isEmpty()	TypeError	0:2	
+value	1 == 1	true	
+value	1 == 2	false	
+value	1 == "1"	false	
+value	"a" == "a"	true	
+value	User::"alice" == principal	true	
+value	principal == User::"bob"	false	
+value	User::"alice" == Group::"alice"	false	
+value	[1, 2] == [2, 1, 1]	true	
+value	{a: 1, b: 2} == {b: 2, a: 1}	true	
+value	{a: 1} == {a: 1, b: 2}	false	
+value	decimal("1.0") == decimal("1.00")	true	
+value	ip("10.0.0.1") == ip("10.0.0.1/32")	true	
+value	ip("10.0.0.1/24") == ip("10.0.0.0/24")	false	
+value	datetime("2024-01-01") == datetime("2024-01-01T00:00:00Z")	true	
+value	duration("1h") == duration("60m")	true	
+value	principal.ip == ip("10.0.0.1")	true	
+value	1 != 2	true	
+value	true != true	false	
+value	[1] != [1]	false	
+value	context.requester == User::"bob"	true	
+value	1 < 2	true	
+value	2 < 1	false	
+value	1 <= 1	true	
+value	2 > 1	true	
+value	1 >= 2	false	
+value	-9223372036854775808 < 9223372036854775807	true	
+error	1 < "a"	TypeError	4:3	
+error	"a" < 1	TypeError	0:3	
+error	"a" < "b"	TypeError	0:3	
+error	true < false	TypeError	0:4	
+error	[1] < [2]	TypeError	0:3	
+error	decimal("1.0") < decimal("2.0")	TypeError	0:14	
+error	decimal("1.0") < 1	TypeError	0:14	
+error	1 < decimal("1.0")	TypeError	4:14	
+value	datetime("2024-01-01") < datetime("2024-01-02")	true	
+value	datetime("2024-01-02") <= datetime("2024-01-01")	false	
+value	duration("1h") < duration("2h")	true	
+value	duration("1h") <= duration("60m")	true	
+error	datetime("2024-01-01") < duration("1h")	TypeError	25:14	
+error	duration("1h") < datetime("2024-01-01")	TypeError	17:22	
+error	datetime("2024-01-01") < 1	TypeError	0:22	
+error	1 < duration("1h")	TypeError	4:14	
+error	datetime("2024-01-01") < "x"	TypeError	25:3	
+error	"x" < datetime("2024-01-01")	TypeError	0:3	
+error	ip("10.0.0.1") < ip("10.0.0.2")	TypeError	0:14	
+value	principal.created < context.when	true	
+value	principal.timeout > duration("1h")	true	
+value	1 + 2	3	
+value	5 - 7	-2	
+value	6 * 7	42	
+error	9223372036854775807 + 1	IntegerOverflow	0:23	
+error	-9223372036854775808 - 1	IntegerOverflow	0:24	
+error	-9223372036854775807 - 2	IntegerOverflow	0:24	
+error	4611686018427387904 * 2	IntegerOverflow	0:23	
+value	-4611686018427387904 * 2	-9223372036854775808	
+value	9223372036854775807 * -1	-9223372036854775807	
+error	-9223372036854775808 * -1	IntegerOverflow	0:25	
+error	1 + "a"	TypeError	4:3	
+error	"a" + 1	TypeError	0:3	
+error	"a" + "b"	TypeError	0:3	
+error	true * 2	TypeError	0:4	
+value	principal.age + 1	31	
+error	principal.big + 1	IntegerOverflow	0:17	
+value	1 + 2 * 3 - 4	3	
+value	-1 * -1	1	
+value	principal in Group::"admins"	true	
+value	principal in Group::"users"	true	
+value	principal in principal	true	
+value	principal in User::"bob"	false	
+value	principal in [Group::"nobody", Group::"users"]	true	
+value	principal in []	false	
+value	User::"ghost" in User::"ghost"	true	
+value	User::"ghost" in Group::"users"	false	
+value	User::"ghost" in [User::"ghost"]	true	
+value	resource in Account::"alice"	true	
+value	resource in Album::"trips"	true	
+value	action in Action::"read"	true	
+value	action in [Action::"edit", Action::"read"]	true	
+value	User::"carol" in Team::"red"	true	
+value	Namespace::Kind::"x y" in Group::"users"	true	
+error	1 in Group::"users"	TypeError	0:1	
+error	"a" in [1, 2]	TypeError	0:3	
+error	{a: 1} in {a: 1}	TypeError	0:6	
+error	principal in 1	TypeError	13:1	
+error	principal in "Group"	TypeError	13:7	
+error	principal in [Group::"admins", 1]	TypeError	31:1	span: Rust points at the offending set element; set elements carry no location here
+error	principal in [1, Group::"admins"]	TypeError	14:1	span: Rust points at the offending set element; set elements carry no location here
+value	principal in principal.friends	false	
+value	User::"bob" in principal.friends	true	
+error	principal in principal.mixed	TypeError	0:28	
+error	principal in {a: Group::"users"}	TypeError	13:19	
+value	[1, 2, 3].contains(2)	true	
+value	[1, 2, 3].contains(4)	false	
+value	[1, "a"].contains("a")	true	
+value	[[1]].contains([1])	true	
+value	[{a: 1}].contains({a: 1})	true	
+value	[decimal("1.0")].contains(decimal("1.0000"))	true	
+value	principal.labels.contains("a")	true	
+value	context.numbers.contains(3)	true	
+error	"abc".contains("a")	TypeError	0:5	
+error	1.contains(1)	TypeError	0:1	
+value	[1, 2, 3].containsAll([1, 3])	true	
+value	[1, 2, 3].containsAll([1, 4])	false	
+value	[1].containsAll([])	true	
+value	[].containsAll([1])	false	
+value	[1, 2].containsAny([2, 5])	true	
+value	[1, 2].containsAny([5, 6])	false	
+value	[].containsAny([])	false	
+error	[1].containsAll(1)	TypeError	16:1	
+error	1.containsAll([1])	TypeError	0:1	
+error	[1].containsAny("a")	TypeError	16:3	
+error	"a".containsAny([1])	TypeError	0:3	
+value	principal.hasTag("level")	true	
+value	principal.hasTag("missing")	false	
+value	principal.getTag("level")	3	
+value	principal.getTag("role")	"admin"	
+error	principal.getTag("missing")	EntityTagDoesNotExist	0:27	
+error	principal.getTag("age")	EntityTagDoesNotExist	0:23	
+value	principal.getTag("name")	"tag-name"	
+value	User::"ghost".hasTag("level")	false	
+error	User::"ghost".getTag("level")	EntityDoesNotExist	0:13	
+value	resource.hasTag("x")	false	
+error	User::"bob".getTag("x")	EntityTagDoesNotExist	0:23	
+error	1.hasTag("x")	TypeError	0:1	
+error	principal.hasTag(1)	TypeError	17:1	
+error	"x".getTag("x")	TypeError	0:3	
+error	principal.getTag(1)	TypeError	17:1	
+error	principal.hasTag("le" + "vel")	TypeError	17:4	
+value	principal.name	"alice"	
+value	principal.age	30	
+value	principal["spaced key"]	7	
+value	principal.address.city	"Seattle"	
+value	principal.address.geo.long	-122	
+value	principal.manager.name	"bob"	
+value	principal.manager.manager.age	30	
+error	principal.nonexistent	EntityAttributeDoesNotExist	0:21	
+error	principal.level	EntityAttributeDoesNotExist	0:15	
+error	principal.ghost.name	EntityDoesNotExist	0:20	span: Rust gives every access in a chain the span of the whole chain
+error	User::"ghost".name	EntityDoesNotExist	0:13	
+error	User::"ghost".name.first	EntityDoesNotExist	0:13	
+value	context.text	"hello world"	
+value	context.nested.a.b.c	1	
+value	context["key with space"]	"v"	
+error	context.missing	RecordAttributeDoesNotExist	0:15	
+error	context.nested.a.x	RecordAttributeDoesNotExist	0:18	
+value	{a: 1}.a	1	
+error	{a: 1}.b	RecordAttributeDoesNotExist	0:8	
+error	1.a	TypeError	0:1	
+error	"abc".length	TypeError	0:5	
+error	[1].a	TypeError	0:3	
+value	resource.owner == principal	true	
+value	resource.owner.address.zip	"98101"	
+value	principal.empty	{}	
+value	principal.labels	["a", "b"]	
+value	principal has name	true	
+value	principal has nonexistent	false	
+value	principal has level	false	
+value	principal has "spaced key"	true	
+value	User::"ghost" has name	false	
+value	context has text	true	
+value	context has missing	false	
+value	context has "key with space"	true	
+value	{a: 1} has a	true	
+value	{a: 1} has b	false	
+error	1 has a	TypeError	0:1	
+error	"x" has a	TypeError	0:3	
+error	[1] has a	TypeError	0:3	
+value	principal has address.city	true	
+value	principal has address.country	false	
+value	principal has address.geo.lat	true	
+error	principal has address.geo.lat.x	TypeError	0:31	
+error	principal has name.first	TypeError	0:24	
+value	principal has manager.name	true	
+value	principal has manager.nickname	false	
+value	principal has ghost.name	false	
+value	principal has ghost.name.first	false	
+error	principal has address.city.first	TypeError	0:32	
+value	context has nested.a.b.c	true	
+value	context has nested.a.b.d	false	
+error	context has count.x	TypeError	0:19	
+value	{a: {b: 1}} has a.b	true	
+value	{a: {b: 1}} has a.c	false	
+value	User::"ghost" has a.b	false	
+value	"hello world" like "hello*"	true	
+value	"hello world" like "*world"	true	
+value	"hello world" like "*o w*"	true	
+value	"hello" like "h*l*o"	true	
+value	"hello" like "h*x*o"	false	
+value	"" like ""	true	
+value	"" like "*"	true	
+value	"abc" like "abc"	true	
+value	"abc" like "ab"	false	
+value	"a*c" like "a\*c"	true	
+value	"abc" like "a\*c"	false	
+value	"é" like "?"	false	
+value	"éa" like "*a"	true	
+value	"日本語" like "日*語"	true	
+value	"aaa" like "a*a*a*a"	false	
+value	"aaa" like "*a*a*a"	true	
+value	context.text like "hello*"	true	
+value	principal.name like "al*"	true	
+error	1 like "*"	TypeError	0:1	
+error	principal like "*"	TypeError	0:9	
+value	principal is User	true	
+value	principal is Group	false	
+value	resource is Photo	true	
+value	Namespace::Kind::"x y" is Namespace::Kind	true	
+value	Namespace::Kind::"x y" is Kind	false	
+value	User::"ghost" is User	true	
+value	principal is User in Group::"users"	true	
+value	principal is User in Group::"nobody"	false	
+value	principal is Group in Group::"users"	false	
+value	resource is Photo in Account::"alice"	true	
+error	1 is User	TypeError	0:1	
+error	"User" is User	TypeError	0:6	
+value	decimal("1.5").lessThan(decimal("2.0"))	true	
+value	decimal("1.5").greaterThanOrEqual(decimal("1.5"))	true	
+value	decimal("-0.5")	decimal("-0.5")	
+error	decimal("x")	ExtensionFunctionExecution	0:12	
+error	decimal("1.23456")	ExtensionFunctionExecution	0:18	
+error	decimal("922337203685477.5808")	ExtensionFunctionExecution	0:31	
+error	decimal(1)	TypeError	8:1	
+error	decimal("1.0").lessThan(1)	TypeError	24:1	
+error	decimal("1.0").lessThan("2.0")	TypeError	24:5	
+value	ip("10.0.0.1").isInRange(ip("10.0.0.0/8"))	true	
+value	ip("10.0.0.1").isInRange(ip("192.168.0.0/16"))	false	
+value	ip("::1").isLoopback()	true	
+value	ip("224.0.0.1").isMulticast()	true	
+value	ip("10.0.0.1").isIpv4()	true	
+value	ip("10.0.0.1").isIpv6()	false	
+error	ip("bad")	ExtensionFunctionExecution	0:9	
+error	ip("10.0.0.1").isInRange(1)	TypeError	25:1	
+error	ip("10.0.0.1").isInRange("10.0.0.0/8")	TypeError	25:12	
+value	principal.ip.isInRange(principal.network)	true	
+value	context.ip.isInRange(ip("192.168.0.0/16"))	true	
+value	datetime("2024-01-01").offset(duration("1h"))	datetime("1970-01-01").offset(duration("1704070800000ms"))	
+value	datetime("2024-01-01").durationSince(datetime("2023-12-31"))	duration("86400000ms")	
+value	datetime("2024-01-01T12:34:56Z").toDate()	datetime("1970-01-01").offset(duration("1704067200000ms"))	
+value	datetime("2024-01-01T12:34:56Z").toTime()	duration("45296000ms")	
+error	datetime("2024-02-30")	ExtensionFunctionExecution	0:22	
+value	duration("1d2h3m4s5ms").toMilliseconds()	93784005	
+value	duration("-59s").toMinutes()	0	
+value	duration("1h").toSeconds()	3600	
+error	duration("x")	ExtensionFunctionExecution	0:13	
+value	datetime("9999-12-31").offset(duration("1d"))	datetime("1970-01-01").offset(duration("253402300800000ms"))	
+value	principal.created.offset(principal.timeout)	datetime("1970-01-01").offset(duration("1704072600000ms"))	
+value	context.when.toDate() == datetime("2024-06-01")	true	
+value	principal.score.greaterThan(decimal("1.0"))	true	
+error	ip("10.0.0.1", "x")	WrongArgumentCount	0:19	
+error	ip()	WrongArgumentCount	0:4	
+error	decimal("1.0").lessThan()	WrongArgumentCount	0:25	
+error	ip(1 + "a")	TypeError	7:3	
+error	ip("10.0.0.1").isInRange(1 + "a")	TypeError	29:3	
+value	[ip("10.0.0.1"), ip("10.0.0.1/32"), decimal("1.0"), decimal("1.00")]	[decimal("1.00"), ip("10.0.0.1/32")]	
+value	{d: duration("90m"), t: datetime("1970-01-01")}	{"d": duration("90m"), "t": datetime("1970-01-01")}	
+error	[1, 1 + "a", principal.nonexistent]	TypeError	8:3	
+error	[principal.nonexistent, 1 + "a"]	EntityAttributeDoesNotExist	1:21	
+error	{b: 1 + "a", a: principal.nonexistent}	EntityAttributeDoesNotExist	16:21	
+error	(1 + "a") == (principal.nonexistent)	TypeError	5:3	
+error	(principal.nonexistent) + (1 + "a")	EntityAttributeDoesNotExist	1:21	
+error	if principal.nonexistent then 1 else 2	EntityAttributeDoesNotExist	3:21	
+error	principal.nonexistent.contains(1)	EntityAttributeDoesNotExist	0:33	span: Rust gives every access in a chain the span of the whole chain
+error	[principal.nonexistent].contains(1)	EntityAttributeDoesNotExist	1:21	
+error	(2 + 3) * (9223372036854775807 + 1)	IntegerOverflow	11:23	

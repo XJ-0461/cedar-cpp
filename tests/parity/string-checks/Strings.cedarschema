@@ -1,0 +1,10 @@
+namespace NS {
+  entity Thing;
+}
+entity User { name: String };
+entity Doc;
+action view appliesTo {
+  principal: User,
+  resource: [Doc, NS::Thing],
+  context: { ip: ipaddr, note: String },
+};

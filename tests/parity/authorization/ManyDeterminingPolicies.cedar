@@ -1,0 +1,13 @@
+permit(principal, action, resource) when { context.ip == "10.0.0.1" };
+permit(principal == User::"alice", action, resource) when { 1 > 0 };
+permit(principal == User::"alice", action, resource) when { 2 > 0 };
+permit(principal == User::"alice", action, resource) when { 3 > 0 };
+permit(principal == User::"alice", action, resource) when { 4 > 0 };
+permit(principal == User::"alice", action, resource) when { 5 > 0 };
+permit(principal == User::"alice", action, resource) when { 6 > 0 };
+permit(principal == User::"alice", action, resource) when { 7 > 0 };
+permit(principal == User::"alice", action, resource) when { 8 > 0 };
+permit(principal == User::"alice", action, resource) when { 9 > 0 };
+permit(principal == User::"alice", action, resource) when { 10 > 0 };
+permit(principal == User::"alice", action, resource) when { 11 > 0 };
+forbid(principal, action, resource) when { context.mfa == false };

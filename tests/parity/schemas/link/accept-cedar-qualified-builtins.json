@@ -1,0 +1,21 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "__cedar::String"
+            },
+            "b": {
+              "type": "EntityOrCommon",
+              "name": "__cedar::datetime"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

@@ -1,0 +1,1 @@
+{"effect": "permit", "principal": {"op": "All"}, "action": {"op": "All"}, "resource": {"op": "All"}}

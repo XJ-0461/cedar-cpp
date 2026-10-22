@@ -1,0 +1,23 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {}
+    },
+    "actions": {}
+  },
+  "NS": {
+    "entityTypes": {},
+    "actions": {
+      "a": {
+        "appliesTo": {
+          "principalTypes": [
+            "User"
+          ],
+          "resourceTypes": [
+            "User"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+accept
+@a("")
+@b("2")
+@if("keyword key")
+@permit("x")
+permit(
+  principal,
+  action,
+  resource
+);

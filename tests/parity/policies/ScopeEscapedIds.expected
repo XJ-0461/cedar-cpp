@@ -1,0 +1,6 @@
+accept
+permit(
+  principal == User::"a\"bé",
+  action,
+  resource == File::"tab\there"
+);

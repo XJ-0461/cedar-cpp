@@ -1,0 +1,8 @@
+entity A = {
+  "": Long,
+  "\0": Long,
+  "__cedar": Long,
+  "if": Long,
+  ok_1: Long,
+  "x y": Long
+};

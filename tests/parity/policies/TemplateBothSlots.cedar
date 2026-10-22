@@ -1,0 +1,1 @@
+permit(principal in ?principal, action == Action::"view", resource is Photo in ?resource) when { context.ok };

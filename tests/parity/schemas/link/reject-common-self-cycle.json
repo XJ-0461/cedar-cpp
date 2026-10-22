@@ -1,0 +1,16 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {},
+    "commonTypes": {
+      "A": {
+        "type": "Record",
+        "attributes": {
+          "x": {
+            "type": "A"
+          }
+        }
+      }
+    }
+  }
+}

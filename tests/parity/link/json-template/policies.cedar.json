@@ -1,0 +1,1 @@
+{"staticPolicies": {}, "templates": {"T": {"effect": "permit", "principal": {"op": "==", "slot": "?principal"}, "action": {"op": "All"}, "resource": {"op": "All"}, "conditions": []}}, "templateLinks": []}

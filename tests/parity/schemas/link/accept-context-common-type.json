@@ -1,0 +1,32 @@
+{
+  "": {
+    "entityTypes": {
+      "U": {}
+    },
+    "actions": {
+      "view": {
+        "appliesTo": {
+          "principalTypes": [
+            "U"
+          ],
+          "resourceTypes": [
+            "U"
+          ],
+          "context": {
+            "type": "Ctx"
+          }
+        }
+      }
+    },
+    "commonTypes": {
+      "Ctx": {
+        "type": "Record",
+        "attributes": {
+          "a": {
+            "type": "Long"
+          }
+        }
+      }
+    }
+  }
+}

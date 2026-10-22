@@ -1,0 +1,41 @@
+{
+  "": {
+    "entityTypes": {},
+    "actions": {
+      "a": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      },
+      "b": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        },
+        "memberOf": [
+          {
+            "id": "a",
+            "type": "Action"
+          }
+        ]
+      },
+      "c": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        },
+        "memberOf": [
+          {
+            "id": "a",
+            "type": "Action"
+          },
+          {
+            "id": "b",
+            "type": "Action"
+          }
+        ]
+      }
+    }
+  }
+}

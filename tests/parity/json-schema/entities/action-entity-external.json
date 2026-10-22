@@ -1,0 +1,10 @@
+[
+ {
+  "uid": {
+   "type": "App::Action",
+   "id": "sync"
+  },
+  "attrs": {},
+  "parents": []
+ }
+]

@@ -1,0 +1,12 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "annotations": {
+          "a-b": "x"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

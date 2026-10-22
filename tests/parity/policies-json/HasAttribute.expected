@@ -1,0 +1,8 @@
+accept
+permit(
+  principal,
+  action,
+  resource
+) when {
+  (principal has a) && ((principal has a."b c") && (context has x))
+};

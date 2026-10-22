@@ -1,0 +1,52 @@
+{
+  "": {
+    "commonTypes": {
+      "V": {
+        "type": "Record",
+        "attributes": {}
+      }
+    },
+    "entityTypes": {},
+    "actions": {}
+  },
+  "N": {
+    "commonTypes": {
+      "T": {
+        "type": "Record",
+        "attributes": {}
+      },
+      "U": {
+        "type": "Record",
+        "attributes": {
+          "a": {
+            "type": "Record",
+            "attributes": {}
+          },
+          "b": {
+            "type": "Record",
+            "attributes": {
+              "c": {
+                "type": "Record",
+                "attributes": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "entityTypes": {
+      "E": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "e": {
+              "type": "Record",
+              "attributes": {}
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

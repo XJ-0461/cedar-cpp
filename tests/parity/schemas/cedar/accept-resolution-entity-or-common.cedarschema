@@ -1,0 +1,7 @@
+namespace N {
+  type Common = { a: Long };
+  entity Both;
+  type Both = String;
+  entity E { c: Common, b: Both, s: Set<Common>, x: ipaddr, l: Long };
+  action a appliesTo { principal: E, resource: E, context: Common };
+}

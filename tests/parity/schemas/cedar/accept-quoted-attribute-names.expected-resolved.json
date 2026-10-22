@@ -1,0 +1,32 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "": {
+              "type": "Long"
+            },
+            "\u0000": {
+              "type": "Long"
+            },
+            "__cedar": {
+              "type": "Long"
+            },
+            "if": {
+              "type": "Long"
+            },
+            "ok_1": {
+              "type": "Long"
+            },
+            "x y": {
+              "type": "Long"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

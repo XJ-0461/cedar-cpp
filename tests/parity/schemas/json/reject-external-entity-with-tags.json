@@ -1,0 +1,13 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "external": true,
+        "tags": {
+          "type": "Long"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

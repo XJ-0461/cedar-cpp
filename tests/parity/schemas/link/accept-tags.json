@@ -1,0 +1,30 @@
+{
+  "": {
+    "entityTypes": {
+      "User": {
+        "tags": {
+          "type": "Set",
+          "element": {
+            "type": "String"
+          }
+        }
+      },
+      "Doc": {
+        "tags": {
+          "type": "T"
+        }
+      }
+    },
+    "actions": {},
+    "commonTypes": {
+      "T": {
+        "type": "Record",
+        "attributes": {
+          "x": {
+            "type": "Long"
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "x": {
+              "type": "Entity"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

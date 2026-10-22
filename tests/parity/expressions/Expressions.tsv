@@ -1,0 +1,256 @@
+accept	true	true
+accept	false	false
+accept	0	0
+accept	42	42
+accept	9223372036854775807	9223372036854775807
+reject	9223372036854775808	
+reject	18446744073709551615	
+reject	18446744073709551616	
+accept	-1	(-1)
+accept	-0	0
+accept	-9223372036854775808	(-9223372036854775808)
+accept	- 9223372036854775808	(-9223372036854775808)
+accept	--9223372036854775808	-((-9223372036854775808))
+reject	-(9223372036854775808)	
+reject	-9223372036854775809	
+accept	-(-1)	-((-1))
+accept	- -1	-((-1))
+accept	----5	-(-(-((-5))))
+reject	-----5	
+accept	"hello"	"hello"
+accept	""	""
+accept	"tab\there"	"tab\there"
+accept	"quote \" inside"	"quote \" inside"
+accept	"\u{1F600}"	"😀"
+accept	"\x7f"	"\u{7f}"
+reject	"\x80"	
+reject	"\q"	
+reject	"unterminated	
+accept	principal	principal
+accept	action	action
+accept	resource	resource
+accept	context	context
+reject	x	
+accept	?principal	
+accept	?resource	
+reject	?other	
+accept	User::"alice"	User::"alice"
+accept	Photos::User::"alice"	Photos::User::"alice"
+accept	User::"\u{0}"	User::"\0"
+accept	User::"esc\"aped"	User::"esc\"aped"
+accept	principal::"x"	principal::"x"
+accept	permit::"x"	permit::"x"
+accept	Action::"view"	Action::"view"
+accept	action::"view"	action::"view"
+reject	true::"x"	
+reject	A::true::"x"	
+reject	if::"x"	
+reject	A::if::"x"	
+reject	in::"x"	
+reject	__cedar::A::"x"	
+reject	A::__cedar::"x"	
+accept	__cedarX::"x"	__cedarX::"x"
+reject	User::{a: "b"}	
+accept	User :: "spaced"	User::"spaced"
+reject	User::/* not a comment */"a"	
+reject	User:: // comment	
+reject	User::	
+accept	1 + 2 * 3 - 4	(1 + (2 * 3)) - 4
+accept	1 - 2 - 3	1 - 2 - 3
+accept	2 * 3 * 4	2 * 3 * 4
+accept	principal * 2	principal * 2
+accept	context.a * context.b	context.a * context.b
+reject	1 / 2	
+reject	1 % 2	
+accept	!true	!true
+accept	!!true	!(!true)
+accept	!!!true	!(!(!true))
+accept	!!!!true	!(!(!(!true)))
+reject	!!!!!true	
+reject	!-1	
+reject	-!true	
+reject	-x	
+accept	-context.x	-(context.x)
+accept	-5.foo	-(5.foo)
+accept	-"a"	-("a")
+accept	1 == 2	1 == 2
+accept	1 != 2	!(1 == 2)
+accept	1 < 2	1 < 2
+accept	1 <= 2	1 <= 2
+accept	1 > 2	!(1 <= 2)
+accept	1 >= 2	!(1 < 2)
+reject	1 < 2 < 3	
+reject	1 == 2 == 3	
+reject	1 = 2	
+accept	principal in User::"a"	principal in User::"a"
+accept	principal in [User::"a", User::"b"]	principal in [User::"a", User::"b"]
+reject	principal in User::"a" in User::"b"	
+accept	true && false || true	true
+accept	true || false && true	true
+accept	true && (false || true)	true
+accept	(1 + 2) * 3	(1 + 2) * 3
+accept	if true then 1 else 2	if true then 1 else 2
+accept	if true then 1 else if false then 2 else 3	if true then 1 else if false then 2 else 3
+accept	if true then 1 else 2 || false	if true then 1 else 2 || false
+reject	1 + if true then 1 else 2	
+accept	(if true then 1 else 2) + 1	(if true then 1 else 2) + 1
+reject	if principal then	
+accept	!(1 == 2)	!(1 == 2)
+reject	1 + + 2	
+reject	1 2	
+reject	()	
+accept	(1)	1
+accept	((((1))))	1
+accept	principal has a	principal has a
+accept	principal has "a b"	principal has "a b"
+accept	principal has a.b.c	principal has a.b.c
+accept	principal has a.permit	principal has a.permit
+reject	principal has a.if	
+reject	principal has a.__cedar	
+reject	principal has if	
+reject	principal has if.a	
+reject	principal has then	
+reject	principal has true	
+accept	principal has principal	principal has principal
+accept	principal has context.a	principal has context.a
+reject	principal has a::b	
+reject	principal has a["b"]	
+reject	principal has a.b(1)	
+reject	principal has "a".b	
+reject	principal has 1	
+reject	principal has -a	
+reject	principal has (a)	
+reject	principal has a + 1	
+reject	principal has a * 2	
+reject	principal has a has b	
+reject	principal has a.b == true	
+accept	principal has a && true	(principal has a) && true
+reject	principal has __cedar	
+reject	principal has "\q"	
+reject	principal has	
+accept	{a: 1} has a	{a: 1} has a
+accept	principal like "a*"	principal like "a*"
+accept	"abc" like "a*c"	"abc" like "a*c"
+accept	"a*" like "a\*"	"a*" like "a\*"
+accept	"a" like "\u{2a}"	"a" like "*"
+reject	principal like principal	
+reject	principal like "a" + "b"	
+reject	principal like ("a")	
+reject	principal like "a" like "b"	
+reject	principal like "\q"	
+accept	principal is User	principal is User
+accept	principal is Photos::User	principal is Photos::User
+accept	principal is User in Group::"a"	(principal is User) && (principal in Group::"a")
+accept	principal is User in [Group::"a"]	(principal is User) && (principal in [Group::"a"])
+accept	principal is principal	principal is principal
+reject	principal is "User"	
+reject	principal is User::"a"	
+reject	principal is true	
+reject	principal is if	
+reject	principal is A::if	
+reject	principal is __cedar	
+reject	principal is __cedar::A	
+reject	principal is A is B	
+reject	principal is A in B in C	
+reject	principal is User == true	
+reject	principal is User + 1	
+accept	principal.name	principal.name
+accept	principal.permit	principal.permit
+accept	principal.principal	principal.principal
+reject	principal.if	
+reject	principal.true	
+reject	principal.in	
+reject	principal.__cedar	
+accept	principal["a"]	principal.a
+accept	principal["if"]	principal["if"]
+reject	principal[a]	
+reject	principal[1]	
+reject	principal["\q"]	
+accept	principal.foo["bar"].baz	principal.foo.bar.baz
+accept	User::"a".name	User::"a".name
+accept	"a"["b"]	"a".b
+accept	true.foo	true.foo
+accept	1.foo	1.foo
+accept	[1].foo	[1].foo
+reject	A::B	
+reject	A::B.c	
+reject	A::B["c"]	
+reject	A::B.c()	
+reject	principal.	
+accept	[1, 2].contains(1)	[1, 2].contains(1)
+accept	[1].containsAll([1])	[1].containsAll([1])
+accept	[1].containsAny([2])	[1].containsAny([2])
+accept	[].isEmpty()	[].isEmpty()
+accept	principal.getTag("a")	principal.getTag("a")
+accept	principal.hasTag("a")	principal.hasTag("a")
+reject	principal.contains(1, 2)	
+reject	principal.contains()	
+reject	principal.isEmpty(1)	
+reject	principal.getTag()	
+accept	"a".contains("b")	"a".contains("b")
+reject	principal.foo.bar(1)	
+reject	principal.unknownMethod()	
+accept	principal.lessThan(1)	principal.lessThan(1)
+accept	decimal("1.0").lessThan(decimal("2.0"))	decimal("1.0").lessThan(decimal("2.0"))
+accept	decimal("1.0").lessThan()	decimal("1.0").lessThan()
+accept	decimal("1.0", "2.0")	decimal("1.0", "2.0")
+accept	ip("10.0.0.1")	ip("10.0.0.1")
+accept	ip("a", "b")	ip("a", "b")
+accept	ip()	ip()
+accept	ip("10.0.0.1").isIpv4()	ip("10.0.0.1").isIpv4()
+accept	ip("10.0.0.1").isInRange(ip("10.0.0.0/8"))	ip("10.0.0.1").isInRange(ip("10.0.0.0/8"))
+accept	ip("1.2.3.4").isInRange(ip("1.0.0.0/8"), ip("2.0.0.0/8"))	ip("1.2.3.4").isInRange(ip("1.0.0.0/8"), ip("2.0.0.0/8"))
+accept	datetime("2024-01-01").offset(duration("1h"))	datetime("2024-01-01").offset(duration("1h"))
+accept	datetime("2024-01-01").toDate()	datetime("2024-01-01").toDate()
+accept	duration("1h").toMilliseconds()	duration("1h").toMilliseconds()
+reject	"1.0".decimal()	
+reject	principal.decimal("x")	
+reject	isIpv4(ip("1.1.1.1"))	
+reject	lessThan(decimal("1.0"), decimal("2.0"))	
+reject	contains([1], 1)	
+reject	isEmpty([])	
+reject	foo(1)	
+reject	A::foo(1)	
+reject	A::ip("1.1.1.1")	
+reject	principal(1)	
+reject	(1)(2)	
+reject	"a"(1)	
+reject	true(1)	
+reject	ip("1.1.1.1")(1)	
+accept	ip("1.1.1.1",)	ip("1.1.1.1")
+reject	ip(,)	
+accept	[1, 2,].contains(1)	[1, 2].contains(1)
+accept	[]	[]
+accept	[1, 2, 3]	[1, 2, 3]
+accept	[1, 2,]	[1, 2]
+reject	[,]	
+reject	[1,,2]	
+accept	[[1], [2, [3]]]	[[1], [2, [3]]]
+accept	{}	{}
+accept	{a: 1, b: "x"}	{a: 1, b: "x"}
+accept	{b: 1, a: 2}	{a: 2, b: 1}
+accept	{a: 1,}	{a: 1}
+accept	{"a b": 1}	{"a b": 1}
+reject	{"a": 1, a: 2}	
+reject	{a: 1, a: 2}	
+reject	{if: 1}	
+reject	{true: 1}	
+reject	{then: 1}	
+accept	{permit: 1}	{permit: 1}
+accept	{principal: 1}	{principal: 1}
+accept	{context: 1}	{context: 1}
+reject	{a::b: 1}	
+reject	{__cedar: 1}	
+reject	{(a): 1}	
+reject	{1: 2}	
+reject	{"\q": 1}	
+reject	{a: x}	
+reject	{a: 1 b: 2}	
+reject	{a}	
+reject	1 $ 2	
+reject	principal & resource	
+reject	principal | resource	
+accept	1 // a comment	1
+reject	1 /* not a comment */	
+accept	true && false	false
+reject	​true	

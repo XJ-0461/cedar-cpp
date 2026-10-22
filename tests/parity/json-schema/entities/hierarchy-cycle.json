@@ -1,0 +1,28 @@
+[
+ {
+  "uid": {
+   "type": "App::Group",
+   "id": "a"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "App::Group",
+    "id": "b"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "App::Group",
+   "id": "b"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "App::Group",
+    "id": "a"
+   }
+  ]
+ }
+]

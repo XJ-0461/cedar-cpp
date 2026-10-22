@@ -1,0 +1,15 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "enum": [
+          "a"
+        ],
+        "annotations": {
+          "x": "y"
+        }
+      }
+    },
+    "actions": {}
+  }
+}

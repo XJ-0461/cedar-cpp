@@ -1,0 +1,4 @@
+decision: allow
+reason: policy0
+error: policy1 TypeError
+error: policy2 IntegerOverflow

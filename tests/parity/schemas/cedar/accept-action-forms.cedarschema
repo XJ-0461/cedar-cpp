@@ -1,0 +1,11 @@
+namespace N {
+  entity U;
+  action "read file", "with \"quote\"" in ["group", Action::"group", N::Action::"group"] appliesTo {
+    principal: [U],
+    resource: U,
+    context: { ip: ipaddr, at?: datetime },
+  } attributes {};
+  action group;
+  action ctx appliesTo { context: Ctx, resource: [U], principal: [U, U] };
+  type Ctx = { a: Long };
+}

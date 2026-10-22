@@ -1,0 +1,17 @@
+{
+  "": {
+    "entityTypes": {
+      "A": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "b": {
+              "type": "Bool"
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

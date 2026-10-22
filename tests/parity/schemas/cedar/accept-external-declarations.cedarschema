@@ -1,0 +1,7 @@
+namespace N {
+  entity G;
+  external entity A in [G];
+  external entity B, C;
+  external action "ext", other in [Action::"base"];
+  action base;
+}

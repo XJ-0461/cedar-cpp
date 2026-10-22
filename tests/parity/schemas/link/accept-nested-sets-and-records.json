@@ -1,0 +1,30 @@
+{
+  "": {
+    "entityTypes": {
+      "U": {
+        "shape": {
+          "type": "Record",
+          "attributes": {
+            "a": {
+              "type": "Set",
+              "element": {
+                "type": "Set",
+                "element": {
+                  "type": "Record",
+                  "attributes": {
+                    "b": {
+                      "type": "EntityOrCommon",
+                      "name": "U",
+                      "required": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "actions": {}
+  }
+}

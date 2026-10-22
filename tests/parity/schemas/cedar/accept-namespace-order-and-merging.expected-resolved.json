@@ -1,0 +1,36 @@
+{
+  "": {
+    "commonTypes": {
+      "T": {
+        "type": "Long"
+      }
+    },
+    "entityTypes": {
+      "Top": {}
+    },
+    "actions": {
+      "top": {
+        "appliesTo": {
+          "resourceTypes": [],
+          "principalTypes": []
+        }
+      }
+    }
+  },
+  "Z::A": {
+    "entityTypes": {
+      "Q": {}
+    },
+    "actions": {}
+  },
+  "B": {
+    "entityTypes": {
+      "Q": {}
+    },
+    "actions": {}
+  },
+  "A::B": {
+    "entityTypes": {},
+    "actions": {}
+  }
+}
