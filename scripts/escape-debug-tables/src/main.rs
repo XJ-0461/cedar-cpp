@@ -1,4 +1,4 @@
-// Writes source/model/EscapeDebugTables.cpp: the code point ranges that Rust's `str::escape_debug`
+// Writes lib/source/model/EscapeDebugTables.cpp: the code point ranges that Rust's `str::escape_debug`
 // writes as `\u{...}`, read off the running toolchain's own implementation. "Always" ranges are
 // escaped at any position; "leading" ranges (grapheme extenders) only as the first character.
 use std::fmt::Write;

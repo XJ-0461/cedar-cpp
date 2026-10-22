@@ -42,61 +42,61 @@ include(Dependencies)
 # ---- Library ----
 
 add_library(cedar
-    source/entities/Conformance.cpp
-    source/entities/Entities.cpp
-    source/entities/TransitiveClosure.cpp
-    source/evaluation/Authorizer.cpp
-    source/evaluation/Evaluator.cpp
-    source/evaluation/Operators.cpp
-    source/evaluation/ScopeIndex.cpp
-    source/extensions/ExtensionCalls.cpp
-    source/json/ContextJson.cpp
-    source/json/EntityJson.cpp
-    source/json/JsonReader.cpp
-    source/json/JsonWriter.cpp
-    source/json/PartialEntityJson.cpp
-    source/json/PolicyJson.cpp
-    source/json/ValueJson.cpp
-    source/model/Diagnostic.cpp
-    source/model/Errors.cpp
-    source/model/EscapeDebug.cpp
-    source/model/EscapeDebugTables.cpp
-    source/model/FuzzyMatch.cpp
-    source/model/Expression.cpp
-    source/model/Names.cpp
-    source/model/Policy.cpp
-    source/model/PolicySet.cpp
-    source/model/Request.cpp
-    source/model/SymbolTable.cpp
-    source/model/Value.cpp
-    source/partial-evaluation/BatchedAuthorizer.cpp
-    source/partial-evaluation/PartialAuthorizer.cpp
-    source/partial-evaluation/PartialEntities.cpp
-    source/partial-evaluation/PartialEvaluator.cpp
-    source/partial-evaluation/PartialRequest.cpp
-    source/partial-evaluation/PermissionQueries.cpp
-    source/partial-evaluation/Reauthorization.cpp
-    source/partial-evaluation/Residual.cpp
-    source/schema/SchemaCedarPrinter.cpp
-    source/schema/SchemaFragmentModel.cpp
-    source/schema/SchemaJsonReader.cpp
-    source/schema/SchemaJsonWriter.cpp
-    source/schema/SchemaLinker.cpp
-    source/schema/SchemaParser.cpp
-    source/schema/RequestValidation.cpp
-    source/schema/ValidatorSchema.cpp
-    source/syntax/Folding.cpp
-    source/syntax/Parser.cpp
-    source/syntax/Printer.cpp
-    source/validation/Capabilities.cpp
-    source/validation/LevelValidation.cpp
-    source/validation/Rbac.cpp
-    source/validation/RequestEnvironments.cpp
-    source/validation/StringChecks.cpp
-    source/validation/Typechecker.cpp
-    source/validation/Types.cpp
-    source/validation/UnicodeSecurityTables.cpp
-    source/validation/Validator.cpp
+    lib/source/entities/Conformance.cpp
+    lib/source/entities/Entities.cpp
+    lib/source/entities/TransitiveClosure.cpp
+    lib/source/evaluation/Authorizer.cpp
+    lib/source/evaluation/Evaluator.cpp
+    lib/source/evaluation/Operators.cpp
+    lib/source/evaluation/ScopeIndex.cpp
+    lib/source/extensions/ExtensionCalls.cpp
+    lib/source/json/ContextJson.cpp
+    lib/source/json/EntityJson.cpp
+    lib/source/json/JsonReader.cpp
+    lib/source/json/JsonWriter.cpp
+    lib/source/json/PartialEntityJson.cpp
+    lib/source/json/PolicyJson.cpp
+    lib/source/json/ValueJson.cpp
+    lib/source/model/Diagnostic.cpp
+    lib/source/model/Errors.cpp
+    lib/source/model/EscapeDebug.cpp
+    lib/source/model/EscapeDebugTables.cpp
+    lib/source/model/FuzzyMatch.cpp
+    lib/source/model/Expression.cpp
+    lib/source/model/Names.cpp
+    lib/source/model/Policy.cpp
+    lib/source/model/PolicySet.cpp
+    lib/source/model/Request.cpp
+    lib/source/model/SymbolTable.cpp
+    lib/source/model/Value.cpp
+    lib/source/partial-evaluation/BatchedAuthorizer.cpp
+    lib/source/partial-evaluation/PartialAuthorizer.cpp
+    lib/source/partial-evaluation/PartialEntities.cpp
+    lib/source/partial-evaluation/PartialEvaluator.cpp
+    lib/source/partial-evaluation/PartialRequest.cpp
+    lib/source/partial-evaluation/PermissionQueries.cpp
+    lib/source/partial-evaluation/Reauthorization.cpp
+    lib/source/partial-evaluation/Residual.cpp
+    lib/source/schema/SchemaCedarPrinter.cpp
+    lib/source/schema/SchemaFragmentModel.cpp
+    lib/source/schema/SchemaJsonReader.cpp
+    lib/source/schema/SchemaJsonWriter.cpp
+    lib/source/schema/SchemaLinker.cpp
+    lib/source/schema/SchemaParser.cpp
+    lib/source/schema/RequestValidation.cpp
+    lib/source/schema/ValidatorSchema.cpp
+    lib/source/syntax/Folding.cpp
+    lib/source/syntax/Parser.cpp
+    lib/source/syntax/Printer.cpp
+    lib/source/validation/Capabilities.cpp
+    lib/source/validation/LevelValidation.cpp
+    lib/source/validation/Rbac.cpp
+    lib/source/validation/RequestEnvironments.cpp
+    lib/source/validation/StringChecks.cpp
+    lib/source/validation/Typechecker.cpp
+    lib/source/validation/Types.cpp
+    lib/source/validation/UnicodeSecurityTables.cpp
+    lib/source/validation/Validator.cpp
 )
 add_library(cedar::cedar ALIAS cedar)
 
@@ -106,32 +106,32 @@ set_target_properties(cedar PROPERTIES CXX_EXTENSIONS OFF EXPORT_NAME cedar)
 # Every installed header, not a subset: a header missing from this list leaves the installed package
 # unable to compile any consumer that reaches it through the umbrella.
 set(CedarCpp_PublicHeaders
-    include/cedar/Authorizer.hpp
-    include/cedar/Cedar.hpp
-    include/cedar/Diagnostic.hpp
-    include/cedar/Entities.hpp
-    include/cedar/Errors.hpp
-    include/cedar/Expression.hpp
-    include/cedar/ExtensionValues.hpp
-    include/cedar/Json.hpp
-    include/cedar/Names.hpp
-    include/cedar/PartialEvaluation.hpp
-    include/cedar/Policy.hpp
-    include/cedar/PolicySet.hpp
-    include/cedar/Request.hpp
-    include/cedar/Schema.hpp
-    include/cedar/Syntax.hpp
-    include/cedar/Validator.hpp
-    include/cedar/Value.hpp
+    lib/include/cedar/Authorizer.hpp
+    lib/include/cedar/Cedar.hpp
+    lib/include/cedar/Diagnostic.hpp
+    lib/include/cedar/Entities.hpp
+    lib/include/cedar/Errors.hpp
+    lib/include/cedar/Expression.hpp
+    lib/include/cedar/ExtensionValues.hpp
+    lib/include/cedar/Json.hpp
+    lib/include/cedar/Names.hpp
+    lib/include/cedar/PartialEvaluation.hpp
+    lib/include/cedar/Policy.hpp
+    lib/include/cedar/PolicySet.hpp
+    lib/include/cedar/Request.hpp
+    lib/include/cedar/Schema.hpp
+    lib/include/cedar/Syntax.hpp
+    lib/include/cedar/Validator.hpp
+    lib/include/cedar/Value.hpp
 )
 target_sources(cedar
     PUBLIC
         FILE_SET HEADERS
-        BASE_DIRS include
+        BASE_DIRS lib/include
         FILES ${CedarCpp_PublicHeaders}
 )
 
-target_include_directories(cedar PRIVATE source)
+target_include_directories(cedar PRIVATE lib/source)
 
 # simdjson is an implementation detail: no public header names a simdjson type. For a static cedar the
 # link dependency still reaches consumers, which is why the package config finds simdjson again.

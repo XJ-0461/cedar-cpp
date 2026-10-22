@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Regenerates source/model/EscapeDebugTables.cpp from the Rust toolchain that built the reference
+# Regenerates lib/source/model/EscapeDebugTables.cpp from the Rust toolchain that built the reference
 # Cedar CLI, so cedar-cpp escapes entity ids and strings exactly as that CLI does.
 set -euo pipefail
 

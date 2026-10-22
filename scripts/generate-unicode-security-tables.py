@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Writes source/validation/UnicodeSecurityTables.cpp from the Rust crates the validator uses.
+"""Writes lib/source/validation/UnicodeSecurityTables.cpp from the Rust crates the validator uses.
 
 The string checks of Cedar's validator (`cedar-policy-core/src/validator/str_checks.rs`) call
 `unicode-security` for the General Security Profile (`identifier_allowed`) and for mixed-script

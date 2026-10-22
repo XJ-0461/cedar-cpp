@@ -2,8 +2,8 @@
 # when any file fails or has its validation skipped; without it, 0 whatever the results.
 add_executable(cedar-cpp-corpus-runner CorpusRunner.cpp)
 target_link_libraries(cedar-cpp-corpus-runner PRIVATE cedar::cedar)
-# The JsonTest descriptors are read with the internal JSON syntax tree (source/json).
-target_include_directories(cedar-cpp-corpus-runner PRIVATE "${PROJECT_SOURCE_DIR}/source")
+# The JsonTest descriptors are read with the internal JSON syntax tree (lib/source/json).
+target_include_directories(cedar-cpp-corpus-runner PRIVATE "${PROJECT_SOURCE_DIR}/lib/source")
 CedarCpp_SetWarnings(cedar-cpp-corpus-runner)
 
 # The hand-written tests, the DRT corpus and the regression cases must all pass, under both policy
@@ -30,8 +30,8 @@ endif()
 # partial-evaluation-oracle/src/main.rs, over cedar-cpp.
 add_executable(cedar-cpp-partial-evaluation-runner PartialEvaluationRunner.cpp)
 target_link_libraries(cedar-cpp-partial-evaluation-runner PRIVATE cedar::cedar)
-# Manifest lines are read with the internal JSON syntax tree (source/json).
-target_include_directories(cedar-cpp-partial-evaluation-runner PRIVATE "${PROJECT_SOURCE_DIR}/source")
+# Manifest lines are read with the internal JSON syntax tree (lib/source/json).
+target_include_directories(cedar-cpp-partial-evaluation-runner PRIVATE "${PROJECT_SOURCE_DIR}/lib/source")
 CedarCpp_SetWarnings(cedar-cpp-partial-evaluation-runner)
 
 # PartialEvaluation.Cases.<family>: the runner over partial-evaluation/<family>/cases.jsonl must
