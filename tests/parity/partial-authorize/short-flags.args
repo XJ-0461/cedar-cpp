@@ -1,0 +1,16 @@
+-p
+photos/policies.cedar
+-s
+photos/schema.cedarschema
+--entities
+photos/entities.json
+--principal-type
+User
+-a
+Action::"view"
+--resource-type
+Photo
+--principal-eid
+alice
+-c
+photos/context-mfa.json

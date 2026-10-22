@@ -10,6 +10,7 @@
 #include <cedar/ExtensionValues.hpp>
 #include <cedar/Json.hpp>
 #include <cedar/Names.hpp>
+#include <cedar/PartialEvaluation.hpp>
 #include <cedar/Policy.hpp>
 #include <cedar/PolicySet.hpp>
 #include <cedar/Request.hpp>

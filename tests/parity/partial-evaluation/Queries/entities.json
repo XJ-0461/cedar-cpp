@@ -1,0 +1,11 @@
+[
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"level": 5}, "parents": []},
+  {"uid": {"type": "User", "id": "bob"}, "attrs": {"level": 2}, "parents": []},
+  {"uid": {"type": "User", "id": "carol"}, "attrs": {"level": -1}, "parents": []},
+  {"uid": {"type": "User", "id": "erin"}, "attrs": {"level": 1}, "parents": []},
+  {"uid": {"type": "Admin", "id": "root"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Document", "id": "d1"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "isPublic": false, "locked": false}, "parents": []},
+  {"uid": {"type": "Document", "id": "d2"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "bob"}}, "isPublic": true, "locked": false}, "parents": []},
+  {"uid": {"type": "Document", "id": "d3"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "bob"}}, "isPublic": false, "locked": true}, "parents": []},
+  {"uid": {"type": "Document", "id": "d4"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "ghost"}}, "isPublic": false, "locked": false}, "parents": []}
+]

@@ -1,0 +1,12 @@
+[
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"level": 5}, "parents": [{"type": "Group", "id": "staff"}], "tags": {"clearance": "high", "team": "red"}},
+  {"uid": {"type": "User", "id": "bob"}, "attrs": {"level": 1}, "parents": [], "tags": {}},
+  {"uid": {"type": "User", "id": "carol"}, "attrs": {"level": -3}, "parents": [], "tags": {}},
+  {"uid": {"type": "User", "id": "dave"}, "attrs": {"level": 2000}, "parents": [], "tags": {}},
+  {"uid": {"type": "Admin", "id": "root"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Group", "id": "staff"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Document", "id": "doc1"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "isPublic": false}, "parents": []},
+  {"uid": {"type": "Document", "id": "doc2"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "bob"}}, "isPublic": true}, "parents": []},
+  {"uid": {"type": "Document", "id": "doc3"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "bob"}}, "isPublic": false}, "parents": []},
+  {"uid": {"type": "Folder", "id": "f1"}, "attrs": {}, "parents": []}
+]

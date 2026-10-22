@@ -22,6 +22,7 @@ namespace cedar
 
 class Entity;
 class Entities;
+class PartialEntity;
 class Schema;
 
 namespace detail
@@ -119,6 +120,7 @@ public:
 
 private:
     friend class Entity;
+    friend class PartialEntity;
     explicit EntityUidSetView(const std::span<const EntityUid> uids) noexcept : uids_{uids} {}
 
     std::span<const EntityUid> uids_;

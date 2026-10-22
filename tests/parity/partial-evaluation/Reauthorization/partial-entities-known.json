@@ -1,0 +1,5 @@
+[
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"level": 5}, "parents": [{"type": "Group", "id": "staff"}], "tags": {"clearance": "high"}},
+  {"uid": {"type": "Group", "id": "staff"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Document", "id": "doc1"}}
+]

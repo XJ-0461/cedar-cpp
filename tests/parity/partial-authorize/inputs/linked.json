@@ -1,0 +1,4 @@
+[
+  {"template_id": "owner-template", "link_id": "alice-a1", "args": {"?principal": "User::\"alice\"", "?resource": "Album::\"a1\""}},
+  {"template_id": "owner-template", "link_id": "bob-a1", "args": {"?principal": "User::\"bob\"", "?resource": "Album::\"a1\""}}
+]

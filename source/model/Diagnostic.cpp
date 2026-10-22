@@ -214,6 +214,8 @@ auto CodeName(DiagnosticCode code) noexcept -> std::string_view
     case DiagnosticCode::NullValue: return "entities.null-value";
     case DiagnosticCode::ReservedName: return "entities.reserved-name";
     case DiagnosticCode::UnsupportedEntityTags: return "entities.unsupported-entity-tags";
+    case DiagnosticCode::UnknownValueNotSupported: return "entities.unknown-value-not-supported";
+    case DiagnosticCode::JsonTypeMismatch: return "entities.json-type-mismatch";
     case DiagnosticCode::UnexpectedEntityAttribute: return "entities.unexpected-entity-attribute";
     case DiagnosticCode::UnexpectedEntityTag: return "entities.unexpected-entity-tag";
     case DiagnosticCode::MissingRequiredEntityAttribute: return "entities.missing-required-entity-attribute";
@@ -307,6 +309,28 @@ auto CodeName(DiagnosticCode code) noexcept -> std::string_view
     case DiagnosticCode::UnlinkedSlot: return "evaluation.unlinked-slot";
     case DiagnosticCode::ExtensionFunctionExecutionFailed: return "evaluation.extension-function-execution-failed";
     case DiagnosticCode::RecursionLimit: return "evaluation.recursion-limit";
+    case DiagnosticCode::UnexpectedAction: return "partial-evaluation.unexpected-action";
+    case DiagnosticCode::MismatchedActionAncestors: return "partial-evaluation.mismatched-action-ancestors";
+    case DiagnosticCode::AncestorValidation: return "partial-evaluation.ancestor-validation";
+    case DiagnosticCode::UndeclaredTypeWithData: return "partial-evaluation.undeclared-type-with-data";
+    case DiagnosticCode::NoMatchingRequestEnvironment: return "partial-evaluation.no-matching-request-environment";
+    case DiagnosticCode::PolicyValidation: return "partial-evaluation.policy-validation";
+    case DiagnosticCode::MissingTypeAnnotation: return "partial-evaluation.missing-type-annotation";
+    case DiagnosticCode::ResidualUnlinkedSlot: return "partial-evaluation.residual-unlinked-slot";
+    case DiagnosticCode::MissingEntity: return "partial-evaluation.missing-entity";
+    case DiagnosticCode::UnknownEntity: return "partial-evaluation.unknown-entity";
+    case DiagnosticCode::UnknownAttribute: return "partial-evaluation.unknown-attribute";
+    case DiagnosticCode::MismatchedAttribute: return "partial-evaluation.mismatched-attribute";
+    case DiagnosticCode::MismatchedAncestor: return "partial-evaluation.mismatched-ancestor";
+    case DiagnosticCode::UnknownTag: return "partial-evaluation.unknown-tag";
+    case DiagnosticCode::MismatchedTag: return "partial-evaluation.mismatched-tag";
+    case DiagnosticCode::InconsistentPrincipalType: return "partial-evaluation.inconsistent-principal-type";
+    case DiagnosticCode::InconsistentPrincipalEid: return "partial-evaluation.inconsistent-principal-eid";
+    case DiagnosticCode::InconsistentResourceType: return "partial-evaluation.inconsistent-resource-type";
+    case DiagnosticCode::InconsistentResourceEid: return "partial-evaluation.inconsistent-resource-eid";
+    case DiagnosticCode::InconsistentAction: return "partial-evaluation.inconsistent-action";
+    case DiagnosticCode::InconsistentContext: return "partial-evaluation.inconsistent-context";
+    case DiagnosticCode::InsufficientIterations: return "partial-evaluation.insufficient-iterations";
     }
     return "unknown";
 }

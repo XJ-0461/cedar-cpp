@@ -66,6 +66,21 @@ struct FieldLookup
     return &(*found)->value;
 }
 
+/// The extension function name Rust reads as its legacy partial-evaluation unknown.
+constexpr std::string_view UnknownFunction = "unknown";
+
+/// The refusal of a call to `unknown`, in every form and position a reader meets one.
+[[nodiscard]] auto UnknownNotSupported(const JsonNode& node) -> JsonReadError
+{
+    return ErrorAt(node, DiagnosticCode::UnknownValueNotSupported,
+                   "an `unknown` extension value is not supported in JSON input",
+                   "partial evaluation takes its unknowns from a partial request and partial entities");
+}
+
+/// Whether `node` is the escape Rust's `parse_as_unknown` reads ahead of any expected type: an
+/// object holding `{"__extn": {"fn": "unknown", ..}}`, other keys ignored.
+[[nodiscard]] auto IsUnknownEscape(const JsonNode& node, DuplicateKeys duplicates) -> bool;
+
 [[nodiscard]] auto ConvertCedarValue(const JsonNode& node, const DuplicateKeys duplicates, ValueArena& arena,
                                      const EntityTypeNames names) -> std::expected<Value, JsonReadError>
 {
@@ -113,6 +128,7 @@ struct FieldLookup
             return std::unexpected{ErrorAt(*escape.function, DiagnosticCode::InvalidEscapeValue,
                                            std::format("`{}` is not a valid extension function name", function))};
         }
+        if (function == UnknownFunction) { return std::unexpected{UnknownNotSupported(node)}; }
         std::vector<Value> arguments;
         const auto read = [&](const JsonNode& argument) -> std::expected<void, JsonReadError> {
             auto value = ConvertCedarValue(argument, duplicates, arena, names);
@@ -375,6 +391,7 @@ void EffectiveMembers(const JsonNode& object, const DuplicateKeys duplicates, st
 auto ReadCedarValue(const JsonNode& node, const DuplicateKeys duplicates, ValueArena& arena,
                     const EntityTypeNames names) -> std::expected<Value, JsonReadError>
 {
+    if (IsUnknownEscape(node, duplicates)) { return std::unexpected{UnknownNotSupported(node)}; }
     if (auto checked = CheckCedarNumbers(node, duplicates); !checked) { return std::unexpected{checked.error()}; }
     return ConvertCedarValue(node, duplicates, arena, names);
 }
@@ -467,6 +484,21 @@ struct FunctionAndArguments
     return std::nullopt;
 }
 
+auto IsUnknownEscape(const JsonNode& node, const DuplicateKeys duplicates) -> bool
+{
+    if (!node.IsObject()) { return false; }
+    // Rust's untagged `ExtnValueJson` tries the `__expr` escape first.
+    if (const JsonNode* expression = ValueField(node, "__expr", duplicates);
+        expression != nullptr && expression->IsString())
+    {
+        return false;
+    }
+    const JsonNode* escaped = ValueField(node, "__extn", duplicates);
+    if (escaped == nullptr) { return false; }
+    const auto call = ReadFunctionAndArguments(*escaped, duplicates);
+    return call && call->function->text == UnknownFunction;
+}
+
 [[nodiscard]] auto ReadTypedExtension(const JsonNode& node, ValueKind kind, DuplicateKeys duplicates, ValueArena& arena,
                                       EntityTypeNames names) -> std::expected<Value, JsonReadError>;
 
@@ -481,6 +513,7 @@ struct FunctionAndArguments
         return std::unexpected{ErrorAt(function, DiagnosticCode::InvalidEscapeValue,
                                        std::format("`{}` is not a valid extension function name", name))};
     }
+    if (name == UnknownFunction) { return std::unexpected{UnknownNotSupported(node)}; }
     const ExtensionCall* call = FindExtensionCall(name);
     if (call == nullptr)
     {
@@ -573,7 +606,7 @@ auto ReadTypedExtension(const JsonNode& node, const ValueKind kind, const Duplic
 
 [[nodiscard]] auto TypeMismatch(const JsonNode& node, const Type& expected) -> JsonReadError
 {
-    return ErrorAt(node, DiagnosticCode::TypeMismatch,
+    return ErrorAt(node, DiagnosticCode::JsonTypeMismatch,
                    std::format("expected a value of type `{}`, but got `{}`", ToString(expected), DescribeJson(node)));
 }
 
@@ -582,6 +615,7 @@ auto ReadTypedExtension(const JsonNode& node, const ValueKind kind, const Duplic
 auto ReadTypedCedarValue(const JsonNode& node, const Type& expected, const DuplicateKeys duplicates, ValueArena& arena,
                          const EntityTypeNames names) -> std::expected<Value, JsonReadError>
 {
+    if (IsUnknownEscape(node, duplicates)) { return std::unexpected{UnknownNotSupported(node)}; }
     if (std::holds_alternative<types::Entity>(expected.kind))
     {
         auto uid = ReadEntityUidJson(node, duplicates, names);

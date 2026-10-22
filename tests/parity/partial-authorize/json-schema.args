@@ -1,0 +1,16 @@
+--policies
+photos/policies.cedar
+--schema
+photos/schema.cedarschema.json
+--schema-format
+json
+--entities
+photos/entities.json
+--principal-type
+User
+--action
+Action::"view"
+--resource-type
+Photo
+--principal-eid
+alice

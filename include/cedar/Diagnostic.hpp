@@ -72,9 +72,9 @@ enum class Severity : std::uint8_t
 ///
 /// Areas: parse 1000-1999 (policy text, policy JSON, generic JSON), policy set and linking
 /// 2000-2999, entities 3000-3999, schema 4000-4999, validation 5000-5999 (errors 50xx, warnings
-/// 51xx), request and context 6000-6999, evaluation 7000-7999. Each Rust error kind maps to one
-/// code; where Rust has the same condition under two enums (for example the escape errors reached
-/// from both the policy and schema parsers) both map to the one code.
+/// 51xx), request and context 6000-6999, evaluation 7000-7999, partial evaluation 8000-8999. Each
+/// Rust error kind maps to one code; where Rust has the same condition under two enums (for example
+/// the escape errors reached from both the policy and schema parsers) both map to the one code.
 enum class DiagnosticCode : std::uint16_t
 {
     // ---- Parse: lexical and syntactic, for both the policy and the schema grammar ----
@@ -182,11 +182,13 @@ enum class DiagnosticCode : std::uint16_t
     EntityAttributeEvaluation = 3109,
     UnexpectedRecordAttribute = 3110,
     MissingRequiredRecordAttribute = 3111,
-    TypeMismatch = 3112,            ///< Also conformance `TypeMismatch`.
+    TypeMismatch = 3112,            ///< Conformance `TypeMismatch`: a value without its declared type.
     ExpressionTag = 3113,           ///< Rust `ExprTag`: an `__expr` escape.
     NullValue = 3114,
     ReservedName = 3115,
     UnsupportedEntityTags = 3116,
+    UnknownValueNotSupported = 3117, ///< A call to `unknown`, Rust's legacy partial-evaluation unknown.
+    JsonTypeMismatch = 3118, ///< Rust `JsonDeserializationError::TypeMismatch`: the JSON form misses the type.
 
     // ---- Entities: schema conformance (core/src/entities/conformance/err.rs) ----
     UnexpectedEntityAttribute = 3201,
@@ -300,6 +302,48 @@ enum class DiagnosticCode : std::uint16_t
     UnlinkedSlot = 7009,
     ExtensionFunctionExecutionFailed = 7010,
     RecursionLimit = 7011,
+
+    // ---- Partial evaluation (core/src/tpe/err.rs, then batched_evaluator/err.rs), in file order ----
+    // A Rust variant that wraps an error with a code of its own reports that code: IncompleteSchema
+    // 5017, the concrete entity JSON, conformance, duplicate and transitive-closure errors 3xxx,
+    // request validation 60xx, and restricted-expression evaluation 70xx. The variants about an
+    // unknown inside a concrete request, context, entity or policy (`PartialRequestError`,
+    // `PartialValueToValue`, `UnknownNotSupported`, the four `RequestConsistencyError::Unknown*` and
+    // `ConcreteContextContainsUnknowns`) have no code, because no cedar-cpp value or policy can
+    // hold an unknown. Nor does `ErrorNotSupported`: it is about the tolerant parser's error nodes,
+    // which cedar-cpp does not build (a residual `error()` is an ordinary extension call).
+
+    // Partial entities (JsonDeserializationError, EntityValidationError, AncestorValidationError).
+    UnexpectedAction = 8001,             ///< An action entity in partial entities JSON.
+    MismatchedActionAncestors = 8002,
+    AncestorValidation = 8003,           ///< An entity's known ancestor has unknown ancestors.
+    UndeclaredTypeWithData = 8004,       ///< Partial entity JSON with attributes or tags for an undeclared type.
+
+    // Partial authorization (TpeError, ExprToResidualError).
+    NoMatchingRequestEnvironment = 8101,
+    PolicyValidation = 8102,             ///< Followed by the validator's diagnostics for the policy.
+    MissingTypeAnnotation = 8103,
+    ResidualUnlinkedSlot = 8104,
+
+    // Reauthorization: entities (EntitiesConsistencyError, EntityConsistencyError).
+    MissingEntity = 8201,
+    UnknownEntity = 8202,
+    UnknownAttribute = 8203,
+    MismatchedAttribute = 8204,
+    MismatchedAncestor = 8205,
+    UnknownTag = 8206,
+    MismatchedTag = 8207,
+
+    // Reauthorization: the request (RequestConsistencyError).
+    InconsistentPrincipalType = 8301,
+    InconsistentPrincipalEid = 8302,
+    InconsistentResourceType = 8303,
+    InconsistentResourceEid = 8304,
+    InconsistentAction = 8305,
+    InconsistentContext = 8306,
+
+    // Batched authorization (BatchedEvalError).
+    InsufficientIterations = 8401,
 };
 
 /// The stable dotted name of a code, `<area>.<kebab-case-kind>`, for example

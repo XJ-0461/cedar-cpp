@@ -1,0 +1,50 @@
+entity Group;
+
+entity Folder in [Folder];
+
+entity User in [Group] = {
+  name: String,
+  age: Long,
+  manager?: User,
+  profile: { level: Long, nick?: String },
+  roles: Set<String>,
+  ip: ipaddr,
+  balance: decimal,
+  limits: { max: decimal },
+  joined: datetime,
+  session: duration,
+} tags String;
+
+entity Admin in [Group] = {
+  name: String,
+};
+
+entity Doc in [Folder] = {
+  owner: User,
+  isPublic: Bool,
+  title: String,
+};
+
+action view appliesTo {
+  principal: [User, Admin],
+  resource: [Doc],
+  context: {
+    flag: Bool,
+    n: Long,
+    s: String,
+    addr: ipaddr,
+    amount: decimal,
+    at: datetime,
+    span: duration,
+    rec: { a: Long, b?: String },
+    groups: Set<Group>,
+    words: Set<String>,
+    opt?: Long,
+  }
+};
+
+action edit appliesTo {
+  principal: [User],
+  resource: [Folder],
+  context: {}
+};

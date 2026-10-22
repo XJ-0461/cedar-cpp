@@ -197,7 +197,15 @@ auto ExpressionBuilder::HasAttribute(const ExpressionIndex object, const std::sp
 {
     assert(!path.empty());
     CheckChild(object);
-    return Append(node::HasAttribute{object, AppendTexts(path)}, span);
+    return Append(node::HasAttribute{.object = object, .path = AppendTexts(path), .extended = path.size() > 1}, span);
+}
+
+auto ExpressionBuilder::ExtendedHasAttribute(const ExpressionIndex object, const std::span<const std::string_view> path,
+                                             const OptionalSpan span) -> ExpressionIndex
+{
+    assert(!path.empty());
+    CheckChild(object);
+    return Append(node::HasAttribute{.object = object, .path = AppendTexts(path), .extended = true}, span);
 }
 
 auto ExpressionBuilder::Like(const ExpressionIndex operand, const std::span<const std::string_view> literals,

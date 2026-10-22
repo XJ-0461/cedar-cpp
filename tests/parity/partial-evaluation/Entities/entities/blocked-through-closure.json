@@ -1,0 +1,64 @@
+[
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "city": "Oslo"
+   },
+   "names": [
+    "a",
+    "b"
+   ]
+  },
+  "parents": [
+   {
+    "type": "Group",
+    "id": "mid"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "Group",
+   "id": "mid"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "Group",
+    "id": "blocked"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "Group",
+   "id": "blocked"
+  },
+  "attrs": {},
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "Doc",
+   "id": "d1"
+  },
+  "attrs": {
+   "owner": {
+    "__entity": {
+     "type": "User",
+     "id": "bob"
+    }
+   }
+  },
+  "parents": [],
+  "tags": {
+   "k": "v"
+  }
+ }
+]

@@ -1,0 +1,4 @@
+entity User { level: Long };
+entity Document;
+action all;
+action read in [all] appliesTo { principal: [User], resource: [Document] };

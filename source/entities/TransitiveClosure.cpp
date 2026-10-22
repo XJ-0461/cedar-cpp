@@ -68,65 +68,18 @@ auto FindInTable(const EntityTable& table, const EntityUid& uid) noexcept -> con
 auto RepairClosure(const EntityTable& table, const std::span<Entity* const> nodes, const bool enforceAcyclic)
     -> std::expected<void, EntitiesError>
 {
-    enum class State : std::uint8_t
-    {
-        Unvisited,
-        InProgress,
-        Done,
-    };
     std::unordered_map<const Entity*, std::size_t> nodeIndex;
     nodeIndex.reserve(nodes.size());
     for (std::size_t index = 0; index < nodes.size(); ++index) { nodeIndex.emplace(nodes[index], index); }
-    std::vector<State> states(nodes.size(), State::Unvisited);
-
-    // An iterative depth-first walk over the nodes, so a long parent chain cannot exhaust the stack.
-    // A node is closed in post-order: once every ancestor that is itself a node is closed, the
-    // node's set is its current set plus each ancestor's set. A node met again while in progress is
-    // on a cycle; its partial set is used, and the cycle shows up as a node that is its own ancestor.
-    struct Frame
-    {
-        std::size_t node;
-        std::size_t nextAncestor;
-    };
-    std::vector<Frame> stack;
-    std::vector<EntityUid> merged;
-    for (std::size_t root = 0; root < nodes.size(); ++root)
-    {
-        if (states[root] != State::Unvisited) { continue; }
-        states[root] = State::InProgress;
-        stack.push_back({root, 0});
-        while (!stack.empty())
-        {
-            Frame& frame = stack.back();
-            Entity& entity = *nodes[frame.node];
-            const std::vector<EntityUid>& ancestors = EntityAccess::Ancestors(entity);
-            if (frame.nextAncestor < ancestors.size())
-            {
-                const Entity* const ancestor = FindInTable(table, ancestors[frame.nextAncestor++]);
-                if (ancestor == nullptr) { continue; }
-                const auto found = nodeIndex.find(ancestor);
-                if (found != nodeIndex.end() && states[found->second] == State::Unvisited)
-                {
-                    states[found->second] = State::InProgress;
-                    stack.push_back({found->second, 0});
-                }
-                continue;
-            }
-            merged.assign(ancestors.begin(), ancestors.end());
-            for (const EntityUid& uid : ancestors)
-            {
-                if (const Entity* const ancestor = FindInTable(table, uid); ancestor != nullptr)
-                {
-                    const std::vector<EntityUid>& inherited = EntityAccess::Ancestors(*ancestor);
-                    merged.insert(merged.end(), inherited.begin(), inherited.end());
-                }
-            }
-            SortUidSet(merged);
-            EntityAccess::Ancestors(entity).swap(merged);
-            states[frame.node] = State::Done;
-            stack.pop_back();
-        }
-    }
+    CloseAncestorSets(
+        nodes.size(), [&](const std::size_t node) -> std::vector<EntityUid>& { return EntityAccess::Ancestors(*nodes[node]); },
+        [&](const EntityUid& uid) -> AncestorLookup {
+            const Entity* const ancestor = FindInTable(table, uid);
+            if (ancestor == nullptr) { return {}; }
+            const auto found = nodeIndex.find(ancestor);
+            return AncestorLookup{.ancestors = &EntityAccess::Ancestors(*ancestor),
+                                  .node = found == nodeIndex.end() ? std::nullopt : std::optional{found->second}};
+        });
 
     if (enforceAcyclic)
     {

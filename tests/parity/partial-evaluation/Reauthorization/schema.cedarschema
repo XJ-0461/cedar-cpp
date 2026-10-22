@@ -1,0 +1,34 @@
+entity Group;
+
+entity User in [Group] {
+  "level": Long,
+} tags String;
+
+entity Admin;
+
+entity Document {
+  "owner": User,
+  "isPublic": Bool,
+};
+
+entity Folder;
+
+entity Color enum ["red", "blue"];
+
+action View appliesTo {
+  principal: [User, Admin],
+  resource: [Document, Folder],
+  context: {
+    "hasMFA": Bool,
+  }
+};
+
+action Edit appliesTo {
+  principal: [User, Admin],
+  resource: [Document, Folder],
+};
+
+action Paint appliesTo {
+  principal: [User],
+  resource: [Color],
+};

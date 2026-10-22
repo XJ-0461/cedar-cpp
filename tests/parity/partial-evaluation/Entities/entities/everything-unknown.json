@@ -1,0 +1,14 @@
+[
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  }
+ },
+ {
+  "uid": {
+   "type": "Doc",
+   "id": "d1"
+  }
+ }
+]

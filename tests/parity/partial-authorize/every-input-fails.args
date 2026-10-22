@@ -1,0 +1,8 @@
+--policies
+inputs/invalid-syntax.cedar
+--schema
+photos/schema.cedarschema
+--entities
+inputs/entities-not-json.json
+--action
+Action::"view"

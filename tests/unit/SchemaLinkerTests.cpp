@@ -116,8 +116,9 @@ TEST(SchemaLinker, MatchesTheOracleOnEveryParityCase)
     ExpectOracleAgreement(cases, directory + "/");
 }
 
-// A table over schema files outside the repository, written with absolute paths by the same
-// script. Run with CEDAR_SCHEMA_LINK_SWEEP_TABLE set to the table.
+// A table over the same generated corpus of schema fragments, written with absolute paths by the
+// same script. CEDAR_SCHEMA_LINK_SWEEP_TABLE names the table; the build sets it when the reference
+// checkout is configured.
 TEST(SchemaLinker, MatchesTheOracleOnTheSweepTable)
 {
     const char* table = std::getenv("CEDAR_SCHEMA_LINK_SWEEP_TABLE");

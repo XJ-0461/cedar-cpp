@@ -1,0 +1,27 @@
+entity Group in [Group];
+
+entity User in [Group] {
+  level: Long,
+} tags User;
+
+entity Folder in [Folder] {
+  owner: User,
+};
+
+entity Document in [Folder] {
+  owner: User,
+  folder: Folder,
+};
+
+entity Color enum ["red", "blue"];
+
+action read appliesTo {
+  principal: [User],
+  resource: [Document],
+  context: { mfa: Bool },
+};
+
+action paint appliesTo {
+  principal: [User],
+  resource: [Color],
+};

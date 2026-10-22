@@ -14,7 +14,9 @@
 #include <vector>
 
 // Subtyping and least upper bounds in both modes, read off cedar-policy-core/src/validator/types.rs
-// (`is_subtype`, `least_upper_bound` and their test module).
+// (`is_subtype`, `least_upper_bound` and their test module), and the type and schema predicates of
+// partial evaluation, read off `has_declared_entity_types`, `may_have_tags`,
+// `as_set_or_entity_lub` (types.rs) and `any_descendent_of` (schema.rs).
 
 namespace
 {
@@ -217,6 +219,174 @@ TEST(ValidatorTypes, LooksUpEntityAttributesInTheSchema)
         cedar::detail::EntityUidLiteralType(cedar::EntityUid::Create("Action", "edit").value(), schema).has_value());
     EXPECT_FALSE(
         cedar::detail::EntityUidLiteralType(cedar::EntityUid::Create("undeclared", "x").value(), schema).has_value());
+}
+
+// Entity type hierarchy User < Group < Org, Doc and Tagged with tags, an enumerated type, and an
+// action hierarchy in which Action::"write" is in Other::Action::"act", so Action is below
+// Other::Action but not the reverse.
+constexpr std::string_view PredicateSchema = R"(
+    entity Org;
+    entity Group in [Org];
+    entity User in [Group];
+    entity Folder;
+    entity Doc tags String;
+    entity Tagged tags Long;
+    entity Color enum ["red"];
+    namespace Other { action act; }
+    action read;
+    action write in [read, Other::Action::"act"];
+)";
+
+auto PredicateValidatorSchema() -> const cedar::detail::ValidatorSchema&
+{
+    static const cedar::Schema schema = cedar::ParseSchema(PredicateSchema).value().value;
+    return cedar::detail::SchemaAccess::Validator(schema);
+}
+
+auto PermissiveLub(const Type& left, const Type& right) -> Type
+{
+    return cedar::detail::LeastUpperBound(left, right, Permissive).value();
+}
+
+auto OpenRecord() -> Type { return Record({{"a", Long()}}, OpenTag::OpenAttributes); }
+
+struct PredicateRow
+{
+    const char* label;
+    Type type;
+    bool expected;
+};
+
+TEST(ValidatorTypes, HasDeclaredEntityTypes)
+{
+    const std::vector<PredicateRow> rows{
+        {"Long is not an entity", Long(), true},
+        {"Never is not an entity", cedar::detail::NeverType(), true},
+        {"any entity is not a named union", cedar::detail::AnyEntityType(), true},
+        {"a set of an undeclared type is a set", Set(Entity("Undeclared")), true},
+        {"closed record", Record({{"a", Long()}}), true},
+        {"open record", OpenRecord(), true},
+        {"declared type", Entity("User"), true},
+        {"enumerated type", Entity("Color"), true},
+        {"union of declared types", Union("User", "Doc"), true},
+        {"permissive lub of declared types", PermissiveLub(Entity("Group"), Entity("Folder")), true},
+        {"undeclared type", Entity("Undeclared"), false},
+        {"union with an undeclared type", Union("User", "Undeclared"), false},
+        {"permissive lub with an undeclared type", PermissiveLub(Entity("Undeclared"), Entity("Doc")), false},
+        {"action type", Entity("Action"), false},
+        {"union with an action type", Union("User", "Action"), false},
+    };
+    for (const PredicateRow& row : rows)
+    {
+        EXPECT_EQ(cedar::detail::HasDeclaredEntityTypes(PredicateValidatorSchema(), row.type), row.expected)
+            << row.label;
+    }
+}
+
+TEST(ValidatorTypes, MayHaveTags)
+{
+    const std::vector<PredicateRow> rows{
+        {"Long is assumed to", Long(), true},
+        {"String is assumed to", String(), true},
+        {"Never is assumed to", cedar::detail::NeverType(), true},
+        {"any entity is assumed to", cedar::detail::AnyEntityType(), true},
+        {"a set of a tagless type is assumed to", Set(Entity("User")), true},
+        {"closed record is assumed to", Record({}), true},
+        {"open record is assumed to", OpenRecord(), true},
+        {"type declaring tags", Entity("Doc"), true},
+        {"type declaring other tags", Entity("Tagged"), true},
+        {"type declaring no tags", Entity("User"), false},
+        {"enumerated type", Entity("Color"), false},
+        {"undeclared type counts as no tags", Entity("Undeclared"), false},
+        {"action type", Entity("Action"), false},
+        {"union with one tagged type", Union("User", "Doc"), true},
+        {"union with an undeclared and a tagged type", Union("Undeclared", "Doc"), true},
+        {"union of tagless types", Union("User", "Folder"), false},
+        {"permissive lub with a tagged type", PermissiveLub(Entity("Folder"), Entity("Tagged")), true},
+        {"permissive lub of tagless types", PermissiveLub(Entity("Org"), Entity("Color")), false},
+    };
+    for (const PredicateRow& row : rows)
+    {
+        EXPECT_EQ(cedar::detail::MayHaveTags(PredicateValidatorSchema(), row.type), row.expected) << row.label;
+    }
+}
+
+TEST(ValidatorTypes, AsSetOrEntityLub)
+{
+    struct LubRow
+    {
+        const char* label;
+        Type type;
+        /// The entity union as ToString prints it; empty for none.
+        std::string expected;
+    };
+    const std::vector<LubRow> rows{
+        {"entity type", Entity("User"), "User"},
+        {"entity union", Union("User", "Doc"), "Doc | User"},
+        {"set of an entity type", Set(Entity("User")), "User"},
+        {"set of an entity union", Set(Union("Group", "Doc")), "Doc | Group"},
+        {"permissive lub of sets of entities", PermissiveLub(Set(Entity("User")), Set(Entity("Org"))), "Org | User"},
+        {"any entity", cedar::detail::AnyEntityType(), ""},
+        {"set of any entity", Set(cedar::detail::AnyEntityType()), ""},
+        {"any set", cedar::detail::AnySetType(), ""},
+        {"set of a set of entities", Set(Set(Entity("User"))), ""},
+        {"set of Long", Set(Long()), ""},
+        {"set of Never", Set(cedar::detail::NeverType()), ""},
+        {"Long", Long(), ""},
+        {"Never", cedar::detail::NeverType(), ""},
+        {"closed record", Record({{"a", Entity("User")}}), ""},
+        {"open record", OpenRecord(), ""},
+    };
+    for (const LubRow& row : rows)
+    {
+        const EntityLub* lub = cedar::detail::AsSetOrEntityLub(row.type);
+        const std::string actual = lub != nullptr ? cedar::detail::ToString(Type{types::Entity{*lub}}) : "";
+        EXPECT_EQ(actual, row.expected) << row.label;
+    }
+}
+
+TEST(ValidatorTypes, AnyDescendantOf)
+{
+    struct DescendantRow
+    {
+        const char* label;
+        Type left;
+        Type right;
+        bool expected;
+    };
+    const std::vector<DescendantRow> rows{
+        {"a type is below itself", Entity("User"), Entity("User"), true},
+        {"a type without parents is below itself", Entity("Folder"), Entity("Folder"), true},
+        {"an undeclared type is below itself", Entity("Undeclared"), Entity("Undeclared"), true},
+        {"declared parent", Entity("User"), Entity("Group"), true},
+        {"transitive ancestor", Entity("User"), Entity("Org"), true},
+        {"child is not above its parent", Entity("Group"), Entity("User"), false},
+        {"unrelated types", Entity("Doc"), Entity("Folder"), false},
+        {"undeclared below declared", Entity("Undeclared"), Entity("Group"), false},
+        {"declared below undeclared", Entity("Group"), Entity("Undeclared"), false},
+        {"action type below itself", Entity("Action"), Entity("Action"), true},
+        {"action type below the type of an ancestor action", Entity("Action"), Entity("Other::Action"), true},
+        {"action type above the type of a descendant action", Entity("Other::Action"), Entity("Action"), false},
+        {"entity type below an action type", Entity("User"), Entity("Action"), false},
+        {"action type below an entity type", Entity("Action"), Entity("Group"), false},
+        {"left union, one member below", Union("Doc", "User"), Entity("Org"), true},
+        {"right union, one member above", Entity("Group"), Union("Doc", "Org"), true},
+        {"unions, some pair related", Union("Doc", "User"), Union("Folder", "Org"), true},
+        {"unions, no pair related", Union("Doc", "Folder"), Union("Group", "User"), false},
+        {"right is a set of the parent", Entity("User"), Set(Entity("Group")), true},
+        {"right is a set of a child", Entity("Org"), Set(Entity("Group")), false},
+        {"right is a permissive lub of sets", Entity("Group"),
+         PermissiveLub(Set(Entity("Doc")), Set(Entity("Org"))), true},
+        {"left is a permissive lub of entities", PermissiveLub(Entity("Doc"), Entity("Folder")), Entity("Org"), false},
+    };
+    for (const DescendantRow& row : rows)
+    {
+        const EntityLub* left = cedar::detail::AsEntityLub(row.left);
+        const EntityLub* right = cedar::detail::AsSetOrEntityLub(row.right);
+        ASSERT_NE(left, nullptr) << row.label;
+        ASSERT_NE(right, nullptr) << row.label;
+        EXPECT_EQ(PredicateValidatorSchema().AnyDescendantOf(*left, *right), row.expected) << row.label;
+    }
 }
 
 } // namespace

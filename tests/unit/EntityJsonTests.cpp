@@ -153,13 +153,32 @@ TEST(EntityJson, ReportsTheCondition)
 
 // Rust reads an `__extn` escape calling `unknown` as an unknown value for partial evaluation when it
 // is an attribute's whole value (`ValueParser::val_into_restricted_expr`, `parse_as_unknown`).
-// cedar-cpp has no partial evaluation, so `unknown` is an extension function that does not exist.
+// cedar-cpp takes unknowns only from partial requests and partial entities, and refuses the call.
 TEST(EntityJson, RefusesUnknownValues)
 {
     const auto entities = cedar::EntitiesFromJson(
         R"([{"uid": {"type": "A", "id": "b"}, "parents": [], "attrs": {"x": {"__extn": {"fn": "unknown", "arg": "u"}}}}])");
     ASSERT_FALSE(entities);
-    EXPECT_EQ(entities.error().Primary().code, cedar::DiagnosticCode::EntityAttributeEvaluation);
+    EXPECT_EQ(entities.error().Primary().code, cedar::DiagnosticCode::UnknownValueNotSupported);
+
+    // Nested, in a set, in the multiple-argument form, with other keys beside the escape, and in an
+    // untyped context.
+    for (const char* attrs : {R"({"x": {"y": {"__extn": {"fn": "unknown", "arg": "u"}}}})",
+                              R"({"x": [{"__extn": {"fn": "unknown", "args": ["u"]}}]})",
+                              R"({"x": {"__extn": {"fn": "unknown", "arg": "u"}, "other": 1}})"})
+    {
+        SCOPED_TRACE(attrs);
+        const auto nested = cedar::EntitiesFromJson(
+            std::string{R"([{"uid": {"type": "A", "id": "b"}, "parents": [], "attrs": )"} + attrs + "}]");
+        ASSERT_FALSE(nested);
+        EXPECT_EQ(nested.error().Primary().code, cedar::DiagnosticCode::UnknownValueNotSupported);
+    }
+    const auto context = cedar::ContextFromJson(R"({"a": {"__extn": {"fn": "unknown", "arg": "u"}}})");
+    ASSERT_FALSE(context);
+    EXPECT_EQ(context.error().Primary().code, cedar::DiagnosticCode::UnknownValueNotSupported);
+    const auto whole = cedar::ContextFromJson(R"({"__extn": {"fn": "unknown", "arg": "u"}})");
+    ASSERT_FALSE(whole);
+    EXPECT_EQ(whole.error().Primary().code, cedar::DiagnosticCode::UnknownValueNotSupported);
 }
 
 // Rust's readers take `&str`, so their input is UTF-8 by type; ours checks it, everywhere in the

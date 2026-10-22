@@ -378,6 +378,24 @@ auto AsSetOrEntityLub(const Type& type) noexcept -> const EntityLub*
     return AsEntityLub(type);
 }
 
+auto HasDeclaredEntityTypes(const ValidatorSchema& schema, const Type& type) noexcept -> bool
+{
+    const EntityLub* lub = AsEntityLub(type);
+    return lub == nullptr || std::ranges::all_of(lub->Types(), [&](const EntityType& member)
+                                                 { return schema.FindEntityType(member) != nullptr; });
+}
+
+auto MayHaveTags(const ValidatorSchema& schema, const Type& type) noexcept -> bool
+{
+    const EntityLub* lub = AsEntityLub(type);
+    return lub == nullptr || std::ranges::any_of(lub->Types(),
+                                                 [&](const EntityType& member)
+                                                 {
+                                                     const ValidatorEntityType* declared = schema.FindEntityType(member);
+                                                     return declared != nullptr && declared->tags.has_value();
+                                                 });
+}
+
 auto EntityAttributeTypes(const EntityLub& lub, const ValidatorSchema& schema) -> Attributes
 {
     const std::span<const EntityType> members = lub.Types();

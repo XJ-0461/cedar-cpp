@@ -1,0 +1,10 @@
+[
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"department": "eng", "level": 5}, "parents": [{"type": "Group", "id": "admins"}]},
+  {"uid": {"type": "User", "id": "bob"}},
+  {"uid": {"type": "User", "id": "carol"}, "attrs": {"department": "ops", "level": 1, "manager": {"type": "User", "id": "alice"}}, "parents": []},
+  {"uid": {"type": "Group", "id": "admins"}, "parents": []},
+  {"uid": {"type": "Photo", "id": "p1"}, "attrs": {"owner": {"type": "User", "id": "alice"}, "isPublic": false, "labels": []}, "parents": [], "tags": {"x": "y"}},
+  {"uid": {"type": "Photo", "id": "p2"}, "attrs": {"owner": {"type": "User", "id": "bob"}, "isPublic": true, "labels": ["a"]}, "parents": [{"type": "Album", "id": "a1"}]},
+  {"uid": {"type": "Photo", "id": "p3"}},
+  {"uid": {"type": "Album", "id": "a1"}, "parents": []}
+]

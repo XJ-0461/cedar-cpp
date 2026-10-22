@@ -321,8 +321,22 @@ enum class LubHelp : std::uint8_t
     return entity != nullptr ? &entity->lub : nullptr;
 }
 
-/// AsEntityLub of `type`, or of its element type when it is a set.
+/// AsEntityLub of `type`, or of its element type when it is a set with a known element type
+/// (Rust's `Type::as_set_or_entity_lub`). Null for any entity, a set of any entity, any set and
+/// every other type.
 [[nodiscard]] auto AsSetOrEntityLub(const Type& type) noexcept -> const EntityLub*;
+
+/// Whether every entity type a value of `type` could have is declared as an entity type in
+/// `schema` (Rust's `Type::has_declared_entity_types`). True for every type but a named entity
+/// type union. False for an action type, which is declared as an action rather than as an entity
+/// type, so MayHaveAttribute and MayHaveTags report it as having no attributes and no tags.
+[[nodiscard]] auto HasDeclaredEntityTypes(const ValidatorSchema& schema, const Type& type) noexcept -> bool;
+
+/// Whether a value of `type` could have any tags according to `schema` (Rust's
+/// `Type::may_have_tags`). False only for a named entity type union none of whose types declares
+/// tags; an undeclared type counts as declaring none, so a caller that must not rely on that also
+/// checks HasDeclaredEntityTypes. True for every other type, any entity included.
+[[nodiscard]] auto MayHaveTags(const ValidatorSchema& schema, const Type& type) noexcept -> bool;
 
 /// The attributes an entity of one of `lub`'s types has: a single type's from the schema (none
 /// when the schema does not declare it, as for action types), several types' as their permissive

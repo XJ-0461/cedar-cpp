@@ -26,6 +26,81 @@ if(NOT CedarCpp_IntegrationTestsDirectory STREQUAL "")
     endforeach()
 endif()
 
+# The partial-evaluation runner: the manifest and output contract of
+# partial-evaluation-oracle/src/main.rs, over cedar-cpp.
+add_executable(cedar-cpp-partial-evaluation-runner PartialEvaluationRunner.cpp)
+target_link_libraries(cedar-cpp-partial-evaluation-runner PRIVATE cedar::cedar)
+# Manifest lines are read with the internal JSON syntax tree (source/json).
+target_include_directories(cedar-cpp-partial-evaluation-runner PRIVATE "${PROJECT_SOURCE_DIR}/source")
+CedarCpp_SetWarnings(cedar-cpp-partial-evaluation-runner)
+
+# PartialEvaluation.Cases.<family>: the runner over partial-evaluation/<family>/cases.jsonl must
+# write partial-evaluation/<family>/expected.jsonl byte for byte.
+function(CedarCpp_AddPartialEvaluationCases family)
+    set(directory "${CMAKE_CURRENT_SOURCE_DIR}/partial-evaluation/${family}")
+    add_test(NAME PartialEvaluation.Cases.${family}
+        COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/PartialEvaluationDiff.sh"
+            --runner "$<TARGET_FILE:cedar-cpp-partial-evaluation-runner>"
+            --expected "${directory}/expected.jsonl"
+            --manifest "${directory}/cases.jsonl"
+    )
+    set_tests_properties(PartialEvaluation.Cases.${family} PROPERTIES ENVIRONMENT
+        "ASAN_OPTIONS=exitcode=86;UBSAN_OPTIONS=exitcode=86")
+endfunction()
+
+# PartialEvaluationDiff.Cases.<family>: the runner and the live oracle over the same manifest.
+# Registered only when CedarCpp_ReferencePartialEvaluationOracleExecutable is set.
+function(CedarCpp_AddPartialEvaluationDiff family)
+    if(CedarCpp_ReferencePartialEvaluationOracleExecutable STREQUAL "")
+        return()
+    endif()
+    add_test(NAME PartialEvaluationDiff.Cases.${family}
+        COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/PartialEvaluationDiff.sh"
+            --runner "$<TARGET_FILE:cedar-cpp-partial-evaluation-runner>"
+            --oracle "${CedarCpp_ReferencePartialEvaluationOracleExecutable}"
+            --manifest "${CMAKE_CURRENT_SOURCE_DIR}/partial-evaluation/${family}/cases.jsonl"
+    )
+    set_tests_properties(PartialEvaluationDiff.Cases.${family} PROPERTIES ENVIRONMENT
+        "ASAN_OPTIONS=exitcode=86;UBSAN_OPTIONS=exitcode=86")
+endfunction()
+
+CedarCpp_AddPartialEvaluationCases(Requests)
+CedarCpp_AddPartialEvaluationDiff(Requests)
+CedarCpp_AddPartialEvaluationCases(Entities)
+CedarCpp_AddPartialEvaluationDiff(Entities)
+CedarCpp_AddPartialEvaluationCases(Evaluation)
+CedarCpp_AddPartialEvaluationDiff(Evaluation)
+CedarCpp_AddPartialEvaluationCases(Errors)
+CedarCpp_AddPartialEvaluationDiff(Errors)
+CedarCpp_AddPartialEvaluationCases(Reauthorization)
+CedarCpp_AddPartialEvaluationDiff(Reauthorization)
+CedarCpp_AddPartialEvaluationCases(Batched)
+CedarCpp_AddPartialEvaluationDiff(Batched)
+CedarCpp_AddPartialEvaluationCases(Queries)
+CedarCpp_AddPartialEvaluationDiff(Queries)
+
+# PartialEvaluationDiff.Corpus.<Variant>: the runner and the live oracle over one manifest of the
+# partial-evaluation sweep derived from the integration corpus. Registered only when both
+# CedarCpp_IntegrationTestsDirectory and CedarCpp_ReferencePartialEvaluationOracleExecutable are set.
+if(NOT CedarCpp_IntegrationTestsDirectory STREQUAL ""
+    AND NOT CedarCpp_ReferencePartialEvaluationOracleExecutable STREQUAL "")
+    include(PartialEvaluationSweep)
+    set(partialEvaluationSweep "${CMAKE_CURRENT_BINARY_DIR}/partial-evaluation-sweep")
+    CedarCpp_GeneratePartialEvaluationSweep(cedar-cpp-partial-evaluation-sweep "${partialEvaluationSweep}")
+    foreach(variant IN ITEMS PrincipalUnknown ResourceUnknown ContextUnknown AllUnknown AttributesUnknown
+                             AncestorsUnknown TagsUnknown NoEntities QueryPrincipal QueryResource QueryAction)
+        add_test(NAME PartialEvaluationDiff.Corpus.${variant}
+            COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/PartialEvaluationDiff.sh"
+                --runner "$<TARGET_FILE:cedar-cpp-partial-evaluation-runner>"
+                --oracle "${CedarCpp_ReferencePartialEvaluationOracleExecutable}"
+                --manifest "${partialEvaluationSweep}/${variant}.jsonl"
+        )
+        set_tests_properties(PartialEvaluationDiff.Corpus.${variant} PROPERTIES
+            ENVIRONMENT "ASAN_OPTIONS=exitcode=86;UBSAN_OPTIONS=exitcode=86"
+            TIMEOUT 3600)
+    endforeach()
+endif()
+
 # Differential tests against the reference Rust CLI (OracleDiff.sh). Each is registered only when
 # cedar-cpp-cli is built and the paths it needs are set: CedarCpp_ReferenceCedarExecutable, and the
 # directory it reads.
@@ -98,6 +173,18 @@ CedarCpp_AddOracleDiffTest(OracleDiff.Validate.LevelCases validate "${CMAKE_CURR
 if(NOT CedarCpp_ReferencePermissiveCedarExecutable STREQUAL "")
     CedarCpp_AddOracleDiffTestAgainst(OracleDiff.ValidatePermissive.Cases "${CedarCpp_ReferencePermissiveCedarExecutable}"
         validate-permissive "${CMAKE_CURRENT_SOURCE_DIR}/validation")
+endif()
+
+# The `tpe` subcommand against a reference CLI built with the `tpe` feature: the crafted command
+# lines, and the CLI's tpe_rfc sample.
+if(NOT CedarCpp_ReferencePartialEvaluationCedarExecutable STREQUAL "")
+    CedarCpp_AddOracleDiffTestAgainst(OracleDiff.PartialEvaluation.Cases
+        "${CedarCpp_ReferencePartialEvaluationCedarExecutable}" tpe "${CMAKE_CURRENT_SOURCE_DIR}/partial-authorize")
+    if(NOT CedarCpp_ReferenceSourceDirectory STREQUAL "")
+        CedarCpp_AddOracleDiffTestAgainst(OracleDiff.PartialEvaluation.SampleData
+            "${CedarCpp_ReferencePartialEvaluationCedarExecutable}" tpe
+            "${CedarCpp_ReferenceSourceDirectory}/cedar-policy-cli/sample-data/tpe_rfc")
+    endif()
 endif()
 
 if(NOT CedarCpp_ReferenceSourceDirectory STREQUAL "")

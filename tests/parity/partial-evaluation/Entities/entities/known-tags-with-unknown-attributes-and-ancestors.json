@@ -1,0 +1,30 @@
+[
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "city": "Oslo"
+   },
+   "names": [
+    "a",
+    "b"
+   ]
+  },
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "Doc",
+   "id": "d1"
+  },
+  "tags": {
+   "k": "w",
+   "other": "x"
+  }
+ }
+]

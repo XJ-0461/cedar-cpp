@@ -1,3 +1,15 @@
+# The schema sweep tables, generated into this build directory, are what
+# `SchemaJson.MatchesTheOracleOnTheSweepTable` and `SchemaLinker.MatchesTheOracleOnTheSweepTable` run
+# when the reference CLI and checkout are set.
+set(schemaJsonSweepEnvironment "")
+set(schemaLinkSweepEnvironment "")
+if(NOT CedarCpp_ReferenceCedarExecutable STREQUAL "" AND NOT CedarCpp_ReferenceSourceDirectory STREQUAL "")
+    include(SchemaSweepTables)
+    CedarCpp_GenerateSchemaSweepTables(cedar-cpp-schema-sweep-tables "${CMAKE_CURRENT_BINARY_DIR}/schema-sweep")
+    set(schemaJsonSweepEnvironment "CEDAR_SCHEMA_JSON_SWEEP_TABLE=${CMAKE_CURRENT_BINARY_DIR}/schema-sweep/SchemaJson.tsv")
+    set(schemaLinkSweepEnvironment "CEDAR_SCHEMA_LINK_SWEEP_TABLE=${CMAKE_CURRENT_BINARY_DIR}/schema-sweep/SchemaLink.tsv")
+endif()
+
 CedarCpp_AddUnitTest(DiagnosticTests.cpp)
 CedarCpp_AddUnitTest(EntityJsonTests.cpp)
 target_compile_definitions(cedar-cpp-EntityJsonTests PRIVATE
@@ -51,7 +63,7 @@ target_include_directories(cedar-cpp-PolicyJsonTests PRIVATE "${PROJECT_SOURCE_D
 target_compile_definitions(cedar-cpp-PolicyJsonTests PRIVATE
     CEDAR_POLICY_JSON_PARITY_DIRECTORY="${PROJECT_SOURCE_DIR}/tests/parity/policies-json"
     CEDAR_POLICY_PARITY_DIRECTORY="${PROJECT_SOURCE_DIR}/tests/parity/policies")
-CedarCpp_AddUnitTest(SchemaJsonTests.cpp)
+CedarCpp_AddUnitTest(SchemaJsonTests.cpp ${schemaJsonSweepEnvironment})
 # The fragment model is internal; its tests include source/schema directly.
 target_include_directories(cedar-cpp-SchemaJsonTests PRIVATE "${PROJECT_SOURCE_DIR}/source")
 target_compile_definitions(cedar-cpp-SchemaJsonTests PRIVATE
@@ -61,7 +73,7 @@ CedarCpp_AddUnitTest(SchemaParserTests.cpp)
 target_include_directories(cedar-cpp-SchemaParserTests PRIVATE "${PROJECT_SOURCE_DIR}/source")
 target_compile_definitions(cedar-cpp-SchemaParserTests PRIVATE
     CEDAR_SCHEMA_CEDAR_PARITY_DIRECTORY="${PROJECT_SOURCE_DIR}/tests/parity/schemas/cedar")
-CedarCpp_AddUnitTest(SchemaLinkerTests.cpp)
+CedarCpp_AddUnitTest(SchemaLinkerTests.cpp ${schemaLinkSweepEnvironment})
 # The linked schema is internal; its tests include source/schema directly.
 target_include_directories(cedar-cpp-SchemaLinkerTests PRIVATE "${PROJECT_SOURCE_DIR}/source")
 target_compile_definitions(cedar-cpp-SchemaLinkerTests PRIVATE
@@ -92,3 +104,12 @@ CedarCpp_AddUnitTest(FuzzyMatchTests.cpp)
 # The fuzzy matcher is internal; its tests include source/model directly.
 target_include_directories(cedar-cpp-FuzzyMatchTests PRIVATE "${PROJECT_SOURCE_DIR}/source")
 CedarCpp_AddUnitTest(SchemaIntrospectionTests.cpp)
+if(TARGET cedar-cpp-schema-sweep-tables)
+    add_dependencies(cedar-cpp-SchemaJsonTests cedar-cpp-schema-sweep-tables)
+    add_dependencies(cedar-cpp-SchemaLinkerTests cedar-cpp-schema-sweep-tables)
+endif()
+CedarCpp_AddUnitTest(ResidualTests.cpp)
+# The residual model and the typechecker are internal; the tests include source/ directly.
+target_include_directories(cedar-cpp-ResidualTests PRIVATE "${PROJECT_SOURCE_DIR}/source")
+target_compile_definitions(cedar-cpp-ResidualTests PRIVATE
+    CEDAR_PARTIAL_EVALUATION_SCHEMA="${PROJECT_SOURCE_DIR}/tests/parity/partial-evaluation/Evaluation/schema.cedarschema")

@@ -1,0 +1,8 @@
+entity User;
+entity Doc;
+external entity Remote;
+
+action view appliesTo {
+  principal: [User],
+  resource: [Doc],
+};

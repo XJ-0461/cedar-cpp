@@ -114,7 +114,8 @@ struct CedarValueEscape
 /// Reads `node` as a Cedar value (Rust's `CedarValueJson::into_expr` followed by evaluating the
 /// restricted expression), building it in `arena`. `node` must have passed CheckStrictJson.
 /// Extension function calls are evaluated; a failing call is an error whose code is the
-/// evaluation error's.
+/// evaluation error's. A call to `unknown`, Rust's legacy partial-evaluation unknown, is refused
+/// with UnknownValueNotSupported wherever it appears.
 [[nodiscard]] auto ReadCedarValue(const JsonNode& node, DuplicateKeys duplicates, ValueArena& arena,
                                   EntityTypeNames names = EntityTypeNames::Intern)
     -> std::expected<Value, JsonReadError>;
@@ -126,8 +127,9 @@ struct CedarValueEscape
 /// constructor called on it), a set reads its elements and a record its declared attributes by
 /// their types (a missing required attribute or an undeclared one fails). Any other type reads as
 /// ReadCedarValue does. The value is not checked to have the type beyond that: entity types,
-/// extension function results and primitive values are left to the conformance checks. `node` must
-/// have passed CheckStrictJson.
+/// extension function results and primitive values are left to the conformance checks. A call to
+/// `unknown` is refused with UnknownValueNotSupported whatever the type. `node` must have passed
+/// CheckStrictJson.
 [[nodiscard]] auto ReadTypedCedarValue(const JsonNode& node, const Type& expected, DuplicateKeys duplicates,
                                        ValueArena& arena, EntityTypeNames names)
     -> std::expected<Value, JsonReadError>;

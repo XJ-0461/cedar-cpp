@@ -1,0 +1,17 @@
+entity User = {
+  "age": Long,
+};
+entity Doc;
+
+action view appliesTo {
+  principal: [User],
+  resource: [Doc],
+  context: {
+    "n": Long,
+  }
+};
+
+action edit appliesTo {
+  principal: [User],
+  resource: [Doc],
+};

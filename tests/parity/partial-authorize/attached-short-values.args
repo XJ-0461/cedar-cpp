@@ -1,0 +1,11 @@
+-pphotos/policies.cedar
+-sphotos/schema.cedarschema
+--entities
+photos/entities.json
+--principal-type
+User
+-aAction::"edit"
+--resource-type
+Photo
+--resource-eid
+p1

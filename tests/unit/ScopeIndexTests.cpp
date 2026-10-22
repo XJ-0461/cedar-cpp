@@ -86,7 +86,9 @@ auto Compare(const cedar::Request& request, const cedar::PolicySet& policies, co
     -> Comparison
 {
     return Comparison{
-        .everyPolicy = Describe(cedar::IsAuthorized(request, policies, entities)),
+        .everyPolicy = Describe(cedar::IsAuthorized(
+            request, policies, entities,
+            cedar::AuthorizerOptions{.policySelection = cedar::PolicySelection::EvaluateEveryPolicy})),
         .scopeIndex = Describe(cedar::IsAuthorized(
             request, policies, entities, cedar::AuthorizerOptions{.policySelection = cedar::PolicySelection::ScopeIndex})),
     };
@@ -487,7 +489,9 @@ TEST_P(ScopeIndexWorkload, GivesTheSameResponseOnRandomScopes)
     std::size_t reasons = 0;
     for (std::size_t index = 0; index < requests.size(); ++index)
     {
-        const cedar::Response response = cedar::IsAuthorized(requests[index], policies, application.entities);
+        const cedar::Response response = cedar::IsAuthorized(
+            requests[index], policies, application.entities,
+            cedar::AuthorizerOptions{.policySelection = cedar::PolicySelection::EvaluateEveryPolicy});
         errors += response.errors.size();
         reasons += response.reason.size();
         const Comparison comparison = Compare(requests[index], policies, application.entities);

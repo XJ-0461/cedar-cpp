@@ -1,0 +1,16 @@
+--policies
+inputs/templates.cedar
+--template-linked
+inputs/linked.json
+--schema
+photos/schema.cedarschema
+--entities
+photos/entities.json
+--principal-type
+User
+--action
+Action::"edit"
+--resource-type
+Photo
+--resource-eid
+p2

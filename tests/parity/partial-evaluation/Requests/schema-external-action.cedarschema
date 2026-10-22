@@ -1,0 +1,9 @@
+entity A enum ["foo", "bar"];
+entity B;
+
+external action ext;
+
+action a appliesTo {
+  principal: [A],
+  resource: [B],
+};

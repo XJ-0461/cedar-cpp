@@ -138,6 +138,12 @@ public:
     /// The declared action `action`, or null.
     [[nodiscard]] auto FindAction(const EntityUid& action) const noexcept -> const ValidatorAction*;
 
+    /// Whether an entity of some type in `left` may be a descendant of an entity of some type in
+    /// `right` (Rust's `any_descendent_of`): a type is below itself and its declared descendants,
+    /// and an action type is below another when some action of the other type has a descendant
+    /// action of it. False means `left in right` cannot be true.
+    [[nodiscard]] auto AnyDescendantOf(const EntityLub& left, const EntityLub& right) const noexcept -> bool;
+
     /// True for a declared entity type and for every action type, declared or not (Rust's
     /// `is_known_entity_type`).
     [[nodiscard]] auto IsKnownEntityType(const EntityType& type) const noexcept -> bool

@@ -16,6 +16,7 @@ namespace cedar::detail
 
 class ValidatorSchema;
 struct Type;
+struct ValidatorEntityType;
 
 /// Whether `value` has the schema type `type`: the same kind, a set whose elements all have the
 /// element type, a record with every required attribute and only declared ones (unless the record
@@ -44,6 +45,9 @@ struct InvalidEntityUid
 [[nodiscard]] auto CheckEntityUid(const ValidatorSchema& schema, const EntityUid& uid)
     -> std::expected<void, InvalidEntityUid>;
 
+/// The diagnostic for `invalid`: `entities.invalid-enum-entity` or `entities.undeclared-action`.
+[[nodiscard]] auto DescribeInvalidEntityUid(const InvalidEntityUid& invalid) -> Diagnostic;
+
 /// Checks every uid inside `value`, at any depth (Rust's `validate_euids_in_partial_value`).
 [[nodiscard]] auto CheckEntityUidsIn(const ValidatorSchema& schema, const Value& value)
     -> std::expected<void, InvalidEntityUid>;
@@ -55,6 +59,30 @@ struct InvalidEntityUid
 /// allowed parent types and its tags of the tag type. The diagnostic has an `entities.*`
 /// conformance code.
 [[nodiscard]] auto CheckEntityConformance(const ValidatorSchema& schema, const Entity& entity)
+    -> std::expected<void, Diagnostic>;
+
+/// The declaration of the type of `uid`, an entity that is not an action: the type must be
+/// declared and not external, and `uid` one of an enumerated type's ids.
+[[nodiscard]] auto CheckEntityDeclaration(const ValidatorSchema& schema, const EntityUid& uid)
+    -> std::expected<const ValidatorEntityType*, Diagnostic>;
+
+/// The attributes of `uid`, whose type is `declaration` (Rust's `validate_entity_attributes`):
+/// every required attribute present, then each attribute in key order declared (unless the type
+/// is open) with a value of its declared type and only valid uids inside.
+[[nodiscard]] auto CheckEntityAttributes(const ValidatorSchema& schema, const EntityUid& uid,
+                                         const ValidatorEntityType& declaration, Record attributes)
+    -> std::expected<void, Diagnostic>;
+
+/// The ancestors of `uid`, whose type is `declaration` (Rust's `validate_entity_ancestors`): each
+/// a valid uid of a type `declaration` allows as a parent.
+[[nodiscard]] auto CheckEntityAncestors(const ValidatorSchema& schema, const EntityUid& uid,
+                                        const ValidatorEntityType& declaration, EntityUidSetView ancestors)
+    -> std::expected<void, Diagnostic>;
+
+/// The tags of `uid`, whose type is `declaration` (Rust's `validate_tags`): none unless the type
+/// declares tags, each of the tag type with only valid uids inside.
+[[nodiscard]] auto CheckEntityTags(const ValidatorSchema& schema, const EntityUid& uid,
+                                   const ValidatorEntityType& declaration, Record tags)
     -> std::expected<void, Diagnostic>;
 
 } // namespace cedar::detail

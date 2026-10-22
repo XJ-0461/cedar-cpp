@@ -81,6 +81,32 @@ auto ValidatorSchema::FindAction(const EntityUid& action) const noexcept -> cons
     return found == actionIndex_.end() ? nullptr : &actions_[found->second];
 }
 
+auto ValidatorSchema::AnyDescendantOf(const EntityLub& left, const EntityLub& right) const noexcept -> bool
+{
+    const auto descendantOf = [this](const EntityType& lower, const EntityType& upper)
+    {
+        if (lower == upper) { return true; }
+        if (const ValidatorEntityType* declared = FindEntityType(upper);
+            declared != nullptr && declared->HasDescendant(lower))
+        {
+            return true;
+        }
+        return std::ranges::any_of(actions_,
+                                   [&](const ValidatorAction& action)
+                                   {
+                                       return action.name.Type() == upper &&
+                                              std::ranges::any_of(action.descendants, [&](const EntityUid& descendant)
+                                                                  { return descendant.Type() == lower; });
+                                   });
+    };
+    return std::ranges::any_of(left.Types(),
+                               [&](const EntityType& lower)
+                               {
+                                   return std::ranges::any_of(right.Types(), [&](const EntityType& upper)
+                                                              { return descendantOf(lower, upper); });
+                               });
+}
+
 } // namespace detail
 
 namespace

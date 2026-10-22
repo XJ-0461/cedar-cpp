@@ -1,0 +1,51 @@
+[
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "city": "Oslo"
+   },
+   "names": [
+    "a",
+    "b"
+   ]
+  },
+  "parents": [
+   {
+    "type": "Group",
+    "id": "root"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "Group",
+   "id": "root"
+  },
+  "attrs": {},
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "Doc",
+   "id": "d1"
+  },
+  "attrs": {
+   "owner": {
+    "__entity": {
+     "type": "User",
+     "id": "alice"
+    }
+   }
+  },
+  "parents": [],
+  "tags": {
+   "k": "v"
+  }
+ }
+]

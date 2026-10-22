@@ -70,6 +70,20 @@
 #                `permissive-validate` feature.
 #   validate-level
 #                the directory inputs of validate (no tables), each run at `--level` 0 through 4.
+#   tpe          against a reference CLI built with the `tpe` feature: every `*.args` file under each
+#                directory (one argument per line after `tpe`, run in the file's directory); and
+#                every directory holding `entities.json` and a schema (`*.cedarschema`;
+#                `*.cedarschema.json` with `--schema-format json`): each policy file beside it run
+#                with each `request*.json` (`--request-json`), and with every request environment
+#                of the schema (`--principal-type`, `--action`, `--resource-type`), each id unknown,
+#                one of the entities file's ids of that type or an id of no entity
+#                (`--principal-eid`, `--resource-eid`), and the context unknown or each
+#                `context*.json` (`--context`). The two agree when their exit statuses are equal
+#                and, on 0, 2 or 4, standard output is byte-identical (the timing line's number
+#                aside), except that the residual policies printed after an unknown decision,
+#                which Rust prints in HashMap order and on one line each, are compared as a
+#                sorted list of policies read back by the reference CLI into its JSON policy
+#                format; on 1, both printed the leading blank line.
 #
 # A mode is three functions named after it (`-` spelled `_`): `<mode>_inputs <dir>` lists the
 # inputs, NUL-separated (a file, or for authorize the argument list itself, tab-separated);
@@ -81,7 +95,7 @@
 set -uo pipefail
 
 usage() {
-  echo "usage: $0 --reference-cedar <path> --cedar-cpp-cli <path> --input-directory <dir> [--input-directory <dir> ...] --command check-parse|authorize|authorize-schema|run-tests|translate-schema|translate-schema-json|translate-policy|link|validate|validate-permissive|validate-level" >&2
+  echo "usage: $0 --reference-cedar <path> --cedar-cpp-cli <path> --input-directory <dir> [--input-directory <dir> ...] --command check-parse|authorize|authorize-schema|run-tests|translate-schema|translate-schema-json|translate-policy|link|validate|validate-permissive|validate-level|tpe" >&2
   exit 2
 }
 
@@ -105,7 +119,7 @@ for directory in "${directories[@]}"; do
   [ -d "$directory" ] || { echo "not a directory: $directory" >&2; exit 2; }
 done
 
-if { [ "$mode" = authorize ] || [ "$mode" = authorize-schema ] || [ "$mode" = translate-policy ] || [ "$mode" = link ] || [ "$mode" = validate ] || [ "$mode" = validate-permissive ] || [ "$mode" = validate-level ]; } && ! command -v jq >/dev/null; then
+if { [ "$mode" = authorize ] || [ "$mode" = authorize-schema ] || [ "$mode" = translate-policy ] || [ "$mode" = link ] || [ "$mode" = validate ] || [ "$mode" = validate-permissive ] || [ "$mode" = validate-level ] || [ "$mode" = tpe ]; } && ! command -v jq >/dev/null; then
   echo "the $mode mode reads JSON files with jq, which is not on PATH" >&2
   exit 2
 fi
@@ -764,6 +778,177 @@ validate_level_compare() {
   validate_compare
 }
 
+# ---- tpe ----
+
+# The generated `tpe` inputs of one directory holding `entities.json` and a schema. Each input is
+# the directory, then the arguments, tab-separated.
+tpe_directory_inputs() {
+  local directory="$1" entities="$1/entities.json"
+  local -a policy_files request_files context_files schema_files
+  mapfile -t policy_files < <(find "$directory" -maxdepth 1 -type f \( -name '*.cedar' -o -name '*.cedar.json' \) | LC_ALL=C sort)
+  mapfile -t request_files < <(find "$directory" -maxdepth 1 -type f -name 'request*.json' | LC_ALL=C sort)
+  mapfile -t context_files < <(find "$directory" -maxdepth 1 -type f -name 'context*.json' | LC_ALL=C sort)
+  mapfile -t schema_files < <(find "$directory" -maxdepth 1 -type f \( -name '*.cedarschema' -o -name '*.cedarschema.json' \) | LC_ALL=C sort)
+  local schema policies request environment action principal_type resource_type principal_eid resource_eid context
+  local -a schema_arguments policy_arguments environments principal_eids resource_eids contexts
+  contexts=("" "${context_files[@]}")
+  for schema in "${schema_files[@]}"; do
+    schema_arguments=(--schema "$schema")
+    local resolved
+    if [[ "$schema" == *.json ]]; then
+      schema_arguments+=(--schema-format json)
+      resolved="$("$reference" translate-schema --direction json-to-cedar --schema "$schema" 2>/dev/null >"$scratch/tpe-schema.cedarschema" &&
+        "$reference" translate-schema --direction cedar-to-json-with-resolved-types --schema "$scratch/tpe-schema.cedarschema" 2>/dev/null)"
+    else
+      resolved="$("$reference" translate-schema --direction cedar-to-json-with-resolved-types --schema "$schema" 2>/dev/null)"
+    fi
+    # One line per request environment: the action uid, a principal type and a resource type.
+    mapfile -t environments < <(printf '%s' "$resolved" | jq -r '
+      to_entries[] | .key as $namespace | (.value.actions // {}) | to_entries[]
+      | select(.value.appliesTo != null)
+      | ((if $namespace == "" then "" else $namespace + "::" end) + "Action::" + (.key | tojson)) as $action
+      | (.value.appliesTo.principalTypes // [] | unique[]) as $principal
+      | (.value.appliesTo.resourceTypes // [] | unique[]) as $resource
+      | [$action, $principal, $resource] | @tsv' 2>/dev/null)
+    for policies in "${policy_files[@]}"; do
+      policy_arguments=(--policies "$policies")
+      [[ "$policies" == *.cedar.json ]] && policy_arguments+=(--policy-format json)
+      for request in "${request_files[@]}"; do
+        authorize_emit "$directory" tpe "${policy_arguments[@]}" "${schema_arguments[@]}" --entities "$entities" \
+          --request-json "$request"
+      done
+      for environment in "${environments[@]}"; do
+        IFS=$'\t' read -r action principal_type resource_type <<<"$environment"
+        # Each id unknown, each id of that type in the entities file, and an id of no entity.
+        mapfile -t principal_eids < <(jq -r --arg type "$principal_type" '.[] | .uid | (.__entity // .) | select(.type == $type) | .id' "$entities" 2>/dev/null | head -n 3)
+        mapfile -t resource_eids < <(jq -r --arg type "$resource_type" '.[] | .uid | (.__entity // .) | select(.type == $type) | .id' "$entities" 2>/dev/null | head -n 3)
+        principal_eids=("" "${principal_eids[@]}" "no-such-entity")
+        resource_eids=("" "${resource_eids[@]}" "no-such-entity")
+        for principal_eid in "${principal_eids[@]}"; do
+          for resource_eid in "${resource_eids[@]}"; do
+            for context in "${contexts[@]}"; do
+              local -a request_arguments=(--principal-type "$principal_type" --action "$action" --resource-type "$resource_type")
+              [ -n "$principal_eid" ] && request_arguments+=(--principal-eid "$principal_eid")
+              [ -n "$resource_eid" ] && request_arguments+=(--resource-eid "$resource_eid")
+              [ -n "$context" ] && request_arguments+=(--context "$context")
+              authorize_emit "$directory" tpe "${policy_arguments[@]}" "${schema_arguments[@]}" --entities "$entities" \
+                "${request_arguments[@]}"
+            done
+          done
+        done
+      done
+    done
+  done
+}
+
+# Every `*.args` file under the directory (a crafted command line, one argument per line after
+# `tpe`, run in the file's directory), then the generated inputs of every directory holding
+# `entities.json` and a schema.
+tpe_inputs() {
+  local directory
+  find "$1" -type f -name '*.args' -print0 | LC_ALL=C sort -z
+  while IFS= read -r -d '' directory; do
+    [ -f "$directory/entities.json" ] || continue
+    [ -n "$(find "$directory" -maxdepth 1 -type f \( -name '*.cedarschema' -o -name '*.cedarschema.json' \) -print -quit)" ] || continue
+    tpe_directory_inputs "$directory"
+  done < <(find "$(realpath "$1")" -type d -print0 | LC_ALL=C sort -z)
+}
+
+tpe_reference="$(realpath "$reference")"
+tpe_candidate="$(realpath "$candidate")"
+
+tpe_arguments() {
+  if [[ "$1" == *.args && "$1" != *$'\t'* ]]; then
+    tpe_directory="$(dirname "$1")"
+    local -a words
+    mapfile -t words <"$1"
+    arguments=(tpe "${words[@]}")
+  else
+    local -a fields
+    IFS=$'\t' read -r -a fields <<<"$1"
+    tpe_directory="${fields[0]}"
+    arguments=("${fields[@]:1}")
+  fi
+}
+
+tpe_run() {
+  # Each command runs in its input's directory, so the binaries are named by absolute path.
+  local reference="$tpe_reference" candidate="$tpe_candidate"
+  (cd "$tpe_directory" && "$reference" "${arguments[@]}" </dev/null >"$reference_stdout" 2>"$reference_stderr")
+  reference_status=$?
+  (cd "$tpe_directory" && "$candidate" "${arguments[@]}" </dev/null >"$candidate_stdout" 2>"$candidate_stderr")
+  candidate_status=$?
+}
+
+# The residual policies printed after `All policy residuals:` in `$1`, as a sorted list of JSON
+# policies: the text is read back by the reference CLI (`translate-policy --direction
+# cedar-to-json`) and each policy written as compact JSON with sorted keys. A residual `error()`
+# names no real function, so it is read as a stand-in attribute access.
+tpe_residuals() {
+  sed '1,/^All policy residuals:$/d' "$1" |
+    sed 's/\(^\|[^A-Za-z0-9_]\)error()/\1context["cedar-cpp residual error"]/g' >"$scratch/tpe-residuals.cedar"
+  "$reference" translate-policy --direction cedar-to-json --policies "$scratch/tpe-residuals.cedar" 2>/dev/null |
+    jq -c '[.staticPolicies[]] | map(tojson) | sort | .[]' 2>/dev/null
+  return "${PIPESTATUS[0]}"
+}
+
+# Standard output with the timing line's number removed.
+tpe_output() {
+  sed 's/^\(Authorization Time (micro seconds) : \)[0-9]*$/\1N/' "$1"
+}
+
+tpe_compare() {
+  if [ "$reference_status" -ne "$candidate_status" ]; then
+    reason="reference exit $reference_status, cedar-cpp-cli exit $candidate_status"
+    return 1
+  fi
+  case "$reference_status" in
+    0 | 2 | 4) ;;
+    1)
+      # Both read their inputs and failed: each printed the leading blank line first.
+      if [ "$(head -c 1 "$reference_stdout" | od -An -c | tr -d ' ')" != '\n' ] ||
+        [ "$(head -c 1 "$candidate_stdout" | od -An -c | tr -d ' ')" != '\n' ]; then
+        reason="exit 1 without the leading blank line"
+        return 1
+      fi
+      outcome="failed"
+      return 0
+      ;;
+    *) outcome="exited $reference_status"; return 0 ;;
+  esac
+  if [ "$reference_status" -eq 4 ]; then
+    local reference_head candidate_head reference_list candidate_list
+    reference_head="$(tpe_output "$reference_stdout" | sed '/^All policy residuals:$/q')"
+    candidate_head="$(tpe_output "$candidate_stdout" | sed '/^All policy residuals:$/q')"
+    if [ "$reference_head" != "$candidate_head" ]; then
+      reason="output differs before the residuals"
+      return 1
+    fi
+    if ! reference_list="$(tpe_residuals "$reference_stdout")"; then
+      reason="the reference's residuals do not read back"
+      return 1
+    fi
+    if ! candidate_list="$(tpe_residuals "$candidate_stdout")"; then
+      reason="cedar-cpp-cli's residuals do not read back"
+      return 1
+    fi
+    if [ "$reference_list" != "$candidate_list" ]; then
+      reason="residuals differ: reference [$(sed '1,/^All policy residuals:$/d' "$reference_stdout" | paste -sd'|')], cedar-cpp-cli [$(sed '1,/^All policy residuals:$/d' "$candidate_stdout" | tr -s ' \n' ' ')]"
+      return 1
+    fi
+    outcome="unknown"
+    return 0
+  fi
+  if [ "$(tpe_output "$reference_stdout")" != "$(tpe_output "$candidate_stdout")" ]; then
+    reason="standard output differs"
+    return 1
+  fi
+  if ! [ -s "$reference_stdout" ]; then outcome="refused"
+  elif [ "$reference_status" -eq 0 ]; then outcome="allowed"
+  else outcome="denied"; fi
+  return 0
+}
+
 # ---- driver ----
 
 case "$mode" in
@@ -778,13 +963,14 @@ case "$mode" in
   validate) prefix=validate ;;
   validate-permissive) prefix=validate_permissive ;;
   validate-level) prefix=validate_level ;;
+  tpe) prefix=tpe ;;
   *) echo "unknown --command: $mode" >&2; usage ;;
 esac
 
 # The translate modes compare standard output byte for byte and the validate modes read it as
 # JSON, so they keep the two streams apart.
 split_streams=0
-case "$mode" in translate-* | validate*) split_streams=1 ;; esac
+case "$mode" in translate-* | validate* | tpe) split_streams=1 ;; esac
 # The validate modes read both reports with this script, found beside this one in the source tree.
 classifier="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../scripts" && pwd)/classify-validation-report.py"
 scratch="$(mktemp -d "${TMPDIR:-/var/tmp}/oracle-diff.XXXXXX")"

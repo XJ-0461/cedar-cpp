@@ -1,0 +1,16 @@
+--policies
+photos/policies.cedar
+--schema
+photos/schema.cedarschema
+--entities
+photos/entities.json
+--principal-type
+User
+--action
+Action::"view"
+--resource-type
+Album
+--resource-eid
+a1
+--context
+photos/context-mfa.json

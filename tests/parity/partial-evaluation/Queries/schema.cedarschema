@@ -1,0 +1,33 @@
+entity User {
+  level: Long,
+};
+
+entity Admin;
+
+entity Document {
+  owner: User,
+  isPublic: Bool,
+  locked: Bool,
+};
+
+action view appliesTo {
+  principal: [User],
+  resource: [Document],
+  context: { mfa: Bool },
+};
+
+action edit appliesTo {
+  principal: [User],
+  resource: [Document],
+};
+
+action share appliesTo {
+  principal: [User],
+  resource: [Document],
+  context: { mfa: Bool, note: String },
+};
+
+action purge appliesTo {
+  principal: [Admin],
+  resource: [Document],
+};

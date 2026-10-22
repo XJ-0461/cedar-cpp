@@ -1,0 +1,20 @@
+# The partial-evaluation oracle. This manifest is a template: the dependency paths hold the token
+# @CedarSourceDirectory@, which scripts/build-partial-evaluation-oracle.sh replaces with its
+# --cedar-source-directory flag in a generated copy under the output directory. The build pins the
+# reference checkout's Cargo.lock.
+[package]
+name = "cedar-partial-evaluation-oracle"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[workspace]
+
+[dependencies]
+cedar-policy = { path = "@CedarSourceDirectory@/cedar-policy", features = ["tpe"] }
+cedar-policy-core = { path = "@CedarSourceDirectory@/cedar-policy-core", features = ["tpe"] }
+serde_json = "1.0"
+
+[[bin]]
+name = "cedar-partial-evaluation-oracle"
+path = "src/main.rs"

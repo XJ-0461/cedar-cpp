@@ -408,7 +408,7 @@ auto SlotEntityTypeErrors(const ValidatorSchema& schema, const Policy& policy) -
     return errors;
 }
 
-auto IncompleteSchemaError(const ValidatorSchema& schema, const Template& body) -> std::optional<Diagnostic>
+auto IncompleteSchemaError(const ValidatorSchema& schema) -> std::optional<Diagnostic>
 {
     if (schema.IsComplete()) { return std::nullopt; }
     std::vector<std::string> names;
@@ -426,10 +426,23 @@ auto IncompleteSchemaError(const ValidatorSchema& schema, const Template& body) 
         if (position > 0) { list += position + 1 == names.size() ? (names.size() > 2 ? ", and " : " and ") : ", "; }
         list += names[position];
     }
-    return MakeDiagnostic(DiagnosticCode::IncompleteSchema, Severity::Error,
-                          std::format("schema is incomplete: {} {} declared `external` but not defined", list,
-                                      names.size() == 1 ? "is" : "are"),
-                          std::nullopt, body.SourceExtent(), body);
+    return Diagnostic{
+        .code = DiagnosticCode::IncompleteSchema,
+        .severity = Severity::Error,
+        .message = std::format("schema is incomplete: {} {} declared `external` but not defined", list,
+                               names.size() == 1 ? "is" : "are"),
+    };
+}
+
+auto IncompleteSchemaError(const ValidatorSchema& schema, const Template& body) -> std::optional<Diagnostic>
+{
+    std::optional<Diagnostic> error = IncompleteSchemaError(schema);
+    if (error)
+    {
+        error->primary = body.SourceExtent();
+        error->source = body.Source();
+    }
+    return error;
 }
 
 } // namespace cedar::detail

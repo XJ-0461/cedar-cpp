@@ -36,6 +36,10 @@ namespace cedar::detail
 [[nodiscard]] auto SlotEntityTypeErrors(const ValidatorSchema& schema, const Policy& policy)
     -> std::vector<Diagnostic>;
 
+/// The `validation.incomplete-schema` error, with no source, when `schema` declares something
+/// `external` (Rust's `check_complete`), naming every such declaration.
+[[nodiscard]] auto IncompleteSchemaError(const ValidatorSchema& schema) -> std::optional<Diagnostic>;
+
 /// The `validation.incomplete-schema` error for `body` when `schema` declares something
 /// `external` (Rust's `check_complete`), naming every such declaration.
 [[nodiscard]] auto IncompleteSchemaError(const ValidatorSchema& schema, const Template& body)

@@ -13,7 +13,8 @@
 //
 // Every workload file is read and every input not under measurement is built before the timed
 // region. The timed regions are exactly these library calls:
-//   authorization/<application>/<N>     IsAuthorized once per request, over the whole request list;
+//   authorization/<application>/<N>     IsAuthorized with PolicySelection::EvaluateEveryPolicy once
+//                                       per request, over the whole request list;
 //                                       one iteration is the whole list (items_per_second is the
 //                                       call rate)
 //   authorization-index/<application>/<N>

@@ -322,7 +322,6 @@ private:
     // `replace_action_var_with_euid`); null for any other node.
     [[nodiscard]] auto LiteralOrAction(ExpressionIndex index) const -> std::optional<Value>;
     [[nodiscard]] auto EntityLiteralsOrActions(ExpressionIndex index) const -> std::optional<std::vector<EntityUid>>;
-    [[nodiscard]] auto AnyDescendantOf(const EntityLub& left, const EntityLub& right) const -> bool;
     [[nodiscard]] auto TagTypes(const Type& entity) const -> std::vector<Type>;
 
     // Rust's `type_of_has_attr_for_ext` and `type_of_get_attr_for_ext`: one step along `object
@@ -1004,35 +1003,6 @@ auto EnvironmentTypechecker::EntityLiteralsOrActions(const ExpressionIndex index
     return uids;
 }
 
-auto EnvironmentTypechecker::AnyDescendantOf(const EntityLub& left, const EntityLub& right) const -> bool
-{
-    // Rust's `ValidatorSchema::any_descendent_of`: an entity type is in another when it is that
-    // type or one of its descendants, or when some action of the other type has a descendant
-    // action of the first type.
-    const auto descendantOf = [this](const EntityType& lower, const EntityType& upper)
-    {
-        if (lower == upper) { return true; }
-        if (const ValidatorEntityType* declared = schema_.FindEntityType(upper);
-            declared != nullptr && declared->HasDescendant(lower))
-        {
-            return true;
-        }
-        return std::ranges::any_of(schema_.Actions(),
-                                   [&](const ValidatorAction& action)
-                                   {
-                                       return action.name.Type() == upper &&
-                                              std::ranges::any_of(action.descendants, [&](const EntityUid& descendant)
-                                                                  { return descendant.Type() == lower; });
-                                   });
-    };
-    return std::ranges::any_of(left.Types(),
-                               [&](const EntityType& lower)
-                               {
-                                   return std::ranges::any_of(right.Types(), [&](const EntityType& upper)
-                                                              { return descendantOf(lower, upper); });
-                               });
-}
-
 auto EnvironmentTypechecker::In(const CapabilitySet& prior, const ExpressionIndex /*index*/, const node::Binary& node)
     -> Answer
 {
@@ -1076,7 +1046,7 @@ auto EnvironmentTypechecker::In(const CapabilitySet& prior, const ExpressionInde
                                     const EntityLub* leftTypes = left.type ? AsEntityLub(*left.type) : nullptr;
                                     const EntityLub* rightTypes = right.type ? AsSetOrEntityLub(*right.type) : nullptr;
                                     if (leftTypes != nullptr && rightTypes != nullptr &&
-                                        !AnyDescendantOf(*leftTypes, *rightTypes))
+                                        !schema_.AnyDescendantOf(*leftTypes, *rightTypes))
                                     {
                                         return Success(SingletonBooleanType(false));
                                     }

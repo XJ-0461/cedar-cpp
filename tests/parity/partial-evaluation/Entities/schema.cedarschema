@@ -1,0 +1,45 @@
+entity Group in [Group] = {
+  "title"?: String,
+};
+entity Color enum ["red", "green"];
+entity User in [Group] = {
+  "name": String,
+  "age": Long,
+  "address": {
+    "city": String,
+    "zip"?: Long,
+  },
+  "names": Set<String>,
+  "friends"?: Set<User>,
+  "manager"?: User,
+  "favorite"?: Color,
+  "ip"?: ipaddr,
+  "score"?: decimal,
+  "since"?: datetime,
+  "wait"?: duration,
+};
+entity Doc = {
+  "owner": User,
+} tags String;
+
+action view appliesTo {
+  principal: [User],
+  resource: [Doc],
+  context: {
+    "name": String,
+    "age": Long,
+    "address": {
+      "city": String,
+      "zip"?: Long,
+    },
+    "names": Set<String>,
+    "friends": Set<User>,
+    "manager": User,
+    "favorite": Color,
+    "ip": ipaddr,
+    "score": decimal,
+    "since": datetime,
+    "wait": duration,
+    "tag": String,
+  }
+};

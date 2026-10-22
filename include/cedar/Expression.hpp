@@ -274,12 +274,14 @@ struct GetAttribute
 };
 
 /// `object has a.b.c`: true when `object` has `a`, `object.a` has `b`, and so on, evaluated left to
-/// right with short-circuiting (Rust's `HasAttr` for one attribute and `ExtHasAttr` for more). The
-/// path is never empty.
+/// right with short-circuiting. The path is never empty. `extended` tells Rust's `ExtHasAttr` from
+/// its `HasAttr`: it is set for a path of more than one attribute, and for the rest of a path that
+/// partial evaluation leaves as a residual, which may be one attribute long.
 struct HasAttribute
 {
     ExpressionIndex object;
     ArenaRange<std::string_view> path;
+    bool extended = false;
 };
 
 /// `operand like pattern`; ExpressionArena::PatternOf gives the Pattern.
@@ -517,9 +519,14 @@ public:
         -> ExpressionIndex;
     auto HasAttribute(ExpressionIndex object, std::string_view attribute, OptionalSpan span = std::nullopt)
         -> ExpressionIndex;
-    /// `object has path[0].path[1]...`. Precondition: `path` is not empty.
+    /// `object has path[0].path[1]...`, extended when the path has more than one attribute.
+    /// Precondition: `path` is not empty.
     auto HasAttribute(ExpressionIndex object, std::span<const std::string_view> path,
                       OptionalSpan span = std::nullopt) -> ExpressionIndex;
+    /// `object has path[0].path[1]...`, extended whatever the path's length (see
+    /// node::HasAttribute). Precondition: `path` is not empty.
+    auto ExtendedHasAttribute(ExpressionIndex object, std::span<const std::string_view> path,
+                              OptionalSpan span = std::nullopt) -> ExpressionIndex;
     /// `operand like pattern`, with the pattern given as its literals (see Pattern). Precondition:
     /// `literals` is not empty.
     auto Like(ExpressionIndex operand, std::span<const std::string_view> literals, OptionalSpan span = std::nullopt)

@@ -3,6 +3,7 @@
 #include <cedar/Entities.hpp>
 #include <cedar/Errors.hpp>
 #include <cedar/Names.hpp>
+#include <cedar/PartialEvaluation.hpp>
 #include <cedar/Policy.hpp>
 #include <cedar/PolicySet.hpp>
 #include <cedar/Request.hpp>
@@ -37,6 +38,15 @@ namespace cedar
 [[nodiscard]] auto EntitiesFromJson(std::string_view json, const Schema& schema,
                                     std::string_view sourceName = "<entities>")
     -> std::expected<Entities, EntitiesError>;
+
+/// Reads partial entities in Rust's partial entity JSON format, schema-based (Rust's
+/// `PartialEntities::from_json_value`): an array of entity objects whose `attrs`, `parents` and
+/// `tags` are each either given in full or absent (unknown). An action entity in the input is a
+/// `partial-evaluation.unexpected-action` error. The result is checked, closed and completed as
+/// PartialEntities::Create's is, and fails as it does. `sourceName` names the input in diagnostics.
+[[nodiscard]] auto PartialEntitiesFromJson(std::string_view json, const Schema& schema,
+                                           std::string_view sourceName = "<entities>")
+    -> std::expected<PartialEntities, PartialEntitiesError>;
 
 /// Reads one JSON entity object (Rust's `Entity::from_json_str` without a schema).
 [[nodiscard]] auto EntityFromJson(std::string_view json, std::string_view sourceName = "<entity>")

@@ -1,0 +1,10 @@
+[
+  {"uid": {"type": "Group", "id": "staff"}, "attrs": {}, "parents": [], "tags": {}},
+  {"uid": {"type": "Group", "id": "admins"}, "attrs": {}, "parents": [], "tags": {}},
+  {"uid": {"type": "Folder", "id": "root"}, "attrs": {}, "parents": [], "tags": {}},
+  {"uid": {"type": "Folder", "id": "sub"}, "attrs": {}, "parents": [{"type": "Folder", "id": "root"}], "tags": {}},
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"name": "Alice", "age": 30, "manager": {"__entity": {"type": "User", "id": "bob"}}, "profile": {"level": 3, "nick": "al"}, "roles": ["reader", "writer"], "ip": {"__extn": {"fn": "ip", "arg": "10.0.0.1"}}, "balance": {"__extn": {"fn": "decimal", "arg": "1.5"}}, "limits": {"max": {"__extn": {"fn": "decimal", "arg": "2.0"}}}, "joined": {"__extn": {"fn": "datetime", "arg": "2024-01-01"}}, "session": {"__extn": {"fn": "duration", "arg": "1h"}}}},
+  {"uid": {"type": "User", "id": "bob"}, "parents": [{"type": "Group", "id": "admins"}, {"type": "Group", "id": "staff"}], "tags": {}},
+  {"uid": {"type": "Doc", "id": "d1"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "isPublic": false, "title": "report.txt"}, "tags": {}},
+  {"uid": {"type": "Doc", "id": "d2"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "bob"}}, "isPublic": true, "title": "notes.md"}, "parents": [{"type": "Folder", "id": "root"}], "tags": {}}
+]

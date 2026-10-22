@@ -72,10 +72,6 @@ private:
     [[nodiscard]] auto EvaluateNode(const node::SetLiteral& node) -> Result;
     [[nodiscard]] auto EvaluateNode(const node::RecordLiteral& node) -> Result;
 
-    [[nodiscard]] auto ApplyBinary(const node::Binary& node, const Value& left, const Value& right) -> Result;
-    [[nodiscard]] auto EvaluateIn(const node::Binary& node, const Value& left, const Value& right) -> Result;
-    [[nodiscard]] auto EvaluateTag(const node::Binary& node, const Value& left, const Value& right) -> Result;
-
     const Request& request_;
     EntityStoreView entities_;
     const ExpressionArena& expressions_;

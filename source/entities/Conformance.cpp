@@ -36,18 +36,6 @@ namespace
            && std::ranges::equal(left.Ancestors(), right.Ancestors());
 }
 
-[[nodiscard]] auto DescribeInvalidUid(const InvalidEntityUid& invalid) -> Diagnostic
-{
-    if (invalid.problem == EntityUidProblem::UndeclaredAction)
-    {
-        return Problem(DiagnosticCode::UndeclaredAction,
-                       std::format("action `{}` is not declared in the schema", invalid.uid.ToString()));
-    }
-    return Problem(DiagnosticCode::InvalidEnumEntity,
-                   std::format("`{}` is not one of the ids the schema declares for the enumerated entity type `{}`",
-                               invalid.uid.Id().Escaped(), invalid.uid.Type().GetName().ToString()));
-}
-
 /// The attributes or tags of `entity` against their declared types.
 /// An undeclared key fails unless `undeclaredAllowed` (an open entity type), when its value may have
 /// any type.
@@ -73,7 +61,7 @@ namespace
         }
         if (auto checked = CheckEntityUidsIn(schema, entry.value); !checked)
         {
-            return std::unexpected{DescribeInvalidUid(checked.error())};
+            return std::unexpected{DescribeInvalidEntityUid(checked.error())};
         }
     }
     return {};
@@ -125,6 +113,18 @@ auto HasType(const Value& value, const Type& type) noexcept -> bool
             [&](const types::Extension& extension) { return value.Kind() == extension.kind; },
         },
         type.kind);
+}
+
+auto DescribeInvalidEntityUid(const InvalidEntityUid& invalid) -> Diagnostic
+{
+    if (invalid.problem == EntityUidProblem::UndeclaredAction)
+    {
+        return Problem(DiagnosticCode::UndeclaredAction,
+                       std::format("action `{}` is not declared in the schema", invalid.uid.ToString()));
+    }
+    return Problem(DiagnosticCode::InvalidEnumEntity,
+                   std::format("`{}` is not one of the ids the schema declares for the enumerated entity type `{}`",
+                               invalid.uid.Id().Escaped(), invalid.uid.Type().GetName().ToString()));
 }
 
 auto CheckEntityUid(const ValidatorSchema& schema, const EntityUid& uid) -> std::expected<void, InvalidEntityUid>
@@ -186,6 +186,23 @@ auto CheckEntityConformance(const ValidatorSchema& schema, const Entity& entity)
         return {};
     }
 
+    auto found = CheckEntityDeclaration(schema, uid);
+    if (!found) { return std::unexpected{std::move(found).error()}; }
+    const ValidatorEntityType* const declaration = *found;
+    if (auto checked = CheckEntityAttributes(schema, uid, *declaration, entity.Attributes()); !checked)
+    {
+        return checked;
+    }
+    if (auto checked = CheckEntityAncestors(schema, uid, *declaration, entity.Ancestors()); !checked)
+    {
+        return checked;
+    }
+    return CheckEntityTags(schema, uid, *declaration, entity.Tags());
+}
+
+auto CheckEntityDeclaration(const ValidatorSchema& schema, const EntityUid& uid)
+    -> std::expected<const ValidatorEntityType*, Diagnostic>
+{
     const ValidatorEntityType* declaration = schema.FindEntityType(uid.Type());
     if (declaration == nullptr)
     {
@@ -200,11 +217,16 @@ auto CheckEntityConformance(const ValidatorSchema& schema, const Entity& entity)
             std::format("entity `{}` has the external type `{}`, whose entities are not given as data", uid.ToString(),
                         uid.Type().GetName().ToString()))};
     }
-    if (auto checked = CheckEntityUid(schema, uid); !checked) { return std::unexpected{DescribeInvalidUid(checked.error())}; }
+    if (auto checked = CheckEntityUid(schema, uid); !checked) { return std::unexpected{DescribeInvalidEntityUid(checked.error())}; }
+    return declaration;
+}
 
-    for (const Attribute& attribute : declaration->attributes)
+auto CheckEntityAttributes(const ValidatorSchema& schema, const EntityUid& uid, const ValidatorEntityType& declaration,
+                           const Record attributes) -> std::expected<void, Diagnostic>
+{
+    for (const Attribute& attribute : declaration.attributes)
     {
-        if (attribute.type.required && !entity.Attributes().Contains(attribute.name))
+        if (attribute.type.required && !attributes.Contains(attribute.name))
         {
             return std::unexpected{
                 Problem(DiagnosticCode::MissingRequiredEntityAttribute,
@@ -212,26 +234,26 @@ auto CheckEntityConformance(const ValidatorSchema& schema, const Entity& entity)
                                     attribute.name))};
         }
     }
-    if (auto checked = CheckValues(
-            schema, uid, entity.Attributes(), "attribute",
-            [&](const std::string_view key) -> const Type* {
-                const AttributeType* found = declaration->attributes.Find(key);
-                return found != nullptr ? found->type.get() : nullptr;
-            },
-            declaration->openAttributes == OpenTag::OpenAttributes);
-        !checked)
-    {
-        return checked;
-    }
+    return CheckValues(
+        schema, uid, attributes, "attribute",
+        [&](const std::string_view key) -> const Type* {
+            const AttributeType* found = declaration.attributes.Find(key);
+            return found != nullptr ? found->type.get() : nullptr;
+        },
+        declaration.openAttributes == OpenTag::OpenAttributes);
+}
 
+auto CheckEntityAncestors(const ValidatorSchema& schema, const EntityUid& uid, const ValidatorEntityType& declaration,
+                          const EntityUidSetView ancestors) -> std::expected<void, Diagnostic>
+{
     // Rust reports the least offending ancestor; any one will do for a rejection.
-    for (const EntityUid& ancestor : entity.Ancestors())
+    for (const EntityUid& ancestor : ancestors)
     {
         if (auto checked = CheckEntityUid(schema, ancestor); !checked)
         {
-            return std::unexpected{DescribeInvalidUid(checked.error())};
+            return std::unexpected{DescribeInvalidEntityUid(checked.error())};
         }
-        if (!declaration->AllowsParentType(ancestor.Type()))
+        if (!declaration.AllowsParentType(ancestor.Type()))
         {
             return std::unexpected{
                 Problem(DiagnosticCode::InvalidAncestorType,
@@ -239,10 +261,15 @@ auto CheckEntityConformance(const ValidatorSchema& schema, const Entity& entity)
                                     uid.ToString(), ancestor.Type().GetName().ToString()))};
         }
     }
+    return {};
+}
 
+auto CheckEntityTags(const ValidatorSchema& schema, const EntityUid& uid, const ValidatorEntityType& declaration,
+                     const Record tags) -> std::expected<void, Diagnostic>
+{
     return CheckValues(
-        schema, uid, entity.Tags(), "tag",
-        [&](std::string_view) -> const Type* { return declaration->tags ? &*declaration->tags : nullptr; }, false);
+        schema, uid, tags, "tag",
+        [&](std::string_view) -> const Type* { return declaration.tags ? &*declaration.tags : nullptr; }, false);
 }
 
 } // namespace detail

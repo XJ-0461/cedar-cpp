@@ -1,0 +1,4 @@
+entity User;
+entity Document;
+external action audit;
+action read appliesTo { principal: [User], resource: [Document] };

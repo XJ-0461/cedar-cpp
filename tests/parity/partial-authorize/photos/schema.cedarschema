@@ -1,0 +1,30 @@
+entity Group;
+entity User in [Group] {
+  department: String,
+  level: Long,
+  manager?: User,
+};
+entity Album;
+entity Photo in [Album] {
+  owner: User,
+  isPublic: Bool,
+  labels: Set<String>,
+} tags String;
+entity Status enum ["draft", "published"];
+
+action view appliesTo {
+  principal: [User],
+  resource: [Photo, Album],
+  context: {
+    mfa: Bool,
+    ip?: ipaddr,
+  }
+};
+action edit appliesTo {
+  principal: [User],
+  resource: [Photo],
+};
+action publish appliesTo {
+  principal: [User],
+  resource: [Status],
+};

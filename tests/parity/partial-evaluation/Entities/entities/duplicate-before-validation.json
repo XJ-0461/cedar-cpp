@@ -1,0 +1,40 @@
+[
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "city": "Oslo"
+   },
+   "names": [
+    "a",
+    "b"
+   ],
+   "bogus": 1
+  },
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "city": "Oslo"
+   },
+   "names": [
+    "a",
+    "b"
+   ],
+   "bogus": 1
+  },
+  "parents": []
+ }
+]

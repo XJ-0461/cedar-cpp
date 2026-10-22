@@ -203,6 +203,21 @@ struct RequestValidationErrorTag
 struct ContextErrorTag
 {
 };
+struct PartialEvaluationErrorTag
+{
+};
+struct PartialEntitiesErrorTag
+{
+};
+struct ReauthorizationErrorTag
+{
+};
+struct BatchedAuthorizationErrorTag
+{
+};
+struct PermissionQueryErrorTag
+{
+};
 
 /// Policy text, an expression, a name or a policy in the JSON format could not be read.
 using ParseError = DomainError<ParseErrorTag>;
@@ -223,5 +238,30 @@ using RequestValidationError = DomainError<RequestValidationErrorTag>;
 /// A context could not be built: it is not a record, its JSON is invalid, or a value in it failed
 /// to evaluate.
 using ContextError = DomainError<ContextErrorTag>;
+
+/// Partial authorization failed for a policy set (Rust's `TpeError`): the schema is not complete
+/// (`validation.incomplete-schema`), no request environment matches the partial request, a policy
+/// failed to validate in it (`partial-evaluation.policy-validation`, followed by the validator's
+/// diagnostics), or a typed policy could not be turned into a residual.
+using PartialEvaluationError = DomainError<PartialEvaluationErrorTag>;
+
+/// Partial entities could not be read, checked against the schema or closed (Rust's
+/// `tpe::err::EntitiesError`). The concrete entity codes report the conditions concrete entities
+/// share; the `partial-evaluation.*` entity codes report the rest.
+using PartialEntitiesError = DomainError<PartialEntitiesErrorTag>;
+
+/// A concrete request and entities could not complete a partial authorization (Rust's
+/// `TpeReauthorizationError`): the request or the entities do not conform to the schema, or they
+/// are inconsistent with the partial request and entities.
+using ReauthorizationError = DomainError<ReauthorizationErrorTag>;
+
+/// Batched authorization failed (Rust's `BatchedEvalError`): partial authorization failed, the
+/// request does not conform to the schema, a loaded entity was rejected, or the iteration limit
+/// was reached before a decision (`partial-evaluation.insufficient-iterations`).
+using BatchedAuthorizationError = DomainError<BatchedAuthorizationErrorTag>;
+
+/// A permission query failed (Rust's `PermissionQueryError`): the entities were rejected, or
+/// partial authorization failed.
+using PermissionQueryError = DomainError<PermissionQueryErrorTag>;
 
 } // namespace cedar

@@ -1,14 +1,14 @@
 include(GoogleTest)
 
 # One gtest executable per test file, named after the file, with each test case registered with
-# ctest individually.
+# ctest individually. Any further arguments are NAME=value environment settings for its test cases.
 function(CedarCpp_AddUnitTest source)
     get_filename_component(name "${source}" NAME_WE)
     set(target "cedar-cpp-${name}")
     add_executable(${target} "${source}")
     target_link_libraries(${target} PRIVATE cedar::cedar GTest::gtest_main)
     CedarCpp_SetWarnings(${target})
-    gtest_discover_tests(${target} DISCOVERY_MODE PRE_TEST)
+    gtest_discover_tests(${target} DISCOVERY_MODE PRE_TEST PROPERTIES ENVIRONMENT "${ARGN}")
 endfunction()
 
 add_subdirectory(headers)

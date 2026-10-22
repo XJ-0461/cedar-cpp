@@ -57,10 +57,11 @@ enum class PolicySelection : std::uint8_t
     ScopeIndex,
 };
 
-/// Options for IsAuthorized.
+/// Options for IsAuthorized. Policies are selected through the scope index unless the caller asks
+/// for EvaluateEveryPolicy.
 struct AuthorizerOptions
 {
-    PolicySelection policySelection{PolicySelection::EvaluateEveryPolicy};
+    PolicySelection policySelection{PolicySelection::ScopeIndex};
 };
 
 /// Answers `request` against `policies`, looking entities up in `entities` (Rust's

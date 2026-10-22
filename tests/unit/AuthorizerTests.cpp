@@ -155,7 +155,9 @@ TEST_P(AuthorizationParity, MatchesTheReference)
     const cedar::Request request = ReadRequest(name);
     const std::string expected = ReadFile(CasesDirectory / (name + ".expected"));
 
-    const cedar::Response everyPolicy = cedar::IsAuthorized(request, policies, *entities);
+    const cedar::Response everyPolicy = cedar::IsAuthorized(
+        request, policies, *entities,
+        cedar::AuthorizerOptions{.policySelection = cedar::PolicySelection::EvaluateEveryPolicy});
     EXPECT_EQ(Describe(everyPolicy), expected);
     EXPECT_TRUE(std::ranges::is_sorted(everyPolicy.reason));
     EXPECT_TRUE(std::ranges::is_sorted(everyPolicy.errors, {}, &cedar::PolicyEvaluationError::policyId));

@@ -1,0 +1,12 @@
+--policies
+photos/policies.cedar
+--schema
+inputs/no-such-file.cedarschema
+--entities
+photos/entities.json
+--principal-type
+User
+--action
+Action::"view"
+--resource-type
+Photo

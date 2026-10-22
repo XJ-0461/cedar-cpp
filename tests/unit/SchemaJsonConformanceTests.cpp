@@ -5,6 +5,7 @@
 #include <gtest/gtest.h>
 
 #include <array>
+#include <format>
 #include <fstream>
 #include <memory>
 #include <memory_resource>
@@ -257,14 +258,52 @@ TEST(SchemaJsonConformance, ValidatesRequests)
 }
 
 // Rust reads `{"__extn": {"fn": "unknown", ...}}` as a partial-evaluation unknown of any type; we
-// have no partial evaluation and refuse it, as the reader without a schema does.
+// refuse it, with the code the reader without a schema gives.
 TEST(SchemaJsonConformance, RefusesUnknownValues)
 {
     const auto entities = cedar::EntitiesFromJson(
         R"([{"uid": {"type": "App::User", "id": "a"},
              "attrs": {"name": "A", "age": 1, "ip": {"__extn": {"fn": "unknown", "arg": "u"}}}, "parents": []}])",
         TestSchema());
-    EXPECT_FALSE(entities.has_value());
+    ASSERT_FALSE(entities.has_value());
+    EXPECT_EQ(entities.error().Primary().code, cedar::DiagnosticCode::UnknownValueNotSupported);
+
+    const auto attributes = [](const std::string_view attrs, const std::string_view tags) {
+        const std::string json = std::format(
+            R"([{{"uid": {{"type": "App::User", "id": "a"}}, "attrs": {}, "tags": {}, "parents": []}}])", attrs, tags);
+        const auto read = cedar::EntitiesFromJson(json, TestSchema());
+        return read ? std::string_view{"accepted"} : Code(read.error().Primary().code);
+    };
+    const auto context = [](const std::string_view json) {
+        const auto read = cedar::ContextFromJson(json, TestSchema(), Uid("App::Action", "view"));
+        return read ? std::string_view{"accepted"} : Code(read.error().Primary().code);
+    };
+    const std::string_view refused = Code(cedar::DiagnosticCode::UnknownValueNotSupported);
+    constexpr std::string_view Unknown = R"({"__extn": {"fn": "unknown", "arg": "u"}})";
+    const auto with = [](const std::string_view value) {
+        return std::format(R"({{"name": "A", "age": 1, "manager": {}}})", value);
+    };
+    // An entity type, a primitive type, a set element, a record attribute, an extension type with
+    // and without the escape, and a tag.
+    EXPECT_EQ(attributes(with(Unknown), "{}"), refused);
+    EXPECT_EQ(attributes(std::format(R"({{"name": {}, "age": 1}})", Unknown), "{}"), refused);
+    EXPECT_EQ(attributes(std::format(R"({{"name": "A", "age": 1, "nicknames": [{}]}})", Unknown), "{}"), refused);
+    EXPECT_EQ(attributes(std::format(R"({{"name": "A", "age": 1, "address": {{"street": {}}}}})", Unknown), "{}"),
+              refused);
+    EXPECT_EQ(attributes(R"({"name": "A", "age": 1, "ip": {"fn": "unknown", "arg": "u"}})", "{}"), refused);
+    EXPECT_EQ(attributes(R"({"name": "A", "age": 1, "ip": {"__extn": {"fn": "unknown", "args": ["u"]}}})", "{}"),
+              refused);
+    EXPECT_EQ(attributes(R"({"name": "A", "age": 1})", std::format(R"({{"t": {}}})", Unknown)), refused);
+    EXPECT_EQ(context(std::format(R"({{"ip": {}}})", Unknown)), refused);
+    EXPECT_EQ(context(std::format(R"({{"ip": "1.2.3.4", "who": {}}})", Unknown)), refused);
+
+    // A call to any other undeclared function keeps its own code.
+    EXPECT_EQ(attributes(R"({"name": "A", "age": 1, "ip": {"__extn": {"fn": "nope", "arg": "u"}}})", "{}"),
+              Code(cedar::DiagnosticCode::ExtensionFunctionLookup));
+    EXPECT_EQ(attributes(R"({"name": {"__extn": {"fn": "nope", "arg": "u"}}, "age": 1})", "{}"),
+              Code(cedar::DiagnosticCode::EntityAttributeEvaluation));
+    EXPECT_EQ(attributes(with(R"({"__extn": {"fn": "nope", "arg": "u"}})"), "{}"),
+              Code(cedar::DiagnosticCode::ExpectedLiteralEntityReference));
 }
 
 } // namespace

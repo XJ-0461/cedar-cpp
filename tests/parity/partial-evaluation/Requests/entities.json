@@ -1,0 +1,5 @@
+[
+  { "uid": { "type": "B", "id": "low" }, "attrs": { "level": 5 }, "parents": [] },
+  { "uid": { "type": "B", "id": "high" }, "attrs": { "level": 20 }, "parents": [] },
+  { "uid": { "type": "C", "id": "c1" }, "attrs": {}, "parents": [] }
+]

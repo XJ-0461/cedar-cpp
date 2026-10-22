@@ -22,6 +22,10 @@ option(CedarCpp_WarningsAsErrors "Treat compiler warnings in cedar-cpp's own tar
 set(CedarCpp_ReferenceCedarExecutable "" CACHE FILEPATH "The reference Rust cedar CLI (scripts/build-reference-cli.sh)")
 set(CedarCpp_ReferencePermissiveCedarExecutable "" CACHE FILEPATH
     "The reference Rust cedar CLI built with --features permissive-validate (scripts/build-reference-cli.sh)")
+set(CedarCpp_ReferencePartialEvaluationCedarExecutable "" CACHE FILEPATH
+    "The reference Rust cedar CLI built with --features tpe (scripts/build-reference-cli.sh)")
+set(CedarCpp_ReferencePartialEvaluationOracleExecutable "" CACHE FILEPATH
+    "The Rust partial-evaluation oracle (scripts/build-partial-evaluation-oracle.sh)")
 set(CedarCpp_ReferenceSourceDirectory "" CACHE PATH "A checkout of the Rust cedar repository, for its fixture directories")
 set(CedarCpp_IntegrationTestsDirectory "" CACHE PATH "The cedar-integration-tests checkout (scripts/fetch-integration-tests.sh)")
 
@@ -43,12 +47,14 @@ add_library(cedar
     source/entities/TransitiveClosure.cpp
     source/evaluation/Authorizer.cpp
     source/evaluation/Evaluator.cpp
+    source/evaluation/Operators.cpp
     source/evaluation/ScopeIndex.cpp
     source/extensions/ExtensionCalls.cpp
     source/json/ContextJson.cpp
     source/json/EntityJson.cpp
     source/json/JsonReader.cpp
     source/json/JsonWriter.cpp
+    source/json/PartialEntityJson.cpp
     source/json/PolicyJson.cpp
     source/json/ValueJson.cpp
     source/model/Diagnostic.cpp
@@ -63,6 +69,14 @@ add_library(cedar
     source/model/Request.cpp
     source/model/SymbolTable.cpp
     source/model/Value.cpp
+    source/partial-evaluation/BatchedAuthorizer.cpp
+    source/partial-evaluation/PartialAuthorizer.cpp
+    source/partial-evaluation/PartialEntities.cpp
+    source/partial-evaluation/PartialEvaluator.cpp
+    source/partial-evaluation/PartialRequest.cpp
+    source/partial-evaluation/PermissionQueries.cpp
+    source/partial-evaluation/Reauthorization.cpp
+    source/partial-evaluation/Residual.cpp
     source/schema/SchemaCedarPrinter.cpp
     source/schema/SchemaFragmentModel.cpp
     source/schema/SchemaJsonReader.cpp
@@ -101,6 +115,7 @@ set(CedarCpp_PublicHeaders
     include/cedar/ExtensionValues.hpp
     include/cedar/Json.hpp
     include/cedar/Names.hpp
+    include/cedar/PartialEvaluation.hpp
     include/cedar/Policy.hpp
     include/cedar/PolicySet.hpp
     include/cedar/Request.hpp

@@ -1,0 +1,10 @@
+--policies
+photos/policies.cedar
+--schema
+photos/schema.cedarschema
+--entities
+photos/entities.json
+--request-json
+photos/request-unknown-principal.json
+--resource-type
+Photo

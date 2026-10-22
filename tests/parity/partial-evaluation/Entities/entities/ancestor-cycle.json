@@ -1,0 +1,46 @@
+[
+ {
+  "uid": {
+   "type": "Group",
+   "id": "a"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "Group",
+    "id": "b"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "Group",
+   "id": "b"
+  },
+  "attrs": {},
+  "parents": [
+   {
+    "type": "Group",
+    "id": "a"
+   }
+  ]
+ },
+ {
+  "uid": {
+   "type": "Doc",
+   "id": "d1"
+  },
+  "attrs": {
+   "owner": {
+    "__entity": {
+     "type": "User",
+     "id": "alice"
+    }
+   }
+  },
+  "parents": [],
+  "tags": {
+   "k": "v"
+  }
+ }
+]

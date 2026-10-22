@@ -1,0 +1,42 @@
+[
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "city": "Oslo"
+   },
+   "names": [
+    "a",
+    "b"
+   ],
+   "ip": "::1",
+   "since": "2024-01-02T03:04:05.006+0130",
+   "wait": "1d2h3m4s5ms",
+   "score": "10.0"
+  },
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "Doc",
+   "id": "d1"
+  },
+  "attrs": {
+   "owner": {
+    "__entity": {
+     "type": "User",
+     "id": "alice"
+    }
+   }
+  },
+  "parents": [],
+  "tags": {
+   "k": "v"
+  }
+ }
+]

@@ -1,0 +1,18 @@
+[
+  {"uid": {"type": "Group", "id": "admins"}, "attrs": {}, "parents": []},
+  {"uid": {"type": "Group", "id": "staff"}, "attrs": {}, "parents": [{"type": "Group", "id": "admins"}]},
+  {"uid": {"type": "User", "id": "alice"}, "attrs": {"level": 7}, "parents": [{"type": "Group", "id": "staff"}], "tags": {"delegate": {"__entity": {"type": "User", "id": "bob"}}}},
+  {"uid": {"type": "User", "id": "bob"}, "attrs": {"level": 3}, "parents": [], "tags": {"delegate": {"__entity": {"type": "User", "id": "alice"}}}},
+  {"uid": {"type": "User", "id": "carol"}, "attrs": {"level": -1}, "parents": [], "tags": {}},
+  {"uid": {"type": "User", "id": "erin"}, "attrs": {"level": 9}, "parents": [], "tags": {"delegate": {"__entity": {"type": "User", "id": "zed"}}}},
+  {"uid": {"type": "Folder", "id": "root"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}}, "parents": []},
+  {"uid": {"type": "Folder", "id": "f1"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}}, "parents": [{"type": "Folder", "id": "root"}]},
+  {"uid": {"type": "Folder", "id": "f2"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "bob"}}}, "parents": []},
+  {"uid": {"type": "Folder", "id": "f3"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "carol"}}}, "parents": []},
+  {"uid": {"type": "Document", "id": "doc1"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "folder": {"__entity": {"type": "Folder", "id": "f1"}}}, "parents": [{"type": "Folder", "id": "f1"}]},
+  {"uid": {"type": "Document", "id": "doc2"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "bob"}}, "folder": {"__entity": {"type": "Folder", "id": "f2"}}}, "parents": [{"type": "Folder", "id": "f2"}]},
+  {"uid": {"type": "Document", "id": "doc3"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "carol"}}, "folder": {"__entity": {"type": "Folder", "id": "f3"}}}, "parents": [{"type": "Folder", "id": "f3"}]},
+  {"uid": {"type": "Document", "id": "orphan"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "folder": {"__entity": {"type": "Folder", "id": "ghost"}}}, "parents": []},
+  {"uid": {"type": "Document", "id": "lost"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "alice"}}, "folder": {"__entity": {"type": "Folder", "id": "f9"}}}, "parents": []},
+  {"uid": {"type": "Folder", "id": "f9"}, "attrs": {"owner": {"__entity": {"type": "User", "id": "zed"}}}, "parents": []}
+]

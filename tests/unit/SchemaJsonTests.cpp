@@ -94,9 +94,10 @@ TEST(SchemaJson, MatchesTheOracleOnEveryParityCase)
     ExpectOracleAgreement(cases, directory + "/");
 }
 
-// A table over schema files outside the repository (the reference checkout, the integration
-// corpus's schemas converted to JSON), written with absolute paths by the same script. Run with
-// CEDAR_SCHEMA_JSON_SWEEP_TABLE set to the table.
+// A table over a generated corpus of schema fragments (the reference checkout's schemas, its Cedar
+// schemas converted to JSON, and mutants of those), written with absolute paths by the same script.
+// CEDAR_SCHEMA_JSON_SWEEP_TABLE names the table; the build sets it when the reference checkout is
+// configured.
 TEST(SchemaJson, MatchesTheOracleOnTheSweepTable)
 {
     const char* table = std::getenv("CEDAR_SCHEMA_JSON_SWEEP_TABLE");

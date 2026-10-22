@@ -1,0 +1,62 @@
+[
+ {
+  "uid": {
+   "type": "User",
+   "id": "alice"
+  },
+  "attrs": {
+   "name": "Alice",
+   "age": 30,
+   "address": {
+    "city": "Oslo"
+   },
+   "names": [
+    "a",
+    "b"
+   ],
+   "friends": [
+    {
+     "type": "User",
+     "id": "bob"
+    },
+    {
+     "__entity": {
+      "type": "User",
+      "id": "carol"
+     }
+    }
+   ],
+   "manager": {
+    "type": "User",
+    "id": "bob"
+   },
+   "favorite": {
+    "type": "Color",
+    "id": "red"
+   },
+   "ip": "10.0.0.1",
+   "score": "1.5",
+   "since": "2024-01-02",
+   "wait": "1h30m"
+  },
+  "parents": []
+ },
+ {
+  "uid": {
+   "type": "Doc",
+   "id": "d1"
+  },
+  "attrs": {
+   "owner": {
+    "__entity": {
+     "type": "User",
+     "id": "alice"
+    }
+   }
+  },
+  "parents": [],
+  "tags": {
+   "k": "v"
+  }
+ }
+]
